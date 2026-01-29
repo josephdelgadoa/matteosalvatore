@@ -1,0 +1,18 @@
+{
+    "Index": {
+        "title": "Matteo Salvatore",
+        "metaDescription": "Ropa exclusiva para el hombre moderno. Algodón Pima y cuero peruano auténtico."
+    },
+    "Navigation": {
+        "home": "Inicio",
+        "shop": "Tienda",
+        "about": "Nosotros",
+        "contact": "Contacto",
+        "cart": "Carrito"
+    },
+    "Hero": {
+        "title": "Eleva tu Estilo",
+        "subtitle": "Algodón Pima Premium y Cuero Peruano",
+        "cta": "Ver Colección"
+    }
+}
