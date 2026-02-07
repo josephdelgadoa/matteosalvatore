@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { productsApi } from '@/lib/api/products';
 import { Spinner } from '@/components/ui/Spinner';
 
-export default function SearchPage() {
+function SearchContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
     const [results, setResults] = useState<any[]>([]);
@@ -25,9 +25,7 @@ export default function SearchPage() {
 
             setLoading(true);
             try {
-                // Fetch all products and filter client-side for now, 
-                // or use a specific search endpoint if available.
-                // Given the current API, let's fetch all and filter to ensure it works without backend changes first.
+                // Fetch all products and filter client-side for now
                 const { data } = await productsApi.getAll();
 
                 const filtered = data.products.filter((product: any) =>
@@ -92,5 +90,13 @@ export default function SearchPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center py-20"><Spinner /></div>}>
+            <SearchContent />
+        </Suspense>
     );
 }

@@ -76,7 +76,7 @@ export const useCart = create<CartState>((set, get) => ({
         set({ isLoading: true });
         const { initCart } = get();
         try {
-            await cartApi.removeItem(id);
+            await cartApi.remove(id);
             await initCart();
         } catch (error: any) {
             set({ error: error.message, isLoading: false });
