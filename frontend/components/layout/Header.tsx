@@ -51,68 +51,74 @@ export const Header = () => {
                 )}
             >
                 <div className="container mx-auto px-4 flex items-center justify-between relative">
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden p-2 -ml-2 text-ms-black"
-                        onClick={() => setIsMobileMenuOpen(true)}
-                    >
-                        <Menu className="w-6 h-6" strokeWidth={1.5} />
-                    </button>
-
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:block">
-                        <Navigation />
-                    </div>
-
-                    {/* Logo */}
-                    <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
-                        <span className={cn(
-                            "font-serif font-medium tracking-tight transition-all",
-                            isScrolled ? "text-2xl" : "text-3xl"
-                        )}>
-                            Matteo Salvatore
-                        </span>
-                    </Link>
-
-                    {/* Icons */}
-                    <div className="flex items-center gap-4 md:gap-6">
-
-                        {/* Search Input (Desktop/Mobile) */}
-                        <div className={cn(
-                            "flex items-center transition-all duration-300 overflow-hidden",
-                            isSearchOpen ? "w-48 md:w-64 opacity-100" : "w-0 opacity-0"
-                        )}>
-                            <form onSubmit={handleSearchSubmit} className="w-full">
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full bg-transparent border-b border-ms-black text-sm focus:outline-none placeholder:text-ms-stone"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    autoFocus={isSearchOpen}
-                                />
-                            </form>
-                        </div>
-
+                    {/* Left: Mobile Menu & Logo */}
+                    <div className="flex items-center gap-4">
+                        {/* Mobile Menu Button */}
                         <button
-                            className="text-ms-stone hover:text-ms-black transition-colors"
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
+                            className="md:hidden p-2 -ml-2 text-ms-black"
+                            onClick={() => setIsMobileMenuOpen(true)}
                         >
-                            <Search className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                            <Menu className="w-6 h-6" strokeWidth={1.5} />
                         </button>
 
-                        <Link href="/account" className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
-                            <User className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                        {/* Logo */}
+                        <Link href="/">
+                            <span className={cn(
+                                "font-serif font-medium tracking-tight transition-all",
+                                isScrolled ? "text-2xl" : "text-3xl"
+                            )}>
+                                Matteo Salvatore
+                            </span>
                         </Link>
+                    </div>
 
-                        <Link href="/cart" className="text-ms-stone hover:text-ms-black transition-colors relative">
-                            <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
-                            {itemCount > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-ms-stone text-ms-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full animate-scale-in">
-                                    {itemCount}
-                                </span>
-                            )}
-                        </Link>
+                    {/* Right: Navigation & Icons */}
+                    <div className="flex items-center gap-8">
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:block">
+                            <Navigation />
+                        </div>
+
+                        {/* Icons */}
+                        <div className="flex items-center gap-4 md:gap-6">
+
+                            {/* Search Input (Desktop/Mobile) */}
+                            <div className={cn(
+                                "flex items-center transition-all duration-300 overflow-hidden",
+                                isSearchOpen ? "w-48 md:w-64 opacity-100" : "w-0 opacity-0"
+                            )}>
+                                <form onSubmit={handleSearchSubmit} className="w-full">
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="w-full bg-transparent border-b border-ms-black text-sm focus:outline-none placeholder:text-ms-stone"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        autoFocus={isSearchOpen}
+                                    />
+                                </form>
+                            </div>
+
+                            <button
+                                className="text-ms-stone hover:text-ms-black transition-colors"
+                                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                            >
+                                <Search className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                            </button>
+
+                            <Link href="/account" className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
+                                <User className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                            </Link>
+
+                            <Link href="/cart" className="text-ms-stone hover:text-ms-black transition-colors relative">
+                                <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                                {itemCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-ms-stone text-ms-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full animate-scale-in">
+                                        {itemCount}
+                                    </span>
+                                )}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </header>
