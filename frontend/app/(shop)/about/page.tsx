@@ -1,21 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
 
+import { PageHero } from '@/components/ui/PageHero';
+
 export default function AboutPage() {
     return (
         <div className="animate-fade-in">
-            {/* Hero Section */}
-            <div className="relative h-[60vh] w-full">
-                <Image
-                    src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2940&auto=format&fit=crop"
-                    alt="Matteo Salvatore Atelier"
-                    fill
-                    className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <h1 className="text-4xl md:text-6xl text-ms-white font-serif tracking-wide">Our Story</h1>
-                </div>
-            </div>
+            <PageHero
+                title="Our Story"
+                subtitle="Since 2026"
+                image="/images/hero-image-ruso-1.jpeg"
+            />
 
             <div className="container mx-auto px-4 py-20 max-w-4xl text-center">
                 <h2 className="ms-heading-2 mb-8">Minimal Luxury from Peru</h2>
