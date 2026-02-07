@@ -1,0 +1,4 @@
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:52:39.652Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:52:39.735Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:53:05.119Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:53:05.196Z"}

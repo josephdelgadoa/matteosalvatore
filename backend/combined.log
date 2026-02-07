@@ -1,0 +1,20 @@
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T08:31:40.028Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:38:05.465Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:44:07.859Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:51:15.570Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:52:39.652Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:52:39.735Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:53:05.119Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error fetching products: Could not find the table 'public.products' in the schema cache","service":"user-service","timestamp":"2026-02-06T15:53:05.196Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:57:37.863Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:57:39.650Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-06T15:57:41.659Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T03:30:21.952Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T03:30:23.366Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T03:59:32.921Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T04:00:55.311Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T04:04:51.424Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T04:34:21.373Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T04:35:10.022Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T05:03:06.291Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-07T05:03:16.577Z"}

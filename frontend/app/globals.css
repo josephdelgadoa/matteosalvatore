@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --foreground-rgb: 10, 10, 10;
+  --background-rgb: 247, 247, 247;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .ms-container {
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
+  }
+  
+  .ms-btn-primary {
+    @apply bg-ms-brand-primary text-ms-white px-8 py-4 uppercase tracking-wider text-sm font-medium border border-ms-brand-primary transition-all duration-300 hover:bg-ms-charcoal hover:shadow-lg hover:-translate-y-px;
+  }
+
+  .ms-btn-secondary {
+    @apply bg-transparent text-ms-brand-primary px-8 py-4 uppercase tracking-wider text-sm font-medium border border-ms-brand-primary transition-all duration-300 hover:bg-ms-brand-primary hover:text-ms-white;
+  }
+
+  .ms-input {
+    @apply w-full px-4 py-4 bg-ms-white border border-ms-fog text-base transition-colors focus:outline-none focus:border-ms-black focus:ring-1 focus:ring-ms-black/5 placeholder:text-ms-silver;
+  }
+
+  .ms-heading-hero {
+    @apply font-serif text-5xl md:text-7xl font-light leading-tight tracking-tighter text-ms-black;
+  }
+}
