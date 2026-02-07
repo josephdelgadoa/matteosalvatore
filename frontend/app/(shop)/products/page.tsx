@@ -83,5 +83,6 @@ export default function ProductListingPage() {
                     })}
                 </div>
             </div>
-            );
+        </div>
+    );
 }

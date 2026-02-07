@@ -107,5 +107,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     </div>
                 )}
             </div>
-            );
+        </div>
+    );
 }
