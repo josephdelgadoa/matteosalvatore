@@ -13,7 +13,16 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Next.js telemetry disable
+# Next.js telemetry disable
 ENV NEXT_TELEMETRY_DISABLED 1
+
+# Build args
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_CULQI_PUBLIC_KEY
+
+# Environment variables
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_CULQI_PUBLIC_KEY=$NEXT_PUBLIC_CULQI_PUBLIC_KEY
 
 # Build the application
 RUN npm run build
