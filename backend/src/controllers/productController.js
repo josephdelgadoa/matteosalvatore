@@ -102,15 +102,56 @@ exports.getProductVariants = async (req, res, next) => {
 // Admin Methods
 exports.createProduct = async (req, res, next) => {
     try {
-        const productData = req.body;
+        const { product_images, product_variants, images, variants, ...productData } = req.body;
 
-        const { data: product, error } = await supabase
+        // Normalize keys (frontend sends product_images, but we might want to support both)
+        const imagesToInsert = product_images || images || [];
+        const variantsToInsert = product_variants || variants || [];
+
+        // 1. Insert Product
+        const { data: product, error: productError } = await supabase
             .from('products')
             .insert([productData])
             .select()
             .single();
 
-        if (error) throw error;
+        if (productError) throw productError;
+
+        const productId = product.id;
+
+        // 2. Insert Images (if any)
+        if (imagesToInsert.length > 0) {
+            const imageInserts = imagesToInsert.map((img, index) => ({
+                product_id: productId,
+                image_url: img.image_url || img.url || img, // Handle object or string
+                display_order: img.display_order || index,
+                is_primary: index === 0
+            }));
+
+            const { error: imagesError } = await supabase
+                .from('product_images')
+                .insert(imageInserts);
+
+            if (imagesError) {
+                logger.error('Error inserting images:', imagesError);
+            }
+        }
+
+        // 3. Insert Variants (if any)
+        if (variantsToInsert.length > 0) {
+            const variantInserts = variantsToInsert.map(variant => ({
+                product_id: productId,
+                ...variant
+            }));
+
+            const { error: variantsError } = await supabase
+                .from('product_variants')
+                .insert(variantInserts);
+
+            if (variantsError) {
+                logger.error('Error inserting variants:', variantsError);
+            }
+        }
 
         res.status(201).json({
             status: 'success',
@@ -124,19 +165,41 @@ exports.createProduct = async (req, res, next) => {
 exports.updateProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const updates = req.body;
+        const { product_images, product_variants, images, variants, ...updates } = req.body;
 
-        const { data: product, error } = await supabase
+        const imagesToUpdate = product_images || images;
+        // variants logic is complex for updates, usually handled separately or replaced. 
+        // For now we just strip product_variants to avoid error on product update.
+
+        // 1. Update Product Fields
+        const { data: product, error: productError } = await supabase
             .from('products')
             .update(updates)
             .eq('id', id)
             .select()
             .single();
 
-        if (error) throw error;
+        if (productError) throw productError;
 
         if (!product) {
             return res.status(404).json({ status: 'fail', message: 'Product not found' });
+        }
+
+        // 2. Update Images
+        if (imagesToUpdate) {
+            // Delete existing
+            await supabase.from('product_images').delete().eq('product_id', id);
+
+            // Insert new
+            if (imagesToUpdate.length > 0) {
+                const imageInserts = imagesToUpdate.map((img, index) => ({
+                    product_id: id,
+                    image_url: img.image_url || img.url || img,
+                    display_order: img.display_order || index,
+                    is_primary: index === 0
+                }));
+                await supabase.from('product_images').insert(imageInserts);
+            }
         }
 
         res.status(200).json({

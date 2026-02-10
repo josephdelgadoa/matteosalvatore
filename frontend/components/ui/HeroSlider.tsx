@@ -94,16 +94,17 @@ export const HeroSlider = () => {
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
+                            className="px-4 md:px-0"
                         >
-                            <p className="ms-label mb-6 text-ms-white/90 tracking-[0.2em]">{slides[current].subtitle}</p>
-                            <h1 className="text-5xl md:text-7xl font-serif leading-tight mb-8">
+                            <p className="ms-label mb-4 md:mb-6 text-ms-white/90 tracking-[0.2em] text-xs md:text-sm">{slides[current].subtitle}</p>
+                            <h1 className="text-4xl md:text-7xl font-serif leading-tight mb-6 md:mb-8">
                                 {slides[current].title}
                             </h1>
-                            <p className="text-xl text-ms-white/90 mb-10 leading-relaxed max-w-lg">
+                            <p className="text-base md:text-xl text-ms-white/90 mb-8 md:mb-10 leading-relaxed max-w-lg">
                                 {slides[current].description}
                             </p>
                             <Link href={slides[current].link}>
-                                <Button size="lg" className="bg-ms-white text-ms-black hover:bg-ms-stone hover:text-ms-white border-none">
+                                <Button size="lg" className="w-full md:w-auto bg-ms-white text-ms-black hover:bg-ms-stone hover:text-ms-white border-none">
                                     {slides[current].cta}
                                 </Button>
                             </Link>

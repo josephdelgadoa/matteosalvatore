@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { HeroSlider } from '@/components/ui/HeroSlider';
 import { Mountain, Clock, Leaf } from 'lucide-react';
+import { Testimonials } from '@/components/sections/Testimonials';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '../../get-dictionary';
@@ -42,6 +43,10 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             </section>
 
             {/* Brand Values */}
+            {/* Testimonials */}
+            {/* @ts-ignore */}
+            <Testimonials dict={dict.testimonials} />
+
             {/* Brand Values */}
             <section className="bg-ms-white py-24 border-y border-ms-fog">
                 <div className="ms-container text-center">

@@ -22,3 +22,5 @@
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-08T05:10:24.717Z"}
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-10T03:58:21.269Z"}
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-10T08:11:46.170Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-10T08:31:13.869Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-10T08:38:25.127Z"}

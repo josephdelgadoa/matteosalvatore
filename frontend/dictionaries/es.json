@@ -118,5 +118,51 @@
             "color": "Color",
             "remove": "Eliminar artículo"
         }
+    },
+    "testimonials": {
+        "title": "Historias de Nuestros Clientes",
+        "subtitle": "Lo que dicen de nosotros",
+        "items": [
+            {
+                "name": "Alejandro V.",
+                "city": "Lima",
+                "text": "La calidad del algodón Pima es incomparable. Nunca he sentido una camiseta tan suave y duradera."
+            },
+            {
+                "name": "Sofía M.",
+                "city": "Arequipa",
+                "text": "El diseño minimalista es perfecto para mi estilo. Llegó super rápido a Arequipa y el empaque es hermoso."
+            },
+            {
+                "name": "Gabriela R.",
+                "city": "Cusco",
+                "text": "Perfecto para el clima de Cusco. Las chompas de alpaca son ligeras pero abrigadoras. ¡Me encantan!"
+            },
+            {
+                "name": "Carlos D.",
+                "city": "Trujillo",
+                "text": "He comprado varias veces y la atención siempre es A1. La ropa mantiene su forma lavado tras lavado."
+            },
+            {
+                "name": "Lucía P.",
+                "city": "Chiclayo",
+                "text": "Buscaba algo elegante pero cómodo para el trabajo y los pantalones Urban Fit superaron mis expectativas."
+            },
+            {
+                "name": "Fernando T.",
+                "city": "Piura",
+                "text": "Los polos son ideales para el calor de Piura. Frescos, transpirables y con un corte que queda muy bien."
+            },
+            {
+                "name": "Miguel A.",
+                "city": "Iquitos",
+                "text": "Increíble que llegue hasta la selva sin problemas. Definitivamente la mejor marca de ropa peruana que he probado."
+            },
+            {
+                "name": "Elena S.",
+                "city": "Huancayo",
+                "text": "Compré un regalo para mi esposo y quedó fascinado. La calidad de los acabados es de otro nivel."
+            }
+        ]
     }
 }

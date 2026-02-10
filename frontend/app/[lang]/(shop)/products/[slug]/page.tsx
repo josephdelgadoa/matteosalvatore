@@ -110,7 +110,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                     <div className="space-y-6 pt-6 border-t border-ms-fog">
                         <div>
                             <label className="ms-label block mb-3">Color</label>
-                            <div className="flex gap-3">
+                            <div className="flex flex-wrap gap-3">
                                 {colors.map(color => (
                                     <button
                                         key={color}
@@ -128,7 +128,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
 
                         <div>
                             <label className="ms-label block mb-3">Size</label>
-                            <div className="flex gap-3">
+                            <div className="flex flex-wrap gap-3">
                                 {sizes.map(size => (
                                     <button
                                         key={size}

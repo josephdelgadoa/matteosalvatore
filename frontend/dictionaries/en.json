@@ -118,5 +118,51 @@
             "color": "Color",
             "remove": "Remove item"
         }
+    },
+    "testimonials": {
+        "title": "Client Stories",
+        "subtitle": "What they say about us",
+        "items": [
+            {
+                "name": "Alejandro V.",
+                "city": "Lima",
+                "text": "The quality of the Pima cotton is unmatched. I have never felt a t-shirt so soft and durable."
+            },
+            {
+                "name": "Sofía M.",
+                "city": "Arequipa",
+                "text": "The minimalist design is perfect for my style. It arrived super fast to Arequipa, and the packaging is beautiful."
+            },
+            {
+                "name": "Gabriela R.",
+                "city": "Cusco",
+                "text": "Perfect for the Cusco weather. The alpaca sweaters are lightweight but warm. I love them!"
+            },
+            {
+                "name": "Carlos D.",
+                "city": "Trujillo",
+                "text": "I have bought several times, and the service is always A1. The clothes keep their shape wash after wash."
+            },
+            {
+                "name": "Lucía P.",
+                "city": "Chiclayo",
+                "text": "I was looking for something elegant but comfortable for work, and the Urban Fit pants exceeded my expectations."
+            },
+            {
+                "name": "Fernando T.",
+                "city": "Piura",
+                "text": "The polos are ideal for the heat of Piura. Fresh, breathable, and with a cut that fits really well."
+            },
+            {
+                "name": "Miguel A.",
+                "city": "Iquitos",
+                "text": "Incredible that it arrives to the jungle without issues. Definitely the best Peruvian clothing brand I have tried."
+            },
+            {
+                "name": "Elena S.",
+                "city": "Huancayo",
+                "text": "I bought a gift for my husband, and he was fascinated. The quality of the finishes is on another level."
+            }
+        ]
     }
 }
