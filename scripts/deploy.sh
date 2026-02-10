@@ -9,8 +9,9 @@ echo "🚀 Deploying to $VPS_IP..."
 
 ssh $VPS_USER@$VPS_IP <<EOF
     cd $PROJECT_DIR
-    echo "⬇️ Pulling latest changes..."
-    git pull origin main
+    echo "⬇️ forcing sync with latest changes..."
+    git fetch origin
+    git reset --hard origin/main
 
     echo "🐳 Rebuilding and restarting containers..."
     docker-compose -f docker-compose.prod.yml down
