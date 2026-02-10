@@ -14,8 +14,11 @@ ssh $VPS_USER@$VPS_IP <<EOF
     git reset --hard origin/main
 
     echo "🐳 Rebuilding and restarting containers..."
+    echo "🐳 Pruning and rebuilding..."
+    docker system prune -f
+    docker-compose -f docker-compose.prod.yml build --no-cache
     docker-compose -f docker-compose.prod.yml down
-    docker-compose -f docker-compose.prod.yml up -d --build
+    docker-compose -f docker-compose.prod.yml up -d
 
     echo "✅ Deployment complete!"
 EOF
