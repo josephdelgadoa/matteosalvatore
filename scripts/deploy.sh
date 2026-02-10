@@ -8,10 +8,17 @@ PROJECT_DIR="matteosalvatore"
 echo "🚀 Deploying to $VPS_IP..."
 
 ssh $VPS_USER@$VPS_IP <<EOF
-    cd $PROJECT_DIR
-    echo "⬇️ forcing sync with latest changes..."
-    git fetch origin
-    git reset --hard origin/main
+    if [ -d ".git" ]; then
+        echo "⬇️ forcing sync with latest changes..."
+        git fetch origin
+        git reset --hard origin/main
+    else
+        echo "⚠️ Git repository not found or corrupt. Re-cloning..."
+        cd /root
+        rm -rf matteosalvatore
+        git clone git@github.com:josephdelgadoa/matteosalvatore.git matteosalvatore
+        cd matteosalvatore
+    fi
 
     echo "🐳 Rebuilding and restarting containers..."
     echo "🐳 Pruning and rebuilding..."
