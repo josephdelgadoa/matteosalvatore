@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
 
 :root {
   --foreground-rgb: 10, 10, 10;
@@ -21,7 +19,7 @@ body {
   .ms-container {
     @apply container mx-auto px-4 md:px-6 lg:px-8;
   }
-  
+
   .ms-btn-primary {
     @apply bg-ms-brand-primary text-ms-white px-8 py-4 uppercase tracking-wider text-sm font-medium border border-ms-brand-primary transition-all duration-300 hover:bg-ms-charcoal hover:shadow-lg hover:-translate-y-px;
   }

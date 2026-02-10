@@ -1,0 +1,122 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "search": "Search...",
+        "cart": "Cart",
+        "account": "Account",
+        "login": "Login",
+        "register": "Register",
+        "logout": "Logout",
+        "menu": "Menu"
+    },
+    "nav": {
+        "clothing": "Clothing",
+        "footwear": "Footwear",
+        "newArrivals": "New Arrivals",
+        "about": "About",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "Timeless Elegance",
+        "subtitle": "Discover our new collection",
+        "cta": "Shop Now"
+    },
+    "home": {
+        "clothing": "Clothing",
+        "footwear": "Footwear",
+        "explore": "Explore",
+        "philosophy": {
+            "title": "Our Philosophy",
+            "text": "\"We believe true luxury lies in simplicity, quality materials, and ethical craftsmanship.\"",
+            "origins": {
+                "title": "Peruvian Origins",
+                "text": "Sourced from the Andes, our alpaca and cotton fibers are world-renowned for their softness and durability."
+            },
+            "design": {
+                "title": "Timeless Design",
+                "text": "Pieces designed to transcend trends. Wardrobe staples that you will wear for years to come."
+            },
+            "sustainable": {
+                "title": "Sustainable",
+                "text": "Committed to ethical production practices and minimizing our environmental footprint."
+            }
+        }
+    },
+    "footer": {
+        "about": "About Us",
+        "description": "Minimalist luxury menswear designed in Lima. Crafted with the finest Peruvian materials for the modern gentleman.",
+        "shop": "Shop",
+        "clothing": "Clothing",
+        "footwear": "Footwear",
+        "newArrivals": "New Arrivals",
+        "bestSellers": "Best Sellers",
+        "support": "Support",
+        "shipping": "Shipping & Returns",
+        "sizeGuide": "Size Guide",
+        "faq": "FAQ",
+        "contact": "Contact",
+        "followUs": "Follow Us",
+        "subscribeText": "Subscribe to receive updates, access to exclusive deals, and more.",
+        "emailPlaceholder": "Enter your email",
+        "join": "Join",
+        "rights": "All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "designedBy": "Designed and implemented by"
+    },
+    "about": {
+        "title": "Our Story",
+        "subtitle": "Since 2026",
+        "heading": "Minimal Luxury from Peru",
+        "description": "Matteo Salvatore was born from a desire to redefine menswear through the lens of effortless elegance. We believe that true luxury lies in simplicity, quality materials, and impeccable fit.",
+        "craftsmanship": {
+            "title": "Craftsmanship",
+            "text": "All our garments are crafted in small batches in Lima, Peru, using the finest Pima cotton and alpaca blends. We work directly with local artisans to ensure every stitch meets our exacting standards."
+        },
+        "sustainability": {
+            "title": "Sustainability",
+            "text": "We are committed to slow fashion. Our timeless designs are meant to last for years, not seasons. By using natural, biodegradable fibers, we minimize our environmental footprint."
+        }
+    },
+    "contact": {
+        "title": "Contact Us",
+        "subtitle": "Get in Touch",
+        "heading": "We're Here for You",
+        "description": "Have a question about an order, sizing, or just want to say hello? We'd love to hear from you.",
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "atelier": "Atelier",
+        "address": "Av. Conquistadores 1234<br />San Isidro, Lima, Peru<br />(By appointment only)",
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "message": "Message",
+            "send": "Send Message",
+            "success": "Message sent successfully! We will get back to you soon."
+        }
+    },
+    "cart": {
+        "title": "Shopping Bag",
+        "empty": {
+            "title": "Your Bag is Empty",
+            "text": "Looks like you haven't found the perfect piece yet. Explore our new collection of premium Peruvian essentials.",
+            "cta": "Start Shopping"
+        },
+        "loading": "Loading cart...",
+        "summary": {
+            "title": "Order Summary",
+            "subtotal": "Subtotal",
+            "shipping": "Shipping",
+            "shippingCalc": "Calculated at checkout",
+            "total": "Total",
+            "checkout": "Checkout",
+            "secure": "Secure Checkout"
+        },
+        "item": {
+            "size": "Size",
+            "color": "Color",
+            "remove": "Remove item"
+        }
+    }
+}

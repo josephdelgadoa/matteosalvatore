@@ -1,0 +1,122 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ocurrió un error",
+        "search": "Buscar...",
+        "cart": "Carrito",
+        "account": "Cuenta",
+        "login": "Iniciar Sesión",
+        "register": "Registrarse",
+        "logout": "Cerrar Sesión",
+        "menu": "Menú"
+    },
+    "nav": {
+        "clothing": "Ropa",
+        "footwear": "Calzado",
+        "newArrivals": "Nuevos",
+        "about": "Nosotros",
+        "contact": "Contacto"
+    },
+    "hero": {
+        "title": "Elegancia Atemporal",
+        "subtitle": "Descubre la nueva colección",
+        "cta": "Comprar Ahora"
+    },
+    "home": {
+        "clothing": "Ropa",
+        "footwear": "Calzado",
+        "explore": "Explorar",
+        "philosophy": {
+            "title": "Nuestra Filosofía",
+            "text": "\"Creemos que el verdadero lujo reside la simplicidad, materiales de calidad y artesanía ética.\"",
+            "origins": {
+                "title": "Orígenes Peruanos",
+                "text": "Procedentes de los Andes, nuestras fibras de alpaca y algodón son reconocidas mundialmente por su suavidad y durabilidad."
+            },
+            "design": {
+                "title": "Diseño Atemporal",
+                "text": "Piezas diseñadas para transcender tendencias. Básicos de armario que usarás por años."
+            },
+            "sustainable": {
+                "title": "Sostenible",
+                "text": "Comprometidos con prácticas de producción éticas y minimizando nuestra huella ambiental."
+            }
+        }
+    },
+    "footer": {
+        "about": "Nosotros",
+        "description": "Ropa masculina de lujo minimalista diseñada en Lima. Elaborada con los mejores materiales peruanos para el caballero moderno.",
+        "shop": "Tienda",
+        "clothing": "Ropa",
+        "footwear": "Calzado",
+        "newArrivals": "Nuevos",
+        "bestSellers": "Más Vendidos",
+        "support": "Soporte",
+        "shipping": "Envíos y Devoluciones",
+        "sizeGuide": "Guía de Tallas",
+        "faq": "Preguntas Frecuentes",
+        "contact": "Contacto",
+        "followUs": "Síguenos",
+        "subscribeText": "Suscríbete para recibir actualizaciones, acceso a ofertas exclusivas y más.",
+        "emailPlaceholder": "Ingresa tu correo",
+        "join": "Unirse",
+        "rights": "Todos los derechos reservados.",
+        "privacy": "Política de Privacidad",
+        "terms": "Términos de Servicio",
+        "designedBy": "Diseñado e implementado por"
+    },
+    "about": {
+        "title": "Nuestra Historia",
+        "subtitle": "Desde 2026",
+        "heading": "Lujo Minimalista de Perú",
+        "description": "Matteo Salvatore nació del deseo de redefinir la moda masculina a través de una elegancia sin esfuerzo. Creemos que el verdadero lujo reside en la simplicidad, los materiales de calidad y un ajuste impecable.",
+        "craftsmanship": {
+            "title": "Artesanía",
+            "text": "Todas nuestras prendas se confeccionan en pequeños lotes en Lima, Perú, utilizando las mejores mezclas de algodón Pima y alpaca. Trabajamos directamente con artesanos locales para asegurar que cada puntada cumpla con nuestros exigentes estándares."
+        },
+        "sustainability": {
+            "title": "Sostenibilidad",
+            "text": "Estamos comprometidos con la moda lenta. Nuestros diseños atemporales están hechos para durar años, no temporadas. Al usar fibras naturales y biodegradables, minimizamos nuestra huella ambiental."
+        }
+    },
+    "contact": {
+        "title": "Contáctanos",
+        "subtitle": "Ponte en Contacto",
+        "heading": "Estamos Aquí para Ti",
+        "description": "¿Tienes alguna pregunta sobre un pedido, tallas o simplemente quieres saludar? Nos encantaría escucharte.",
+        "email": "Correo",
+        "whatsapp": "WhatsApp",
+        "atelier": "Atelier",
+        "address": "Av. Conquistadores 1234<br />San Isidro, Lima, Perú<br />(Solo con cita previa)",
+        "form": {
+            "name": "Nombre",
+            "email": "Correo",
+            "message": "Mensaje",
+            "send": "Enviar Mensaje",
+            "success": "¡Mensaje enviado con éxito! Te responderemos pronto."
+        }
+    },
+    "cart": {
+        "title": "Bolsa de Compras",
+        "empty": {
+            "title": "Tu Bolsa está Vacía",
+            "text": "Parece que aún no has encontrado la pieza perfecta. Explora nuestra nueva colección de esenciales peruanos premium.",
+            "cta": "Empezar a Comprar"
+        },
+        "loading": "Cargando carrito...",
+        "summary": {
+            "title": "Resumen del Pedido",
+            "subtotal": "Subtotal",
+            "shipping": "Envío",
+            "shippingCalc": "Calculado en el pago",
+            "total": "Total",
+            "checkout": "Pagar",
+            "secure": "Pago Seguro"
+        },
+        "item": {
+            "size": "Talla",
+            "color": "Color",
+            "remove": "Eliminar artículo"
+        }
+    }
+}

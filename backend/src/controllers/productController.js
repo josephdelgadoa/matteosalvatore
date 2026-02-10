@@ -98,3 +98,72 @@ exports.getProductVariants = async (req, res, next) => {
         next(error);
     }
 };
+
+// Admin Methods
+exports.createProduct = async (req, res, next) => {
+    try {
+        const productData = req.body;
+
+        const { data: product, error } = await supabase
+            .from('products')
+            .insert([productData])
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        res.status(201).json({
+            status: 'success',
+            data: { product }
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updateProduct = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+
+        const { data: product, error } = await supabase
+            .from('products')
+            .update(updates)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        if (!product) {
+            return res.status(404).json({ status: 'fail', message: 'Product not found' });
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: { product }
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const { error } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+
+        res.status(204).json({
+            status: 'success',
+            data: null
+        });
+    } catch (error) {
+        next(error);
+    }
+};

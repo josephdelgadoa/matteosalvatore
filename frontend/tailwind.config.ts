@@ -47,8 +47,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ['"DM Sans"', 'sans-serif'],
-        serif: ['"Cormorant Garamond"', 'serif'],
+        sans: ['var(--font-dm-sans)', 'sans-serif'],
+        serif: ['var(--font-cormorant)', 'serif'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1.5' }],

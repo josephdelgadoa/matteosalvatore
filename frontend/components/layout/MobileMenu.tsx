@@ -1,22 +1,25 @@
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Locale } from '../../i18n-config';
 
 interface MobileMenuProps {
     isOpen: boolean;
     onClose: () => void;
+    lang: Locale;
+    dict: any;
+    commonDict: any;
 }
 
-const links = [
-    { href: '/products/clothing', label: 'Clothing' },
-    { href: '/products/footwear', label: 'Footwear' },
-    { href: '/collections/new-arrivals', label: 'New Arrivals' },
-    { href: '/about', label: 'About' },
-    { href: '/account', label: 'Account' },
-    { href: '/help', label: 'Help' },
-];
+export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict }: MobileMenuProps) => {
+    const links = [
+        { href: `/${lang}/category/clothing`, label: dict.clothing },
+        { href: `/${lang}/category/footwear`, label: dict.footwear },
+        { href: `/${lang}/search?q=new`, label: dict.newArrivals },
+        { href: `/${lang}/about`, label: dict.about },
+        { href: `/${lang}/account`, label: commonDict.account },
+    ];
 
-export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     return (
         <div
             className={cn(
@@ -26,7 +29,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
         >
             <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-4 border-b border-ms-fog">
-                    <span className="font-serif text-lg font-medium">Menu</span>
+                    <span className="font-serif text-lg font-medium">{commonDict.menu}</span>
                     <button onClick={onClose} className="p-2 -mr-2 text-ms-stone hover:text-ms-black">
                         <X className="w-6 h-6" />
                     </button>
@@ -49,7 +52,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                 </nav>
 
                 <div className="p-8 bg-ms-ivory">
-                    <p className="text-sm text-ms-stone mb-4">Need help?</p>
+                    <p className="text-sm text-ms-stone mb-4">{dict.contact}</p>
                     <a href="mailto:support@matteosalvatore.pe" className="text-ms-black underline">support@matteosalvatore.pe</a>
                 </div>
             </div>

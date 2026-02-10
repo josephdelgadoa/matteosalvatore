@@ -8,8 +8,15 @@ import { cn } from '@/lib/utils';
 import { Navigation } from './Navigation';
 import { MobileMenu } from './MobileMenu';
 import { useCart } from '@/store/useCart';
+import { Locale } from '../../i18n-config';
 
-export const Header = () => {
+interface HeaderProps {
+    lang: Locale;
+    dict: any; // defined in nav dict
+    commonDict: any;
+}
+
+export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isScrolled, setIsScrolled] = useState(false);
@@ -37,7 +44,7 @@ export const Header = () => {
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+            router.push(`/${lang}/search?q=${encodeURIComponent(searchQuery)}`);
             setIsSearchOpen(false);
         }
     };
@@ -62,13 +69,18 @@ export const Header = () => {
                         </button>
 
                         {/* Logo */}
-                        <Link href="/">
-                            <span className={cn(
-                                "font-serif font-medium tracking-tight transition-all",
-                                isScrolled ? "text-2xl" : "text-3xl"
+                        <Link href={`/${lang}`} className="relative block">
+                            <div className={cn(
+                                "transition-all duration-300",
+                                isScrolled ? "h-8 w-auto" : "h-10 w-auto"
                             )}>
-                                Matteo Salvatore
-                            </span>
+                                {/* Using unoptimized to avoid potential issues with local image loading if optimization is not configured */}
+                                <img
+                                    src="/images/logo-matteo-salvatore.png"
+                                    alt="Matteo Salvatore"
+                                    className="h-full w-auto object-contain"
+                                />
+                            </div>
                         </Link>
                     </div>
 
@@ -76,7 +88,7 @@ export const Header = () => {
                     <div className="flex items-center gap-8">
                         {/* Desktop Navigation */}
                         <div className="hidden md:block">
-                            <Navigation />
+                            <Navigation lang={lang} dict={dict} />
                         </div>
 
                         {/* Icons */}
@@ -90,7 +102,7 @@ export const Header = () => {
                                 <form onSubmit={handleSearchSubmit} className="w-full">
                                     <input
                                         type="text"
-                                        placeholder="Search..."
+                                        placeholder={commonDict.search}
                                         className="w-full bg-transparent border-b border-ms-black text-sm focus:outline-none placeholder:text-ms-stone"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -106,11 +118,11 @@ export const Header = () => {
                                 <Search className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                             </button>
 
-                            <Link href="/account" className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
+                            <Link href={`/${lang}/account`} className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
                                 <User className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                             </Link>
 
-                            <Link href="/cart" className="text-ms-stone hover:text-ms-black transition-colors relative">
+                            <Link href={`/${lang}/cart`} className="text-ms-stone hover:text-ms-black transition-colors relative">
                                 <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                                 {itemCount > 0 && (
                                     <span className="absolute -top-1 -right-1 bg-ms-stone text-ms-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full animate-scale-in">
@@ -118,12 +130,41 @@ export const Header = () => {
                                     </span>
                                 )}
                             </Link>
+
+                            {/* Language Switcher */}
+                            <div className="hidden md:flex items-center gap-1 text-sm font-medium">
+                                <button
+                                    onClick={() => {
+                                        const newPath = window.location.pathname.replace(`/${lang}`, '/es');
+                                        router.push(newPath);
+                                    }}
+                                    className={cn("transition-colors", lang === 'es' ? "text-ms-black" : "text-ms-stone hover:text-ms-black")}
+                                >
+                                    ES
+                                </button>
+                                <span className="text-ms-stone">|</span>
+                                <button
+                                    onClick={() => {
+                                        const newPath = window.location.pathname.replace(`/${lang}`, '/en');
+                                        router.push(newPath);
+                                    }}
+                                    className={cn("transition-colors", lang === 'en' ? "text-ms-black" : "text-ms-stone hover:text-ms-black")}
+                                >
+                                    EN
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+            <MobileMenu
+                isOpen={isMobileMenuOpen}
+                onClose={() => setIsMobileMenuOpen(false)}
+                lang={lang}
+                dict={dict}
+                commonDict={commonDict}
+            />
         </>
     );
 };

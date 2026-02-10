@@ -1,60 +1,102 @@
 import Link from 'next/link';
+import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { Locale } from '../../i18n-config';
 
-export const Footer = () => {
+interface FooterProps {
+    lang: Locale;
+    dict: any;
+}
+
+export const Footer = ({ lang, dict }: FooterProps) => {
     return (
         <footer className="bg-ms-ivory pt-20 pb-10 border-t border-ms-fog">
             <div className="ms-container">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     <div className="space-y-6">
-                        <span className="font-serif text-2xl font-medium">Matteo Salvatore</span>
+                        <Link href={`/${lang}`} className="block">
+                            <img
+                                src="/images/logo-matteo-salvatore-v-web.png"
+                                alt="Matteo Salvatore"
+                                className="w-[120px] h-auto object-contain"
+                            />
+                        </Link>
                         <p className="text-ms-stone text-sm leading-relaxed max-w-xs">
-                            Minimalist luxury menswear designed in Lima. Crafted with the finest Peruvian materials for the modern gentleman.
+                            {dict.description}
                         </p>
                     </div>
 
                     <div>
-                        <h4 className="font-serif text-lg mb-6">Shop</h4>
+                        <h4 className="font-serif text-lg mb-6">{dict.shop}</h4>
                         <ul className="space-y-4">
-                            <li><Link href="/products/clothing" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Clothing</Link></li>
-                            <li><Link href="/products/footwear" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Footwear</Link></li>
-                            <li><Link href="/collections/new" className="text-sm text-ms-stone hover:text-ms-black transition-colors">New Arrivals</Link></li>
-                            <li><Link href="/collections/best-sellers" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Best Sellers</Link></li>
+                            <li><Link href={`/${lang}/products/clothing`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.clothing}</Link></li>
+                            <li><Link href={`/${lang}/products/footwear`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footwear}</Link></li>
+                            <li><Link href={`/${lang}/collections/new`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.newArrivals}</Link></li>
+                            <li><Link href={`/${lang}/collections/best-sellers`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.bestSellers}</Link></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="font-serif text-lg mb-6">Support</h4>
+                        <h4 className="font-serif text-lg mb-6">{dict.support}</h4>
                         <ul className="space-y-4">
-                            <li><Link href="/help/shipping" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Shipping & Returns</Link></li>
-                            <li><Link href="/help/size-guide" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Size Guide</Link></li>
-                            <li><Link href="/help/faq" className="text-sm text-ms-stone hover:text-ms-black transition-colors">FAQ</Link></li>
-                            <li><Link href="/contact" className="text-sm text-ms-stone hover:text-ms-black transition-colors">Contact Us</Link></li>
+                            <li><Link href={`/${lang}/help/shipping`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.shipping}</Link></li>
+                            <li><Link href={`/${lang}/help/size-guide`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.sizeGuide}</Link></li>
+                            <li><Link href={`/${lang}/help/faq`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.faq}</Link></li>
+                            <li><Link href={`/${lang}/contact`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.contact}</Link></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="font-serif text-lg mb-6">Stay Connected</h4>
-                        <p className="text-sm text-ms-stone mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
+                        <h4 className="font-serif text-lg mb-6">{dict.followUs}</h4>
+                        <p className="text-sm text-ms-stone mb-4">{dict.subscribeText}</p>
                         <form className="flex gap-2">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
+                                placeholder={dict.emailPlaceholder}
                                 className="flex-1 bg-transparent border-b border-ms-stone py-2 text-sm focus:outline-none focus:border-ms-black"
                             />
                             <button type="submit" className="text-sm uppercase tracking-wide font-medium hover:text-ms-stone transition-colors">
-                                Join
+                                {dict.join}
                             </button>
                         </form>
+
+                        <div className="flex gap-6 mt-8">
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-ms-black hover:text-ms-stone transition-all transform hover:scale-110" aria-label="Facebook">
+                                <Facebook className="w-6 h-6" strokeWidth={1.5} />
+                            </a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-ms-black hover:text-ms-stone transition-all transform hover:scale-110" aria-label="Instagram">
+                                <Instagram className="w-6 h-6" strokeWidth={1.5} />
+                            </a>
+                            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="text-ms-black hover:text-ms-stone transition-all transform hover:scale-110" aria-label="TikTok">
+                                {/* Custom TikTok Icon */}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="w-6 h-6"
+                                >
+                                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                                </svg>
+                            </a>
+                            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-ms-black hover:text-ms-stone transition-all transform hover:scale-110" aria-label="YouTube">
+                                <Youtube className="w-6 h-6" strokeWidth={1.5} />
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <div className="pt-8 border-t border-ms-fog flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-xs text-ms-silver uppercase tracking-wide">
-                        © {new Date().getFullYear()} Matteo Salvatore. All rights reserved.
+                        © {new Date().getFullYear()} Matteo Salvatore. {dict.rights} <span className="hidden md:inline">|</span> <span className="block md:inline mt-1 md:mt-0">{dict.designedBy} <a href="https://nexa-sphere.com" target="_blank" rel="noopener noreferrer" className="hover:text-ms-stone transition-colors">Nexa-Sphere.com</a></span>
                     </p>
                     <div className="flex gap-6">
-                        <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">Privacy Policy</a>
-                        <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">Terms of Service</a>
+                        <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.privacy}</a>
+                        <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.terms}</a>
                     </div>
                 </div>
             </div>

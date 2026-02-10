@@ -1,35 +1,20 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { cn } from '@/lib/utils';
 
-export const metadata: Metadata = {
-    title: {
-        template: '%s | Matteo Salvatore',
-        default: 'Matteo Salvatore | Minimal Luxury Menswear',
-    },
-    description: 'Discover the essence of minimal luxury. Handcrafted menswear from Peru using the finest Pima cotton and Alpaca fibers.',
-    keywords: ['menswear', 'luxury', 'minimalist', 'peru', 'pima cotton', 'alpaca', 'matteo salvatore'],
-    openGraph: {
-        type: 'website',
-        locale: 'es_PE',
-        url: 'https://matteosalvatore.pe',
-        siteName: 'Matteo Salvatore',
-        title: 'Matteo Salvatore | Minimal Luxury Menswear',
-        description: 'Elegancia sin esfuerzo. Ropa masculina premium diseñada en Perú.',
-        images: [
-            {
-                url: '/images/og-image.jpg', // We should ensure this exists or use a generic one
-                width: 1200,
-                height: 630,
-                alt: 'Matteo Salvatore Collection',
-            },
-        ],
-    },
-    twitter: {
-        card: 'summary_large_image',
-    },
-};
+const cormorant = Cormorant_Garamond({
+    subsets: ['latin'],
+    variable: '--font-cormorant',
+    weight: ['300', '400', '500', '600', '700'],
+    display: 'swap',
+});
+
+const dmSans = DM_Sans({
+    subsets: ['latin'],
+    variable: '--font-dm-sans',
+    weight: ['400', '500', '700'],
+    display: 'swap',
+});
 
 export default function RootLayout({
     children,
@@ -37,14 +22,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="es">
-            <body className="font-sans antialiased bg-ms-ivory text-ms-black flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow pt-20">
-                    {children}
-                </main>
-                <Footer />
-            </body>
+        <html lang="en" className={cn(cormorant.variable, dmSans.variable)}>
+            <body className="font-sans antialiased">{children}</body>
         </html>
     );
 }
+
+export const metadata = {
+    title: 'Matteo Salvatore | Timeless Elegance',
+    description: 'Luxury clothing and footwear for the modern gentleman.',
+};
