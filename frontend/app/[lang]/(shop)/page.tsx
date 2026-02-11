@@ -7,7 +7,7 @@ import { Mountain, Clock, Leaf } from 'lucide-react';
 import { Testimonials } from '@/components/sections/Testimonials';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
-import { getDictionary } from '../../get-dictionary';
+import { getDictionary } from '../../../get-dictionary';
 
 export default async function Home({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
