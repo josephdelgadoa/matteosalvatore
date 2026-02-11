@@ -29,25 +29,25 @@ CREATE POLICY "Public reviews are viewable by everyone" ON reviews
 
 -- Allow authenticated users to insert reviews (linked to their ID)
 CREATE POLICY "Users can insert their own reviews" ON reviews
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = customer_id);
 
 -- Allow users to update their own reviews
 CREATE POLICY "Users can update their own reviews" ON reviews
-  FOR UPDATE USING (auth.uid() = user_id);
+  FOR UPDATE USING (auth.uid() = customer_id);
 
 -- Allow users to delete their own reviews
 CREATE POLICY "Users can delete their own reviews" ON reviews
-  FOR DELETE USING (auth.uid() = user_id);
+  FOR DELETE USING (auth.uid() = customer_id);
 
 
 -- 3. Chatbot Conversations Policies
 -- Allow users to view their own conversations
 CREATE POLICY "Users can view their own conversations" ON chatbot_conversations
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING (auth.uid() = customer_id);
 
 -- Allow users to insert their own conversations
 CREATE POLICY "Users can start their own conversations" ON chatbot_conversations
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = customer_id);
 
 -- Allow users to update their own conversations (e.g., adding messages)
 CREATE POLICY "Users can update their own conversations" ON chatbot_conversations
