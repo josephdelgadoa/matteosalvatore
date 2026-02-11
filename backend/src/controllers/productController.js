@@ -165,7 +165,10 @@ exports.createProduct = async (req, res, next) => {
 exports.updateProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { product_images, product_variants, images, variants, ...updates } = req.body;
+        const { product_images, product_variants, images, variants, reviews, created_at, updated_at, ...updates } = req.body;
+
+        // Strip ID from updates if present (it's in params, and body might have it)
+        delete updates.id;
 
         const imagesToUpdate = product_images || images;
         // variants logic is complex for updates, usually handled separately or replaced. 
