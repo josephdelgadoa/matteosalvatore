@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { Upload, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Upload, X, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Spinner } from '@/components/ui/Spinner';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useToast } from '@/components/ui/Toast';
 
 interface ImageUploaderProps {
     value?: string[];
@@ -13,21 +14,63 @@ interface ImageUploaderProps {
 
 export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploaderProps) => {
     const [isUploading, setIsUploading] = useState(false);
+    const supabase = createClientComponentClient();
+    const { addToast } = useToast();
 
-    // Mock upload for now - in production use Supabase Storage
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files || files.length === 0) return;
 
         setIsUploading(true);
+        const newUrls: string[] = [];
 
-        // Simulate upload delay
-        setTimeout(() => {
-            // Create object URLs for preview (pseudo-upload)
-            const newUrls = Array.from(files).map(file => URL.createObjectURL(file));
-            onChange([...value, ...newUrls].slice(0, maxFiles));
+        try {
+            for (const file of Array.from(files)) {
+                // validation
+                if (!file.type.startsWith('image/')) {
+                    addToast(`File ${file.name} is not an image`, 'error');
+                    continue;
+                }
+
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    addToast(`File ${file.name} is too large (max 5MB)`, 'error');
+                    continue;
+                }
+
+                // Upload to Supabase
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+                const filePath = `${fileName}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from('products')
+                    .upload(filePath, file);
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                // Get Public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('products')
+                    .getPublicUrl(filePath);
+
+                newUrls.push(publicUrl);
+            }
+
+            if (newUrls.length > 0) {
+                onChange([...value, ...newUrls].slice(0, maxFiles));
+                addToast('Images uploaded successfully', 'success');
+            }
+
+        } catch (error: any) {
+            console.error('Upload error:', error);
+            addToast('Failed to upload image', 'error');
+        } finally {
             setIsUploading(false);
-        }, 1000);
+            // Reset input
+            e.target.value = '';
+        }
     };
 
     const removeImage = (indexToRemove: number) => {
@@ -38,7 +81,7 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
         <div className="space-y-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {value.map((url, idx) => (
-                    <div key={idx} className="relative aspect-square bg-ms-pearl border border-ms-fog group">
+                    <div key={idx} className="relative aspect-square bg-ms-pearl border border-ms-fog group overflow-hidden rounded-md">
                         <div
                             className="w-full h-full bg-cover bg-center"
                             style={{ backgroundImage: `url(${url})` }}
@@ -46,7 +89,7 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
                         <button
                             type="button"
                             onClick={() => removeImage(idx)}
-                            className="absolute top-1 right-1 bg-ms-white/80 p-1 rounded-full text-ms-error opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-1 right-1 bg-ms-white/90 p-1.5 rounded-full text-ms-error opacity-0 group-hover:opacity-100 transition-all hover:bg-ms-white"
                         >
                             <X className="w-4 h-4" />
                         </button>
@@ -55,15 +98,15 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
 
                 {value.length < maxFiles && (
                     <label className={cn(
-                        "border-2 border-dashed border-ms-fog hover:border-ms-stone transition-colors cursor-pointer aspect-square flex flex-col items-center justify-center text-ms-stone",
+                        "border-2 border-dashed border-ms-fog hover:border-ms-stone transition-colors cursor-pointer aspect-square flex flex-col items-center justify-center text-ms-stone rounded-md bg-ms-ivory/20",
                         isUploading && "opacity-50 cursor-not-allowed"
                     )}>
                         {isUploading ? (
-                            <Spinner size="sm" />
+                            <Loader2 className="w-6 h-6 animate-spin text-ms-brand-primary" />
                         ) : (
                             <>
-                                <Upload className="w-6 h-6 mb-2" />
-                                <span className="text-xs">Upload</span>
+                                <Upload className="w-6 h-6 mb-2 opacity-50" />
+                                <span className="text-xs font-medium">Upload Image</span>
                             </>
                         )}
                         <input
@@ -77,8 +120,8 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
                     </label>
                 )}
             </div>
-            <p className="text-xs text-ms-silver">
-                Upload up to {maxFiles} images. Recommended aspect ratio 3:4.
+            <p className="text-xs text-ms-stone/60">
+                Upload up to {maxFiles} images. Max 5MB per file.
             </p>
         </div>
     );
