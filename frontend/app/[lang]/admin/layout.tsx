@@ -10,11 +10,11 @@ export default function AdminLayout({
     params: { lang: Locale };
 }) {
     return (
-        <div className="min-h-screen bg-ms-ivory flex flex-col">
-            <AdminHeader lang={params.lang} />
-            <div className="flex flex-1 overflow-hidden">
-                <AdminSidebar />
-                <main className="flex-1 ml-64 p-8 overflow-y-auto h-full">
+        <div className="h-screen bg-ms-ivory flex">
+            <AdminSidebar />
+            <div className="flex-1 flex flex-col ml-64 h-full">
+                <AdminHeader lang={params.lang} />
+                <main className="flex-1 p-8 overflow-y-auto">
                     <div className="max-w-6xl mx-auto animate-fade-in">
                         {children}
                     </div>
