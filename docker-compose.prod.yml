@@ -20,6 +20,8 @@ services:
       args:
         NEXT_PUBLIC_API_URL: https://matteosalvatore.pe/api
         NEXT_PUBLIC_CULQI_PUBLIC_KEY: ${NEXT_PUBLIC_CULQI_PUBLIC_KEY}
+        NEXT_PUBLIC_SUPABASE_URL: ${SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
     restart: always
     ports:
       - "8010:3000"
