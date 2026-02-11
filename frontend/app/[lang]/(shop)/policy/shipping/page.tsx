@@ -14,8 +14,8 @@ export default function ShippingPolicyPage() {
                 <p>Shipping charges for your order will be calculated and displayed at checkout.</p>
                 <ul className="list-disc pl-5 space-y-2">
                     <li><strong>Lima Metropolitan Area:</strong> Free shipping. Estimated delivery: 1-2 business days.</li>
-                    <li><strong>Provinces (Standard):</strong> S/ 15.00. Estimated delivery: 3-5 business days.</li>
-                    <li><strong>Provinces (Express):</strong> S/ 25.00. Estimated delivery: 2-3 business days.</li>
+                    <li><strong>Provinces (Standard):</strong> S/. 15.00. Estimated delivery: 3-5 business days.</li>
+                    <li><strong>Provinces (Express):</strong> S/. 25.00. Estimated delivery: 2-3 business days.</li>
                 </ul>
                 <p className="text-sm italic mt-2">* Delivery delays can occasionally occur.</p>
 

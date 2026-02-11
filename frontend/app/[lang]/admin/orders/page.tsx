@@ -46,7 +46,7 @@ export default function AdminOrdersPage() {
         },
         {
             header: 'Total',
-            accessorKey: (item: Order) => `S/ ${item.total_amount.toFixed(2)}`
+            accessorKey: (item: Order) => `S/. ${item.total_amount.toFixed(2)}`
         },
         {
             header: '',

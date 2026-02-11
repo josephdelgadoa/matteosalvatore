@@ -67,7 +67,7 @@ export default function OrderHistoryPage() {
                                 </div>
                                 <div>
                                     <span className="text-xs text-ms-stone block uppercase tracking-wider">Total</span>
-                                    <span className="text-sm font-medium">S/ {order.total_amount.toFixed(2)}</span>
+                                    <span className="text-sm font-medium">S/. {order.total_amount.toFixed(2)}</span>
                                 </div>
                                 <div>
                                     <span className="text-xs text-ms-stone block uppercase tracking-wider">Order #</span>

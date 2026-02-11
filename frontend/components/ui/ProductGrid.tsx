@@ -47,7 +47,7 @@ export const ProductGrid = ({ title, products, lang, viewAllLink }: ProductGridP
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors truncate">{name}</h3>
-                                    <p className="text-sm font-medium">S/ {product.base_price.toFixed(2)}</p>
+                                    <p className="text-sm font-medium">S/. {product.base_price.toFixed(2)}</p>
                                 </div>
                             </Link>
                         );

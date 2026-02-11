@@ -73,7 +73,7 @@ export default function CheckoutShippingPage() {
                                     <span className="text-ms-stone text-xs">3 to 5 business days</span>
                                 </div>
                             </div>
-                            <span className="font-medium text-sm">S/ 15.00</span>
+                            <span className="font-medium text-sm">S/. 15.00</span>
                         </label>
                         <label className="flex items-center justify-between p-4 cursor-pointer hover:bg-ms-ivory/30 transition-colors">
                             <div className="flex items-center gap-4">
@@ -90,7 +90,7 @@ export default function CheckoutShippingPage() {
                                     <span className="text-ms-stone text-xs">1 to 2 business days</span>
                                 </div>
                             </div>
-                            <span className="font-medium text-sm">S/ 25.00</span>
+                            <span className="font-medium text-sm">S/. 25.00</span>
                         </label>
                     </div>
 

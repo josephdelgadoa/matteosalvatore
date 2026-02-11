@@ -73,7 +73,7 @@ export default function AdminProductsPage() {
         },
         {
             header: 'Price',
-            accessorKey: (item: Product) => `S/ ${item.base_price.toFixed(2)}`
+            accessorKey: (item: Product) => `S/. ${item.base_price.toFixed(2)}`
         },
         {
             header: 'Stock',

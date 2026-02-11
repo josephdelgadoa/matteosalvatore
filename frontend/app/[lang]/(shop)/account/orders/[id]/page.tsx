@@ -67,7 +67,7 @@ export default function OrderPage() {
                             <div className="flex-1">
                                 <div className="flex justify-between mb-1">
                                     <h4 className="font-medium">{item.product_name}</h4>
-                                    <span className="font-medium">S/ {item.total_price.toFixed(2)}</span>
+                                    <span className="font-medium">S/. {item.total_price.toFixed(2)}</span>
                                 </div>
                                 <p className="text-sm text-ms-stone">
                                     Quantity: {item.quantity}
@@ -105,7 +105,7 @@ export default function OrderPage() {
                             </div>
                             <div className="flex justify-between font-medium text-ms-black pt-2 border-t border-ms-fog">
                                 <span>Total</span>
-                                <span>S/ {order.total_amount.toFixed(2)}</span>
+                                <span>S/. {order.total_amount.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>

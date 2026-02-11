@@ -107,7 +107,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                                             </button>
                                         </div>
                                         <p className="font-medium">
-                                            S/ {(item.price * item.quantity).toFixed(2)}
+                                            S/. {(item.price * item.quantity).toFixed(2)}
                                         </p>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                             <div className="space-y-4 mb-6 text-sm text-ms-stone">
                                 <div className="flex justify-between">
                                     <span>{dict.summary.subtotal}</span>
-                                    <span className="text-ms-black font-medium">S/ {subtotal.toFixed(2)}</span>
+                                    <span className="text-ms-black font-medium">S/. {subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>{dict.summary.shipping}</span>
@@ -134,7 +134,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                             <div className="border-t border-ms-fog pt-6 mb-8">
                                 <div className="flex justify-between items-end">
                                     <span className="font-medium text-lg">{dict.summary.total}</span>
-                                    <span className="font-medium text-xl">S/ {subtotal.toFixed(2)}</span>
+                                    <span className="font-medium text-xl">S/. {subtotal.toFixed(2)}</span>
                                 </div>
                             </div>
 

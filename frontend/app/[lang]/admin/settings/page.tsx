@@ -82,13 +82,13 @@ export default function AdminSettingsPage() {
                         <div className="hidden md:block"></div> {/* Spacer */}
 
                         <Input
-                            label="Flat Shipping Rate (S/)"
+                            label="Flat Shipping Rate (S/.)"
                             type="number"
                             value={settings.shippingFlatRate}
                             onChange={e => handleChange('shippingFlatRate', parseFloat(e.target.value))}
                         />
                         <Input
-                            label="Free Shipping Threshold (S/)"
+                            label="Free Shipping Threshold (S/.)"
                             type="number"
                             value={settings.freeShippingThreshold}
                             onChange={e => handleChange('freeShippingThreshold', parseFloat(e.target.value))}

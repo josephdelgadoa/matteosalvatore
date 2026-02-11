@@ -37,7 +37,7 @@ export const OrderSummary = () => {
                             <p className="text-xs text-ms-stone">{item.size} / {item.color}</p>
                         </div>
                         <div className="text-sm font-medium text-ms-black">
-                            S/ {(item.price * item.quantity).toFixed(2)}
+                            S/. {(item.price * item.quantity).toFixed(2)}
                         </div>
                     </div>
                 ))}
@@ -49,12 +49,12 @@ export const OrderSummary = () => {
             <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                     <span className="text-ms-stone">Subtotal</span>
-                    <span className="font-medium">S/ {subtotal.toFixed(2)}</span>
+                    <span className="font-medium">S/. {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-ms-stone">Shipping</span>
                     <span className="font-medium">
-                        {shipping === 0 ? 'Free' : `S/ ${shipping.toFixed(2)}`}
+                        {shipping === 0 ? 'Free' : `S/. ${shipping.toFixed(2)}`}
                     </span>
                 </div>
             </div>
@@ -65,7 +65,7 @@ export const OrderSummary = () => {
                 <span className="font-medium text-lg">Total</span>
                 <div className="flex items-baseline gap-2">
                     <span className="text-xs text-ms-stone">PEN</span>
-                    <span className="font-bold text-2xl">S/ {total.toFixed(2)}</span>
+                    <span className="font-bold text-2xl">S/. {total.toFixed(2)}</span>
                 </div>
             </div>
         </div>

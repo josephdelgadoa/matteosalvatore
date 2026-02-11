@@ -108,8 +108,8 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                                         </p>
                                     </td>
                                     <td className="p-3 text-right">{item.quantity}</td>
-                                    <td className="p-3 text-right">S/ {item.unit_price.toFixed(2)}</td>
-                                    <td className="p-3 text-right">S/ {item.total_price.toFixed(2)}</td>
+                                    <td className="p-3 text-right">S/. {item.unit_price.toFixed(2)}</td>
+                                    <td className="p-3 text-right">S/. {item.total_price.toFixed(2)}</td>
                                 </tr>
                             ))}
                             {items.length === 0 && (
@@ -119,15 +119,15 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                         <tfoot className="bg-ms-ivory/50">
                             <tr>
                                 <td colSpan={3} className="p-3 text-right font-medium">Subtotal</td>
-                                <td className="p-3 text-right">S/ {(order.total_amount / 1.18).toFixed(2)}</td>
+                                <td className="p-3 text-right">S/. {(order.total_amount / 1.18).toFixed(2)}</td>
                             </tr>
                             <tr>
                                 <td colSpan={3} className="p-3 text-right font-medium">IGV (18%)</td>
-                                <td className="p-3 text-right">S/ {(order.total_amount - (order.total_amount / 1.18)).toFixed(2)}</td>
+                                <td className="p-3 text-right">S/. {(order.total_amount - (order.total_amount / 1.18)).toFixed(2)}</td>
                             </tr>
                             <tr className="border-t border-ms-fog">
                                 <td colSpan={3} className="p-3 text-right font-bold">Total</td>
-                                <td className="p-3 text-right font-bold">S/ {order.total_amount.toFixed(2)}</td>
+                                <td className="p-3 text-right font-bold">S/. {order.total_amount.toFixed(2)}</td>
                             </tr>
                         </tfoot>
                     </table>

@@ -75,7 +75,7 @@ function SearchContent() {
                                 )}
                             </div>
                             <h3 className="text-sm font-medium text-ms-black group-hover:text-ms-taupe transition-colors">{product.name}</h3>
-                            <p className="text-sm text-ms-stone mt-1">S/ {product.price.toFixed(2)}</p>
+                            <p className="text-sm text-ms-stone mt-1">S/. {product.price.toFixed(2)}</p>
                         </Link>
                     ))}
                 </div>

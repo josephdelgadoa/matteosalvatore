@@ -44,7 +44,7 @@ export default function CheckoutLayout({ children }: { children: React.ReactNode
                         </span>
                         {isMobileSummaryOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </div>
-                    <span className="font-medium text-lg">S/ {total.toFixed(2)}</span>
+                    <span className="font-medium text-lg">S/. {total.toFixed(2)}</span>
                 </button>
 
                 {/* Collapsible Summary */}

@@ -17,7 +17,7 @@ export default function AdminDashboard({ params }: { params: { lang: Locale } })
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
                     title="Total Revenue"
-                    value="S/ 124,500"
+                    value="S/. 124,500"
                     icon={DollarSign}
                     trend={{ value: 12, label: "vs last month", isPositive: true }}
                 />
@@ -60,7 +60,7 @@ export default function AdminDashboard({ params }: { params: { lang: Locale } })
                                         <p className="text-xs text-ms-stone">2 minutes ago</p>
                                     </div>
                                 </div>
-                                <span className="text-sm font-medium">S/ 240.00</span>
+                                <span className="text-sm font-medium">S/. 240.00</span>
                             </div>
                         ))}
                     </div>

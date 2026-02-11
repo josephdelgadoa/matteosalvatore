@@ -141,7 +141,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                         <Input label="Name (EN)" value={formData.name_en || ''} onChange={e => setFormData({ ...formData, name_en: e.target.value })} />
 
                         <Input label="Slug" value={formData.slug || ''} onChange={e => setFormData({ ...formData, slug: e.target.value })} required />
-                        <Input label="Base Price (S/)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
+                        <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
 
                         <div className="col-span-2">
                             <label className="ms-label block mb-1">Description (ES)</label>

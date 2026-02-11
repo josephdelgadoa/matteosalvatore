@@ -99,7 +99,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                 <div className="lg:sticky lg:top-32 h-fit space-y-8">
                     <div>
                         <h1 className="ms-heading-2 mb-2">{product.name_es}</h1>
-                        <p className="text-xl font-medium">S/ {displayPrice.toFixed(2)}</p>
+                        <p className="text-xl font-medium">S/. {displayPrice.toFixed(2)}</p>
                     </div>
 
                     <div className="space-y-4">
@@ -155,7 +155,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                         >
                             Add to Cart
                         </Button>
-                        <p className="text-xs text-center text-ms-stone">Free shipping on orders over S/ 300</p>
+                        <p className="text-xs text-center text-ms-stone">Free shipping on orders over S/. 300</p>
                     </div>
                 </div>
             </div>
