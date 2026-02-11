@@ -13,6 +13,7 @@ body {
   background: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: lining-nums;
 }
 
 @layer components {

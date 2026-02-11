@@ -1,18 +1,16 @@
 import './globals.css';
-import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { Playfair_Display, Outfit } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
     subsets: ['latin'],
-    variable: '--font-cormorant',
-    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-playfair',
     display: 'swap',
 });
 
-const dmSans = DM_Sans({
+const outfit = Outfit({
     subsets: ['latin'],
-    variable: '--font-dm-sans',
-    weight: ['400', '500', '700'],
+    variable: '--font-outfit',
     display: 'swap',
 });
 
@@ -22,7 +20,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={cn(cormorant.variable, dmSans.variable)}>
+        <html lang="en" className={cn(playfair.variable, outfit.variable)}>
             <body className="font-sans antialiased">{children}</body>
         </html>
     );

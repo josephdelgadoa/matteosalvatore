@@ -47,8 +47,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ['var(--font-dm-sans)', 'sans-serif'],
-        serif: ['var(--font-cormorant)', 'serif'],
+        sans: ['var(--font-outfit)', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'serif'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1.5' }],
