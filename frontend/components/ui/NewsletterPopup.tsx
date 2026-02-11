@@ -58,7 +58,7 @@ export const NewsletterPopup = () => {
                             <div
                                 className="absolute inset-0 bg-cover bg-center"
                                 style={{
-                                    backgroundImage: "url('https://images.unsplash.com/photo-1594938298603-c8148c4729d7?q=80&w=2600&auto=format&fit=crop')",
+                                    backgroundImage: "url('/images/unlock-15-off.jpeg')",
                                 }}
                             />
                             <div className="absolute inset-0 bg-black/10" />
