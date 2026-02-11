@@ -30,7 +30,7 @@ export interface ProductImage {
 }
 
 export const productsApi = {
-    getAll: async (params?: { category?: string; limit?: number }) => {
+    getAll: async (params?: { category?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc' }) => {
         const { data } = await api.get('/products', { params });
         return data.data.products;
     },

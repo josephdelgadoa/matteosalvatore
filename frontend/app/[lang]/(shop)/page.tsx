@@ -5,6 +5,9 @@ import { Card } from '@/components/ui/Card';
 import { HeroSlider } from '@/components/ui/HeroSlider';
 import { Mountain, Clock, Leaf } from 'lucide-react';
 import { Testimonials } from '@/components/sections/Testimonials';
+import { ProductGrid } from '@/components/ui/ProductGrid';
+import { NewsletterPopup } from '@/components/ui/NewsletterPopup';
+import { productsApi } from '@/lib/api/products';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '../../../get-dictionary';
@@ -12,18 +15,33 @@ import { getDictionary } from '../../../get-dictionary';
 export default async function Home({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
 
+    // Fetch Data
+    // 1. Trending: Newest products
+    const trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
+
+    // 2. Finishing Touches: Accessories
+    const finishingProducts = await productsApi.getAll({ category: 'accessories', limit: 4 }).catch(() => []);
+
     return (
         <div className="space-y-32 pb-24">
-            {/* Hero Section */}
+            <NewsletterPopup />
+
             {/* Hero Section */}
             <HeroSlider />
+
+            {/* Trending Now */}
+            <ProductGrid
+                title={dict.home.trending}
+                products={trendingProducts}
+                lang={params.lang}
+                viewAllLink={`/${params.lang}/products`}
+            />
 
             {/* Featured Categories */}
             <section className="ms-container">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                     <Link href={`/${params.lang}/category/clothing`} className="group block overflow-hidden relative aspect-[4/5] md:aspect-[3/2]">
                         <div className="absolute inset-0 bg-ms-black/10 group-hover:bg-ms-black/0 transition-colors z-10" />
-                        {/* Placeholder Image */}
                         <div className="absolute inset-0 bg-[url('/images/matteo-salvatore-hoddies-2.jpeg')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute bottom-8 left-8 z-20">
                             <h3 className="text-3xl font-serif text-ms-white mb-2">{dict.home.clothing}</h3>
@@ -32,7 +50,6 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                     </Link>
                     <Link href={`/${params.lang}/category/footwear`} className="group block overflow-hidden relative aspect-[4/5] md:aspect-[3/2]">
                         <div className="absolute inset-0 bg-ms-black/10 group-hover:bg-ms-black/0 transition-colors z-10" />
-                        {/* Placeholder Image */}
                         <div className="absolute inset-0 bg-[url('/images/matteo-salvatore-joggers.jpeg')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute bottom-8 left-8 z-20">
                             <h3 className="text-3xl font-serif text-ms-white mb-2">{dict.home.footwear}</h3>
@@ -42,7 +59,14 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 </div>
             </section>
 
-            {/* Brand Values */}
+            {/* Finishing Touches */}
+            <ProductGrid
+                title={dict.home.finishingTouches}
+                products={finishingProducts}
+                lang={params.lang}
+                viewAllLink={`/${params.lang}/category/accessories`}
+            />
+
             {/* Testimonials */}
             {/* @ts-ignore */}
             <Testimonials dict={dict.testimonials} />
@@ -100,3 +124,4 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
         </div>
     );
 }
+
