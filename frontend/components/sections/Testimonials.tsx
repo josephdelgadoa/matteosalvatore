@@ -25,8 +25,8 @@ export const Testimonials = ({ dict }: TestimonialsProps) => {
     return (
         <section className="bg-ms-ivory py-24 border-y border-ms-fog overflow-hidden">
             <div className="ms-container mb-16 text-center">
-                <span className="ms-label mb-4 block">{dict.subtitle}</span>
-                <h2 className="ms-heading-2">{dict.title}</h2>
+                <h2 className="ms-heading-2 mb-4">{dict.subtitle}</h2>
+                <p className="font-serif text-xl text-ms-black/70">{dict.title}</p>
             </div>
 
             <div className="relative w-full">

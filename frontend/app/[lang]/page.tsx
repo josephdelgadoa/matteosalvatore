@@ -50,10 +50,10 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             {/* Brand Values */}
             <section className="bg-ms-white py-24 border-y border-ms-fog">
                 <div className="ms-container text-center">
-                    <span className="ms-label mb-4 block">{dict.home.philosophy.title}</span>
-                    <h2 className="ms-heading-2 mb-16 max-w-2xl mx-auto">
+                    <h2 className="ms-heading-2 mb-8 block text-ms-black">{dict.home.philosophy.title}</h2>
+                    <p className="font-serif text-xl md:text-2xl leading-relaxed text-ms-black/80 max-w-2xl mx-auto mb-16">
                         {dict.home.philosophy.text}
-                    </h2>
+                    </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {/* Column 1 */}

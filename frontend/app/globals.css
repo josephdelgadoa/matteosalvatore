@@ -35,4 +35,8 @@ body {
   .ms-heading-hero {
     @apply font-serif text-5xl md:text-7xl font-light leading-tight tracking-tighter text-ms-black;
   }
+
+  .ms-heading-2 {
+    @apply font-serif text-3xl md:text-4xl font-bold leading-tight text-ms-black;
+  }
 }
