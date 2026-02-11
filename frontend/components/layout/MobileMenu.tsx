@@ -52,6 +52,28 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict }: MobileMe
                 </nav>
 
                 <div className="p-8 bg-ms-ivory">
+                    <div className="flex items-center gap-4 mb-6">
+                        <button
+                            onClick={() => {
+                                const newPath = window.location.pathname.replace(`/${lang}`, '/es');
+                                window.location.href = newPath;
+                            }}
+                            className={cn("text-sm font-medium transition-colors", lang === 'es' ? "text-ms-black underline" : "text-ms-stone hover:text-ms-black")}
+                        >
+                            ESPAÑOL
+                        </button>
+                        <span className="text-ms-stone">|</span>
+                        <button
+                            onClick={() => {
+                                const newPath = window.location.pathname.replace(`/${lang}`, '/en');
+                                window.location.href = newPath;
+                            }}
+                            className={cn("text-sm font-medium transition-colors", lang === 'en' ? "text-ms-black underline" : "text-ms-stone hover:text-ms-black")}
+                        >
+                            ENGLISH
+                        </button>
+                    </div>
+
                     <p className="text-sm text-ms-stone mb-4">{dict.contact}</p>
                     <a href="mailto:support@matteosalvatore.pe" className="text-ms-black underline">support@matteosalvatore.pe</a>
                 </div>
