@@ -1,4 +1,5 @@
 import { AdminHeader } from '@/components/admin/AdminHeader';
+import { AdminSidebar } from '@/components/admin/Sidebar';
 import { Locale } from '@/i18n-config';
 
 export default function AdminLayout({
