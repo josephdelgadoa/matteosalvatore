@@ -65,7 +65,7 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
 
         } catch (error: any) {
             console.error('Upload error:', error);
-            addToast('Failed to upload image', 'error');
+            addToast(error.message || 'Failed to upload image', 'error');
         } finally {
             setIsUploading(false);
             // Reset input
