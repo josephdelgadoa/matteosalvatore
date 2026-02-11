@@ -27,7 +27,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             <NewsletterPopup />
 
             {/* Hero Section */}
-            <HeroSlider />
+            <HeroSlider slides={dict.hero.slides} lang={params.lang} />
 
             {/* Trending Now */}
             <ProductGrid

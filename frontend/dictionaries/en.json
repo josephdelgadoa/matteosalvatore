@@ -18,9 +18,35 @@
         "contact": "Contact"
     },
     "hero": {
-        "title": "Timeless Elegance",
-        "subtitle": "Discover our new collection",
-        "cta": "Shop Now"
+        "slides": [
+            {
+                "id": 1,
+                "subtitle": "Spring / Summer 2026",
+                "title": "Effortless Elegance. Timeless Design.",
+                "description": "Discover the new collection crafted from the finest Peruvian fibers. Minimal luxury designed for the modern gentleman.",
+                "cta": "Shop Collection",
+                "link": "/category/clothing",
+                "image": "/images/hero-image-ruso-1.jpeg"
+            },
+            {
+                "id": 2,
+                "subtitle": "The New Standard",
+                "title": "Refined Comfort for Every Occasion.",
+                "description": "From boardroom to weekend getaway, our pieces are designed to move with you.",
+                "cta": "Explore Footwear",
+                "link": "/category/footwear",
+                "image": "/images/hero-image-ruso-2.jpeg"
+            },
+            {
+                "id": 3,
+                "subtitle": "Peruvian Craftsmanship",
+                "title": "World-Renowned Pima Cotton & Alpaca.",
+                "description": "Experience the softness and durability of the world's finest natural fibers.",
+                "cta": "Our Story",
+                "link": "/about",
+                "image": "/images/hero-image-01.png"
+            }
+        ]
     },
     "home": {
         "clothing": "Clothing",

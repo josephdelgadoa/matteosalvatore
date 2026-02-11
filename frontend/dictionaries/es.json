@@ -18,9 +18,35 @@
         "contact": "Contacto"
     },
     "hero": {
-        "title": "Elegancia Atemporal",
-        "subtitle": "Descubre la nueva colección",
-        "cta": "Comprar Ahora"
+        "slides": [
+            {
+                "id": 1,
+                "subtitle": "Primavera / Verano 2026",
+                "title": "Elegancia sin Esfuerzo. Diseño Atemporal.",
+                "description": "Descubre la nueva colección confeccionada con las mejores fibras peruanas. Lujo minimalista diseñado para el caballero moderno.",
+                "cta": "Comprar Colección",
+                "link": "/category/clothing",
+                "image": "/images/hero-image-ruso-1.jpeg"
+            },
+            {
+                "id": 2,
+                "subtitle": "El Nuevo Estándar",
+                "title": "Confort Refinado para Toda Ocasión.",
+                "description": "Desde la sala de juntas hasta una escapada de fin de semana, nuestras piezas están diseñadas para moverse contigo.",
+                "cta": "Explorar Calzado",
+                "link": "/category/footwear",
+                "image": "/images/hero-image-ruso-2.jpeg"
+            },
+            {
+                "id": 3,
+                "subtitle": "Artesanía Peruana",
+                "title": "Algodón Pima y Alpaca de Fama Mundial.",
+                "description": "Experimenta la suavidad y durabilidad de las fibras naturales más finas del mundo.",
+                "cta": "Nuestra Historia",
+                "link": "/about",
+                "image": "/images/hero-image-01.png"
+            }
+        ]
     },
     "home": {
         "clothing": "Ropa",

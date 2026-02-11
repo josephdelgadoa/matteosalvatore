@@ -17,37 +17,12 @@ interface Slide {
     link: string;
 }
 
-const slides: Slide[] = [
-    {
-        id: 1,
-        image: '/images/hero-image-ruso-1.jpeg',
-        subtitle: 'Spring / Summer 2026',
-        title: 'Effortless Elegance. Timeless Design.',
-        description: 'Discover the new collection crafted from the finest Peruvian fibers. Minimal luxury designed for the modern gentleman.',
-        cta: 'Shop Collection',
-        link: '/category/clothing'
-    },
-    {
-        id: 2,
-        image: '/images/hero-image-ruso-2.jpeg', // Generated premium footwear image
-        subtitle: 'The New Standard',
-        title: 'Refined Comfort for Every Occasion.',
-        description: 'From boardroom to weekend getaway, our pieces are designed to move with you.',
-        cta: 'Explore Footwear',
-        link: '/category/footwear'
-    },
-    {
-        id: 3,
-        image: '/images/hero-image-01.png', // Lifestyle/Texture
-        subtitle: 'Peruvian Craftsmanship',
-        title: 'World-Renowned Pima Cotton & Alpaca.',
-        description: 'Experience the softness and durability of the world\'s finest natural fibers.',
-        cta: 'Our Story',
-        link: '/about'
-    }
-];
+interface HeroSliderProps {
+    slides: Slide[];
+    lang: string;
+}
 
-export const HeroSlider = () => {
+export const HeroSlider = ({ slides, lang }: HeroSliderProps) => {
     const [current, setCurrent] = useState(0);
 
     useEffect(() => {
@@ -55,7 +30,7 @@ export const HeroSlider = () => {
             setCurrent((prev) => (prev + 1) % slides.length);
         }, 6000);
         return () => clearInterval(timer);
-    }, []);
+    }, [slides.length]);
 
     const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
     const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
@@ -103,7 +78,7 @@ export const HeroSlider = () => {
                             <p className="text-base md:text-xl text-ms-white/90 mb-8 md:mb-10 leading-relaxed max-w-lg">
                                 {slides[current].description}
                             </p>
-                            <Link href={slides[current].link}>
+                            <Link href={`/${lang}${slides[current].link}`}>
                                 <Button size="lg" className="w-full md:w-auto bg-ms-white text-ms-black hover:bg-ms-stone hover:text-ms-white border-none">
                                     {slides[current].cta}
                                 </Button>
