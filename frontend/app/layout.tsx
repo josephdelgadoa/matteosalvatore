@@ -20,7 +20,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={cn(playfair.variable, outfit.variable)}>
+        <html lang="es" className={cn(playfair.variable, outfit.variable)}>
             <body className="font-sans antialiased">{children}</body>
         </html>
     );
@@ -29,4 +29,7 @@ export default function RootLayout({
 export const metadata = {
     title: 'Matteo Salvatore | Timeless Elegance',
     description: 'Luxury clothing and footwear for the modern gentleman.',
+    icons: {
+        icon: '/favicon.ico',
+    },
 };

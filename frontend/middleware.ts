@@ -76,10 +76,12 @@ export async function middleware(request: NextRequest) {
 
     // Protect Admin Routes
     // Note: This now checks for /es/admin or /en/admin due to redirection
-    if (pathname.includes('/admin')) {
+    // Protect Admin Routes
+    // Exclude /admin/login from protection to avoid loops
+    if (pathname.includes('/admin') && !pathname.includes('/admin/login')) {
         if (!session) {
-            console.log('⚠️ Accessing admin without session');
-            // return NextResponse.redirect(new URL('/login', request.url));
+            const locale = getLocale(request);
+            return NextResponse.redirect(new URL(`/${locale}/admin/login`, request.url));
         }
     }
 

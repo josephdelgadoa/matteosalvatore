@@ -12,10 +12,19 @@ import { productsApi } from '@/lib/api/products';
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '../../../get-dictionary';
 
+import { contentApi } from '@/lib/api/content';
+
 export default async function Home({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
 
     // Fetch Data
+    // 0. Content: Hero Slider
+    let heroSlides = await contentApi.getHeroSlides(params.lang);
+    // Fallback to dictionary if empty (or if migration not run yet)
+    if (!heroSlides || heroSlides.length === 0) {
+        heroSlides = dict.hero.slides.map((s, i) => ({ ...s, id: i + 1, link: s.link || '/products' }));
+    }
+
     // 1. Trending: Newest products
     const trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
 
@@ -27,7 +36,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             <NewsletterPopup />
 
             {/* Hero Section */}
-            <HeroSlider slides={dict.hero.slides} lang={params.lang} />
+            <HeroSlider slides={heroSlides} lang={params.lang} />
 
             {/* Trending Now */}
             <ProductGrid

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { createBrowserClient } from '@supabase/ssr';
 import { cn } from '@/lib/utils';
 import {
     LayoutDashboard,
@@ -23,6 +24,17 @@ const menuItems = [
 
 export const AdminSidebar = () => {
     const pathname = usePathname();
+    const router = useRouter();
+    const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/admin/login');
+        router.refresh();
+    };
 
     return (
         <aside className="w-64 bg-ms-white border-r border-ms-fog h-screen fixed left-0 top-0 flex flex-col z-50">
@@ -57,7 +69,10 @@ export const AdminSidebar = () => {
             </nav>
 
             <div className="p-4 border-t border-ms-fog">
-                <button className="flex items-center gap-3 px-3 py-2.5 w-full text-left text-sm font-medium text-ms-error hover:bg-ms-error/5 rounded-md transition-colors">
+                <button
+                    onClick={handleSignOut}
+                    className="flex items-center gap-3 px-3 py-2.5 w-full text-left text-sm font-medium text-ms-error hover:bg-ms-error/5 rounded-md transition-colors"
+                >
                     <LogOut className="w-5 h-5" strokeWidth={1.5} />
                     Sign Out
                 </button>

@@ -109,7 +109,7 @@ exports.getAllOrders = async (req, res, next) => {
     try {
         const { data: orders, error } = await supabase
             .from('orders')
-            .select('*, customers(first_name, last_name, email)') // Fetch basic customer info if relation exists
+            .select('*, profiles(first_name, last_name, email)') // Fetch basic customer info if relation exists
             .order('created_at', { ascending: false });
 
         if (error) throw error;

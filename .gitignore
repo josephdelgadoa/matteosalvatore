@@ -42,3 +42,4 @@ docker-data/
 postgres-data/
 redis-data/
 production.env
+*.log

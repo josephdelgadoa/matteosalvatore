@@ -36,11 +36,13 @@ const productsRouter = require('./routes/products');
 const cartRouter = require('./routes/cart');
 const ordersRouter = require('./routes/orders');
 const paymentRouter = require('./routes/payment');
+const contentRouter = require('./routes/content');
 
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/payments', paymentRouter);
+app.use('/api/content', contentRouter);
 app.use('/api/health', require('./routes/health'));
 
 app.get('/', (req, res) => {

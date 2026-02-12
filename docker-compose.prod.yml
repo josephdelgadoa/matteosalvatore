@@ -13,6 +13,8 @@ services:
       - FRONTEND_URL=https://matteosalvatore.pe
       - CULQI_PUBLIC_KEY=${CULQI_PUBLIC_KEY}
       - CULQI_PRIVATE_KEY=${CULQI_PRIVATE_KEY}
+    ports:
+      - "4000:4000"
 
   frontend:
     build:

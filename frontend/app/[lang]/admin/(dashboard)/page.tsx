@@ -42,13 +42,13 @@ export default function AdminDashboard({ params }: { params: { lang: Locale } })
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Placeholder for Revenue Chart */}
-                <div className="bg-ms-white p-6 border border-ms-fog rounded-none h-80 flex flex-col justify-center items-center">
+                <div className="bg-ms-white p-6 border border-ms-fog rounded-none min-h-[20rem] h-auto flex flex-col justify-center items-center">
                     <p className="text-ms-stone mb-2">Revenue Overview</p>
                     <div className="text-xs text-ms-silver uppercase">[Chart Placeholder]</div>
                 </div>
 
                 {/* Placeholder for Recent Activity */}
-                <div className="bg-ms-white p-6 border border-ms-fog rounded-none h-80">
+                <div className="bg-ms-white p-6 border border-ms-fog rounded-none min-h-[20rem] h-auto">
                     <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
                     <div className="space-y-4">
                         {[1, 2, 3, 4].map((i) => (
