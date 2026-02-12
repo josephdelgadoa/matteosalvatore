@@ -6,7 +6,7 @@ const productService = new SupabaseService('products');
 
 exports.getAllProducts = async (req, res, next) => {
     try {
-        const { category, subcategory, featured, sort, limit } = req.query;
+        const { category, subcategory, featured, sort, limit, include_inactive } = req.query;
 
         let query = supabase
             .from('products')
@@ -17,8 +17,10 @@ exports.getAllProducts = async (req, res, next) => {
         if (subcategory) query = query.eq('subcategory', subcategory);
         if (featured === 'true') query = query.eq('is_featured', true);
 
-        // Default active only
-        query = query.eq('is_active', true);
+        // Default active only, unless include_inactive is true
+        if (include_inactive !== 'true') {
+            query = query.eq('is_active', true);
+        }
 
         // Sorting
         if (sort === 'price-asc') query = query.order('base_price', { ascending: true });

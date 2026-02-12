@@ -30,9 +30,22 @@ export interface ProductImage {
 }
 
 export const productsApi = {
-    getAll: async (params?: { category?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc' }) => {
-        const { data } = await api.get('/products', { params });
-        return data.data.products;
+    getAll: async (params?: { category?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc'; includeInactive?: boolean }) => {
+        const queryParams: any = { ...params };
+        if (params?.includeInactive) {
+            queryParams.include_inactive = 'true';
+        }
+        const response = await api.get('/products', { params: queryParams });
+
+        if (!response.data || !response.data.data) {
+            console.error('Invalid API response structure:', response);
+            if (response.status === 404) {
+                throw new Error('API Endpoint not found (404)');
+            }
+            throw new Error('Invalid API response: ' + JSON.stringify(response.data));
+        }
+
+        return response.data.data.products;
     },
 
     getBySlug: async (slug: string) => {

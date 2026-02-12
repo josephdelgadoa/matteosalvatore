@@ -16,11 +16,11 @@ export default function AdminProductsPage() {
 
     const fetchProducts = async () => {
         try {
-            const data = await productsApi.getAll();
+            const data = await productsApi.getAll({ includeInactive: true, limit: 100 });
             setProducts(data);
-        } catch (err) {
-            console.error(err);
-            addToast('Failed to load products', 'error');
+        } catch (err: any) {
+            console.error('Error loading products:', err);
+            addToast(`Failed to load products: ${err.message || 'Unknown error'}`, 'error');
         } finally {
             setIsLoading(false);
         }

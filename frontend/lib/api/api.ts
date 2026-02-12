@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const isServer = typeof window === 'undefined';
+const API_URL = (isServer && process.env.INTERNAL_API_URL)
+    ? process.env.INTERNAL_API_URL
+    : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api');
+
+if (isServer) {
+    console.log(`[API Init] Server-side request. Using base URL: ${API_URL}`);
+}
 
 const api = axios.create({
     baseURL: API_URL,
