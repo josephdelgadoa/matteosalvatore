@@ -110,6 +110,14 @@ exports.createProduct = async (req, res, next) => {
         const imagesToInsert = product_images || images || [];
         const variantsToInsert = product_variants || variants || [];
 
+        // Generate SKU if not provided
+        if (!productData.sku) {
+            const categoryCode = (productData.category || 'GEN').substring(0, 3).toUpperCase();
+            const year = new Date().getFullYear();
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            productData.sku = `MS-${categoryCode}-${year}-${random}`;
+        }
+
         // 1. Insert Product
         const { data: product, error: productError } = await supabase
             .from('products')
@@ -121,11 +129,11 @@ exports.createProduct = async (req, res, next) => {
 
         const productId = product.id;
 
-        // 2. Insert Images (if any)
         if (imagesToInsert.length > 0) {
             const imageInserts = imagesToInsert.map((img, index) => ({
                 product_id: productId,
-                image_url: img.image_url || img.url || img, // Handle object or string
+                image_url: img.image_url || img.url || (typeof img === 'string' ? img : ''),
+                color: img.color || null,
                 display_order: img.display_order || index,
                 is_primary: index === 0
             }));
@@ -141,10 +149,22 @@ exports.createProduct = async (req, res, next) => {
 
         // 3. Insert Variants (if any)
         if (variantsToInsert.length > 0) {
-            const variantInserts = variantsToInsert.map(variant => ({
-                product_id: productId,
-                ...variant
-            }));
+            const variantInserts = variantsToInsert.map(variant => {
+                let skuVariant = variant.sku_variant;
+                if (!skuVariant && productData.sku) {
+                    const cleanSize = (variant.size || 'OS').toUpperCase().replace(/[^A-Z0-9]/g, '');
+                    const cleanColor = (variant.color || 'GEN').toUpperCase().substring(0, 3).replace(/[^A-Z0-9]/g, '');
+                    skuVariant = `${productData.sku}-${cleanSize}-${cleanColor}`;
+                } else if (!skuVariant) {
+                    skuVariant = `VAR-${Math.floor(Math.random() * 100000)}`;
+                }
+
+                return {
+                    product_id: productId,
+                    ...variant,
+                    sku_variant: skuVariant
+                };
+            });
 
             const { error: variantsError } = await supabase
                 .from('product_variants')
@@ -190,7 +210,6 @@ exports.updateProduct = async (req, res, next) => {
             return res.status(404).json({ status: 'fail', message: 'Product not found' });
         }
 
-        // 2. Update Images
         if (imagesToUpdate) {
             // Delete existing
             await supabase.from('product_images').delete().eq('product_id', id);
@@ -199,11 +218,47 @@ exports.updateProduct = async (req, res, next) => {
             if (imagesToUpdate.length > 0) {
                 const imageInserts = imagesToUpdate.map((img, index) => ({
                     product_id: id,
-                    image_url: img.image_url || img.url || img,
+                    image_url: img.image_url || img.url || (typeof img === 'string' ? img : ''),
+                    color: img.color || null,
                     display_order: img.display_order || index,
                     is_primary: index === 0
                 }));
-                await supabase.from('product_images').insert(imageInserts);
+                const { error: imagesError } = await supabase.from('product_images').insert(imageInserts);
+                if (imagesError) logger.error('Error inserting images on update:', imagesError);
+            }
+        }
+
+        // 3. Update Variants
+        const variantsToUpdate = product_variants || variants;
+        if (variantsToUpdate) {
+            // Delete existing variants for this product
+            await supabase.from('product_variants').delete().eq('product_id', id);
+
+            if (variantsToUpdate.length > 0) {
+                const variantInserts = variantsToUpdate.map(variant => {
+                    // Generate SKU for variant if missing
+                    let skuVariant = variant.sku_variant;
+                    if (!skuVariant && product.sku) {
+                        const cleanSize = (variant.size || 'OS').toUpperCase().replace(/[^A-Z0-9]/g, '');
+                        const cleanColor = (variant.color || 'GEN').toUpperCase().substring(0, 3).replace(/[^A-Z0-9]/g, '');
+                        skuVariant = `${product.sku}-${cleanSize}-${cleanColor}`;
+                    } else if (!skuVariant) {
+                        skuVariant = `VAR-${Math.floor(Math.random() * 100000)}`;
+                    }
+
+                    return {
+                        product_id: id,
+                        size: variant.size,
+                        color: variant.color,
+                        stock_quantity: variant.stock_quantity || 0,
+                        price_adjustment: variant.price_adjustment || 0,
+                        is_available: variant.is_available !== false,
+                        sku_variant: skuVariant
+                    };
+                });
+
+                const { error: variantsError } = await supabase.from('product_variants').insert(variantInserts);
+                if (variantsError) logger.error('Error inserting variants on update:', variantsError);
             }
         }
 

@@ -34,12 +34,12 @@ export default function AdminProductsPage() {
         if (!confirm(`Are you sure you want to delete ${item.name_es}?`)) return;
 
         try {
-            // await productsApi.delete(item.id); 
-            // API call commented out until backend implements delete
-            addToast('Product deleted (Simulated)', 'success');
+            await productsApi.delete(item.id);
+            addToast('Product deleted successfully', 'success');
             // Refresh
-            // fetchProducts(); 
+            fetchProducts();
         } catch (err) {
+            console.error('Error deleting product:', err);
             addToast('Failed to delete product', 'error');
         }
     };

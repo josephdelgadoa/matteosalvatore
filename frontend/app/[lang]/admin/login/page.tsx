@@ -8,9 +8,8 @@ export default function AdminLoginPage() {
     return (
         <div className="min-h-screen flex">
             {/* Left Column - Slider (50%) */}
-            <div className="hidden lg:flex w-1/2 bg-gray-900 text-white relative flex-col justify-center items-center overflow-hidden">
-                <div className="absolute inset-0 z-0 opacity-20 bg-[url('/images/admin-bg-pattern.png')] bg-cover bg-center"></div>
-                <div className="z-10 w-full max-w-lg px-8">
+            <div className="hidden lg:flex w-1/2 relative flex-col justify-center items-center overflow-hidden bg-black">
+                <div className="absolute inset-0 z-0 w-full h-full">
                     <LoginSlider />
                 </div>
             </div>

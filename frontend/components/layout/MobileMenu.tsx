@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import Link from 'next/link';
-import { X } from 'lucide-react';
+import { X, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Locale } from '../../i18n-config';
+import { PRODUCT_CATEGORIES, NAV_STRUCTURE } from '../../lib/constants';
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -12,13 +14,17 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict }: MobileMenuProps) => {
-    const links = [
-        { href: `/${lang}/category/clothing`, label: dict.clothing },
-        { href: `/${lang}/category/footwear`, label: dict.footwear },
-        { href: `/${lang}/search?q=new`, label: dict.newArrivals },
-        { href: `/${lang}/about`, label: dict.about },
-        { href: `/${lang}/account`, label: commonDict.account },
-    ];
+    const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+    // ... remainder of component
+
+    const toggleExpand = (id: string) => {
+        setExpandedItems(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
+    const getCategory = (id: string) => PRODUCT_CATEGORIES.find(c => c.id === id);
 
     return (
         <div
@@ -37,17 +43,100 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict }: MobileMe
 
                 <nav className="flex-1 overflow-y-auto py-8">
                     <ul className="flex flex-col space-y-6 px-8">
-                        {links.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    onClick={onClose}
-                                    className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
-                                >
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
+                        {NAV_STRUCTURE.map((item) => {
+                            if (item.type === 'dropdown') {
+                                const isExpanded = expandedItems.includes(item.id);
+                                return (
+                                    <li key={item.id} className="space-y-4">
+                                        <button
+                                            onClick={() => toggleExpand(item.id)}
+                                            className="flex items-center justify-between w-full text-xl font-light text-ms-black py-2 border-b border-ms-fog"
+                                        >
+                                            {item.label[lang] || item.label.en}
+                                            {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                                        </button>
+
+                                        {isExpanded && (
+                                            <div className="pl-4 space-y-4 animate-in slide-in-from-top-2 duration-200">
+                                                {item.items?.map((catId: string) => {
+                                                    const category = getCategory(catId);
+                                                    if (!category) return null;
+
+                                                    return (
+                                                        <div key={category.id} className="space-y-2">
+                                                            <Link
+                                                                href={`/${lang}/category/${category.id}`}
+                                                                onClick={onClose}
+                                                                className="block font-medium text-lg text-ms-black"
+                                                            >
+                                                                {category.label[lang] || category.label.en}
+                                                            </Link>
+
+                                                            {/* Subcategories */}
+                                                            {category.subcategories && category.subcategories.length > 0 && (
+                                                                <div className="pl-4 space-y-2 border-l border-ms-fog">
+                                                                    {category.subcategories.map(sub => (
+                                                                        <Link
+                                                                            key={sub.id}
+                                                                            href={`/${lang}/category/${category.id}?subcategory=${sub.id}`}
+                                                                            onClick={onClose}
+                                                                            className="block text-base text-ms-stone"
+                                                                        >
+                                                                            {sub.label[lang] || sub.label.en}
+                                                                        </Link>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </li>
+                                );
+                            } else {
+                                return (
+                                    <li key={item.id}>
+                                        <Link
+                                            href={`/${lang}${item.href}`}
+                                            onClick={onClose}
+                                            className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
+                                        >
+                                            {/* @ts-ignore */}
+                                            {item.label[lang] || item.label.en}
+                                        </Link>
+                                    </li>
+                                );
+                            }
+                        })}
+
+                        <li>
+                            <Link
+                                href={`/${lang}/search?q=new`}
+                                onClick={onClose}
+                                className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
+                            >
+                                {dict.newArrivals}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href={`/${lang}/about`}
+                                onClick={onClose}
+                                className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
+                            >
+                                {dict.about}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href={`/${lang}/account`}
+                                onClick={onClose}
+                                className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
+                            >
+                                {commonDict.account}
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
 

@@ -7,7 +7,9 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useCart } from '@/store/useCart';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 // @ts-ignore
+// @ts-ignore
 import { Locale } from '@/i18n-config';
+import { cn } from '@/lib/utils';
 
 export default function ProductDetailPage({ params }: { params: { slug: string; lang: Locale } }) {
     const [product, setProduct] = useState<Product | null>(null);
@@ -64,15 +66,37 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
         }
     };
 
+    // Extract unique sizes and colors
+    // Safe to Memoize or just compute. Variants is always an array (empty or populated)
+    const sizes = React.useMemo(() => Array.from(new Set(variants.map(v => v.size))).sort(), [variants]);
+    const colors = React.useMemo(() => Array.from(new Set(variants.map(v => v.color))).sort(), [variants]);
+
+    // Filter images based on selected color
+    const effectiveImages = React.useMemo(() => {
+        if (!product || !product.product_images) return [];
+
+        // If loading or no product, we return empty, but this hook MUST run every render.
+        // The dependency `product` accounts for it.
+
+        let filtered = product.product_images;
+
+        if (selectedColor) {
+            const colorSpecific = product.product_images.filter(img => img.color === selectedColor);
+            if (colorSpecific.length > 0) {
+                filtered = colorSpecific;
+            } else {
+                filtered = product.product_images;
+            }
+        }
+
+        return filtered.sort((a, b) => a.display_order - b.display_order);
+    }, [product, selectedColor]);
+
     if (isLoading) return <div className="flex h-[80vh] items-center justify-center"><Spinner size="lg" /></div>;
     if (!product) return <div className="text-center py-20">Product not found</div>;
 
-    // Extract unique sizes and colors
-    const sizes = Array.from(new Set(variants.map(v => v.size))).sort();
-    const colors = Array.from(new Set(variants.map(v => v.color))).sort();
-
-    const primaryImage = product.product_images?.[0]?.image_url || 'https://via.placeholder.com/600x800';
-    const displayPrice = product.base_price; // could add variant price logic here
+    const primaryImage = effectiveImages?.[0]?.image_url || 'https://via.placeholder.com/600x800';
+    const displayPrice = product.base_price;
 
     return (
         <div className="ms-container py-12 md:py-20 animate-fade-in relative transition-all">
@@ -82,13 +106,13 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                 <div className="space-y-4">
                     <div className="aspect-[3/4] bg-ms-pearl w-full overflow-hidden">
                         <div
-                            className="w-full h-full bg-cover bg-center"
+                            className="w-full h-full bg-cover bg-center transition-all duration-500"
                             style={{ backgroundImage: `url(${primaryImage})` }}
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                        {product.product_images?.slice(1).map((img, i) => (
-                            <div key={img.id} className="aspect-[3/4] bg-ms-pearl overflow-hidden cursor-pointer hover:opacity-90">
+                        {effectiveImages.slice(1).map((img, i) => (
+                            <div key={img.id || i} className="aspect-[3/4] bg-ms-pearl overflow-hidden cursor-pointer hover:opacity-90">
                                 <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${img.image_url})` }} />
                             </div>
                         ))}
@@ -111,14 +135,16 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                         <div>
                             <label className="ms-label block mb-3">Color</label>
                             <div className="flex flex-wrap gap-3">
-                                {colors.map(color => (
+                                {colors.length === 0 ? <span className="text-sm text-ms-stone italic">No colors available</span> : colors.map(color => (
                                     <button
                                         key={color}
                                         onClick={() => setSelectedColor(color)}
-                                        className={`h-10 px-4 border transition-colors text-sm ${selectedColor === color
-                                            ? 'border-ms-black bg-ms-black text-ms-white'
-                                            : 'border-ms-fog hover:border-ms-black'
-                                            }`}
+                                        className={cn(
+                                            "h-10 px-4 border transition-colors text-sm",
+                                            selectedColor === color
+                                                ? 'border-ms-black bg-ms-black text-ms-white'
+                                                : 'border-ms-fog hover:border-ms-black'
+                                        )}
                                     >
                                         {color}
                                     </button>
@@ -129,14 +155,16 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                         <div>
                             <label className="ms-label block mb-3">Size</label>
                             <div className="flex flex-wrap gap-3">
-                                {sizes.map(size => (
+                                {sizes.length === 0 ? <span className="text-sm text-ms-stone italic">No sizes available</span> : sizes.map(size => (
                                     <button
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
-                                        className={`w-12 h-12 flex items-center justify-center border transition-colors text-sm ${selectedSize === size
-                                            ? 'border-ms-black bg-ms-black text-ms-white'
-                                            : 'border-ms-fog hover:border-ms-black'
-                                            }`}
+                                        className={cn(
+                                            "w-12 h-12 flex items-center justify-center border transition-colors text-sm",
+                                            selectedSize === size
+                                                ? 'border-ms-black bg-ms-black text-ms-white'
+                                                : 'border-ms-fog hover:border-ms-black'
+                                        )}
                                     >
                                         {size}
                                     </button>

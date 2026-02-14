@@ -9,6 +9,7 @@ import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { ImageUploader } from '@/components/admin/ImageUploader';
 import { Trash, Plus } from 'lucide-react';
+import { PRODUCT_CATEGORIES } from '@/lib/constants';
 
 export default function ProductFormPage({ params }: { params: { id: string } }) {
     const router = useRouter();
@@ -25,6 +26,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         slug: '',
         description_es: '',
         description_en: '',
+        seo_keywords_es: '', // Mapped to Hashtags
         base_price: 0,
         category: 'clothing',
         subcategory: '',
@@ -32,22 +34,15 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         product_variants: []
     });
 
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<any[]>([]);
 
     useEffect(() => {
         if (!isNew) {
             const fetchProduct = async () => {
                 try {
-                    const product = await productsApi.getBySlug(params.id); // Assuming ID is slug for now, or use ID logic
-                    // If we passed ID in URL, we need to fetch by ID. 
-                    // But our API uses slug for public facing. 
-                    // Let's assume for admin we might use ID or Slug. 
-                    // If params.id is a UUID, fetch by ID? Or simplified getBySlug logic works if we consistently use slugs in URL.
-                    // For now, let's assume params.id is indeed the slug if we linked it that way, or we need an API method getById.
-                    // The previous DataTable linked to `/admin/products/${item.slug}`. So params.id IS slug.
-
+                    const product = await productsApi.getBySlug(params.id);
                     setFormData(product);
-                    setImages(product.product_images?.sort((a: any, b: any) => a.display_order - b.display_order).map((i: any) => i.image_url) || []);
+                    setImages(product.product_images?.sort((a: any, b: any) => a.display_order - b.display_order) || []);
                 } catch (err) {
                     addToast('Failed to load product', 'error');
                 } finally {
@@ -56,7 +51,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
             };
             fetchProduct();
         }
-    }, [params.id, isNew, addToast]); // Added addToast to dependencies
+    }, [params.id, isNew, addToast]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,11 +61,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
             const payload = {
                 ...formData,
                 // Reconstruct images array from simple URLs
-                product_images: images.map((url, idx) => ({
-                    image_url: url,
+                product_images: images.map((img, idx) => ({
+                    image_url: typeof img === 'string' ? img : img.image_url,
+                    color: typeof img === 'string' ? null : img.color,
                     display_order: idx,
                     is_primary: idx === 0,
-                    // ID handling would depend on backend (new vs update)
                 } as any))
             };
 
@@ -90,7 +85,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
         } catch (err: any) {
             console.error(err);
-            addToast(err.message || 'Failed to save product', 'error');
+            const errorMessage = err.response?.data?.message || err.message || 'Failed to save product';
+            addToast(errorMessage, 'error');
         } finally {
             setIsSaving(false);
         }
@@ -140,16 +136,118 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                         <Input label="Name (ES)" value={formData.name_es || ''} onChange={e => setFormData({ ...formData, name_es: e.target.value })} required />
                         <Input label="Name (EN)" value={formData.name_en || ''} onChange={e => setFormData({ ...formData, name_en: e.target.value })} />
 
-                        <Input label="Slug" value={formData.slug || ''} onChange={e => setFormData({ ...formData, slug: e.target.value })} required />
+                        <div className="col-span-2 md:col-span-1">
+                            <Input
+                                label="Slug"
+                                value={formData.slug || ''}
+                                onChange={e => setFormData({ ...formData, slug: e.target.value })}
+                                required
+                                placeholder="e.g. urban-hoodie-black"
+                            />
+                            <p className="text-xs text-ms-stone mt-1">Unique identifier for the URL (e.g. domain.com/products/<b>your-slug</b>)</p>
+                        </div>
                         <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
 
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="ms-label block mb-1">Category</label>
+                                <select
+                                    className="ms-input w-full h-10"
+                                    value={formData.category || ''}
+                                    onChange={e => {
+                                        setFormData({
+                                            ...formData,
+                                            category: e.target.value,
+                                            subcategory: '' // Reset subcategory when category changes
+                                        });
+                                    }}
+                                    required
+                                >
+                                    <option value="">Select Category</option>
+                                    {PRODUCT_CATEGORIES.map(cat => (
+                                        <option key={cat.id} value={cat.id}>
+                                            {cat.label.es}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="ms-label block mb-1">Subcategory</label>
+                                <select
+                                    className="ms-input w-full h-10"
+                                    value={formData.subcategory || ''}
+                                    onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
+                                    disabled={!formData.category} // Disable if no category selected
+                                >
+                                    <option value="">Select Subcategory</option>
+                                    {/* Safely map subcategories */}
+                                    {PRODUCT_CATEGORIES.find(c => c.id === formData.category)?.subcategories?.map(sub => (
+                                        <option key={sub.id} value={sub.id}>
+                                            {sub.label.es}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
                         <div className="col-span-2">
-                            <label className="ms-label block mb-1">Description (ES)</label>
+                            <div className="flex justify-between mb-1">
+                                <label className="ms-label block">Description (ES)</label>
+                                <span className="text-xs text-ms-stone">{(formData.description_es || '').length} chars</span>
+                            </div>
                             <textarea
                                 className="ms-input min-h-[100px]"
                                 value={formData.description_es || ''}
                                 onChange={e => setFormData({ ...formData, description_es: e.target.value })}
                             />
+                        </div>
+
+                        <div className="col-span-2">
+                            <div className="flex justify-between mb-1">
+                                <label className="ms-label block">Description (EN)</label>
+                                <span className="text-xs text-ms-stone">{(formData.description_en || '').length} chars</span>
+                            </div>
+                            <textarea
+                                className="ms-input min-h-[100px]"
+                                value={formData.description_en || ''}
+                                onChange={e => setFormData({ ...formData, description_en: e.target.value })}
+                            />
+                        </div>
+
+                        <div className="col-span-2">
+                            <div className="flex justify-between mb-1">
+                                <label className="ms-label block">Hashtags / Keywords</label>
+                                <span className="text-xs text-ms-stone">Comma separated</span>
+                            </div>
+                            <Input
+                                placeholder="e.g. streetwear, premium, hoodie, lima"
+                                value={formData.seo_keywords_es || ''}
+                                onChange={e => setFormData({ ...formData, seo_keywords_es: e.target.value, seo_keywords_en: e.target.value })}
+                            />
+                            <p className="text-xs text-ms-stone mt-1">Used for SEO and internal search.</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* SEO Configuration */}
+                <section className="bg-ms-white p-6 border border-ms-fog space-y-4 hidden"> {/* Hidden for now as we map Hashtags to seo_keywords and generate other fields automatically or use defaults */}
+                    <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">SEO Configuration (Optional)</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input label="SEO Title (ES)" value={formData.seo_title_es || ''} onChange={e => setFormData({ ...formData, seo_title_es: e.target.value })} />
+                        <Input label="SEO Title (EN)" value={formData.seo_title_en || ''} onChange={e => setFormData({ ...formData, seo_title_en: e.target.value })} />
+
+                        <div className="col-span-2">
+                            <label className="ms-label block mb-1">SEO Description (ES)</label>
+                            <textarea className="ms-input min-h-[80px]" value={formData.seo_description_es || ''} onChange={e => setFormData({ ...formData, seo_description_es: e.target.value })} />
+                        </div>
+                        <div className="col-span-2">
+                            <label className="ms-label block mb-1">SEO Description (EN)</label>
+                            <textarea className="ms-input min-h-[80px]" value={formData.seo_description_en || ''} onChange={e => setFormData({ ...formData, seo_description_en: e.target.value })} />
+                        </div>
+
+                        <div className="col-span-2">
+                            <Input label="SEO Keywords (Comma separated)" value={formData.seo_keywords_es || ''} onChange={e => setFormData({ ...formData, seo_keywords_es: e.target.value })} />
                         </div>
                     </div>
                 </section>
@@ -157,7 +255,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                 {/* Images */}
                 <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
                     <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">Images</h3>
-                    <ImageUploader value={images} onChange={setImages} />
+                    <ImageUploader
+                        value={images}
+                        onChange={setImages}
+                        availableColors={Array.from(new Set(formData.product_variants?.map(v => v.color).filter(Boolean) as string[]))}
+                    />
                 </section>
 
                 {/* Variants */}

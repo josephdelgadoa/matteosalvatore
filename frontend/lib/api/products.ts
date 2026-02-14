@@ -12,6 +12,12 @@ export interface Product {
     subcategory: string;
     product_variants: ProductVariant[];
     product_images: ProductImage[];
+    seo_title_es?: string;
+    seo_title_en?: string;
+    seo_description_es?: string;
+    seo_description_en?: string;
+    seo_keywords_es?: string;
+    seo_keywords_en?: string;
 }
 
 export interface ProductVariant {
@@ -24,9 +30,12 @@ export interface ProductVariant {
 
 export interface ProductImage {
     id: string;
+    product_id: string;
     image_url: string;
+    color?: string | null;
     alt_text_es: string;
     display_order: number;
+    is_primary: boolean;
 }
 
 export const productsApi = {

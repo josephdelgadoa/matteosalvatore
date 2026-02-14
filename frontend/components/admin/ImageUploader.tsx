@@ -7,12 +7,13 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useToast } from '@/components/ui/Toast';
 
 interface ImageUploaderProps {
-    value?: string[];
-    onChange: (urls: string[]) => void;
+    value?: any[]; // Allow string[] or {url, color}[]
+    onChange: (images: any[]) => void;
     maxFiles?: number;
+    availableColors?: string[];
 }
 
-export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploaderProps) => {
+export const ImageUploader = ({ value = [], onChange, maxFiles = 5, availableColors = [] }: ImageUploaderProps) => {
     const [isUploading, setIsUploading] = useState(false);
     const supabase = createClientComponentClient();
     const { addToast } = useToast();
@@ -77,24 +78,59 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
         onChange(value.filter((_, idx) => idx !== indexToRemove));
     };
 
+    const handleColorChange = (index: number, color: string) => {
+        const newValues = [...value];
+        if (typeof newValues[index] === 'string') {
+            // Convert to object if it was a string
+            // @ts-ignore - handling transitional state where value could be string[] or object[]
+            newValues[index] = { image_url: newValues[index], color };
+        } else {
+            // @ts-ignore
+            newValues[index] = { ...newValues[index], color };
+        }
+        onChange(newValues);
+    };
+
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {value.map((url, idx) => (
-                    <div key={idx} className="relative aspect-square bg-ms-pearl border border-ms-fog group overflow-hidden rounded-md">
-                        <div
-                            className="w-full h-full bg-cover bg-center"
-                            style={{ backgroundImage: `url(${url})` }}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => removeImage(idx)}
-                            className="absolute top-1 right-1 bg-ms-white/90 p-1.5 rounded-full text-ms-error opacity-0 group-hover:opacity-100 transition-all hover:bg-ms-white"
-                        >
-                            <X className="w-4 h-4" />
-                        </button>
-                    </div>
-                ))}
+                {value.map((item, idx) => {
+                    const url = typeof item === 'string' ? item : item.image_url;
+                    // @ts-ignore
+                    const color = typeof item === 'string' ? '' : item.color;
+
+                    return (
+                        <div key={idx} className="relative aspect-square bg-ms-pearl border border-ms-fog group overflow-hidden rounded-md">
+                            <div
+                                className="w-full h-full bg-cover bg-center"
+                                style={{ backgroundImage: `url(${url})` }}
+                            />
+
+                            {/* Color Selector Overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-1 transform translate-y-full group-hover:translate-y-0 transition-transform">
+                                <select
+                                    className="w-full text-xs border border-ms-fog rounded px-1 h-6"
+                                    value={color || ''}
+                                    onClick={(e) => e.stopPropagation()}
+                                    onChange={(e) => handleColorChange(idx, e.target.value)}
+                                >
+                                    <option value="">No Color</option>
+                                    {availableColors.map(c => (
+                                        <option key={c} value={c}>{c}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={() => removeImage(idx)}
+                                className="absolute top-1 right-1 bg-ms-white/90 p-1.5 rounded-full text-ms-error opacity-0 group-hover:opacity-100 transition-all hover:bg-ms-white"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                    );
+                })}
 
                 {value.length < maxFiles && (
                     <label className={cn(
@@ -121,7 +157,7 @@ export const ImageUploader = ({ value = [], onChange, maxFiles = 5 }: ImageUploa
                 )}
             </div>
             <p className="text-xs text-ms-stone/60">
-                Upload up to {maxFiles} images. Max 5MB per file.
+                Upload up to {maxFiles} images. Max 5MB per file. Hover to assign colors.
             </p>
         </div>
     );
