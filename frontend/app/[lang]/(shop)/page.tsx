@@ -14,14 +14,22 @@ import { getDictionary } from '../../../get-dictionary';
 
 import { contentApi } from '@/lib/api/content';
 
+export const revalidate = 0;
+
 export default async function Home({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
 
     // Fetch Data
     // 0. Content: Hero Slider
     let heroSlides = await contentApi.getHeroSlides(params.lang);
+    console.log(`[Homepage] Fetched ${heroSlides?.length || 0} slides for ${params.lang}`);
+    if (heroSlides && heroSlides.length > 0) {
+        console.log('[Homepage] First Slide ID:', heroSlides[0].id, 'Image:', heroSlides[0].image);
+    }
+
     // Fallback to dictionary if empty (or if migration not run yet)
     if (!heroSlides || heroSlides.length === 0) {
+        console.log('[Homepage] Using fallback slides from dictionary');
         heroSlides = dict.hero.slides.map((s, i) => ({ ...s, id: i + 1, link: s.link || '/products' }));
     }
 

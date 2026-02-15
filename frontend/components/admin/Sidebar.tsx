@@ -19,6 +19,7 @@ const menuItems = [
     { href: '/admin/products', label: 'Products', icon: ShoppingBag },
     { href: '/admin/orders', label: 'Orders', icon: Package },
     { href: '/admin/customers', label: 'Customers', icon: Users },
+    { href: '/admin/users', label: 'Users', icon: Users },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

@@ -193,7 +193,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
                         <div className="col-span-2">
                             <div className="flex justify-between mb-1">
-                                <label className="ms-label block">Description (ES)</label>
+                                <label className="ms-label block">Description (ES) <span className="text-xs font-normal text-ms-stone ml-2">(Supports HTML)</span></label>
                                 <span className="text-xs text-ms-stone">{(formData.description_es || '').length} chars</span>
                             </div>
                             <textarea
@@ -205,7 +205,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
                         <div className="col-span-2">
                             <div className="flex justify-between mb-1">
-                                <label className="ms-label block">Description (EN)</label>
+                                <label className="ms-label block">Description (EN) <span className="text-xs font-normal text-ms-stone ml-2">(Supports HTML)</span></label>
                                 <span className="text-xs text-ms-stone">{(formData.description_en || '').length} chars</span>
                             </div>
                             <textarea
@@ -258,6 +258,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     <ImageUploader
                         value={images}
                         onChange={setImages}
+                        maxFiles={50}
                         availableColors={Array.from(new Set(formData.product_variants?.map(v => v.color).filter(Boolean) as string[]))}
                     />
                 </section>

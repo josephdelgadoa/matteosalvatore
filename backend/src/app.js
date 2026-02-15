@@ -18,7 +18,8 @@ app.use(cors({
 }));
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Data compression
 app.use(compression());
@@ -37,12 +38,14 @@ const cartRouter = require('./routes/cart');
 const ordersRouter = require('./routes/orders');
 const paymentRouter = require('./routes/payment');
 const contentRouter = require('./routes/content');
+const usersRouter = require('./routes/users');
 
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/content', contentRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/health', require('./routes/health'));
 
 app.get('/', (req, res) => {

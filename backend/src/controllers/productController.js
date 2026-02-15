@@ -162,7 +162,9 @@ exports.createProduct = async (req, res, next) => {
                 return {
                     product_id: productId,
                     ...variant,
-                    sku_variant: skuVariant
+                    sku_variant: skuVariant,
+                    stock_quantity: variant.stock_quantity || 0,
+                    is_available: variant.is_available !== false
                 };
             });
 
@@ -172,6 +174,7 @@ exports.createProduct = async (req, res, next) => {
 
             if (variantsError) {
                 logger.error('Error inserting variants:', variantsError);
+                throw variantsError;
             }
         }
 
@@ -235,9 +238,13 @@ exports.updateProduct = async (req, res, next) => {
             await supabase.from('product_variants').delete().eq('product_id', id);
 
             if (variantsToUpdate.length > 0) {
-                const variantInserts = variantsToUpdate.map(variant => {
+                const variantInserts = [];
+                const processedSkus = new Set(); // Track SKUs in this batch to prevent duplicates
+
+                for (const variant of variantsToUpdate) {
                     // Generate SKU for variant if missing
                     let skuVariant = variant.sku_variant;
+
                     if (!skuVariant && product.sku) {
                         const cleanSize = (variant.size || 'OS').toUpperCase().replace(/[^A-Z0-9]/g, '');
                         const cleanColor = (variant.color || 'GEN').toUpperCase().substring(0, 3).replace(/[^A-Z0-9]/g, '');
@@ -246,19 +253,53 @@ exports.updateProduct = async (req, res, next) => {
                         skuVariant = `VAR-${Math.floor(Math.random() * 100000)}`;
                     }
 
-                    return {
+                    // 1. Ensure uniqueness within this batch
+                    let counter = 1;
+                    let baseSku = skuVariant;
+                    while (processedSkus.has(skuVariant)) {
+                        skuVariant = `${baseSku}-${counter}`;
+                        counter++;
+                    }
+
+                    // 2. Ensure uniqueness against DB (other products)
+                    // We check DB for collision. If found, we append random.
+                    const { data: existing } = await supabase
+                        .from('product_variants')
+                        .select('id')
+                        .eq('sku_variant', skuVariant)
+                        .maybeSingle();
+
+                    if (existing) {
+                        // If it exists in DB, it might be a collision with another product.
+                        // Append a random 4-digit number.
+                        skuVariant = `${skuVariant}-${Math.floor(Math.random() * 9000) + 1000}`;
+
+                        // Double check batch uniqueness again after DB modification
+                        while (processedSkus.has(skuVariant)) {
+                            skuVariant = `${skuVariant}-${Math.floor(Math.random() * 9000) + 1000}`;
+                        }
+                    }
+
+                    processedSkus.add(skuVariant);
+
+                    variantInserts.push({
                         product_id: id,
                         size: variant.size,
                         color: variant.color,
                         stock_quantity: variant.stock_quantity || 0,
-                        price_adjustment: variant.price_adjustment || 0,
                         is_available: variant.is_available !== false,
                         sku_variant: skuVariant
-                    };
-                });
+                    });
+                }
 
-                const { error: variantsError } = await supabase.from('product_variants').insert(variantInserts);
-                if (variantsError) logger.error('Error inserting variants on update:', variantsError);
+                logger.info(`Inserting ${variantInserts.length} variants for product update...`);
+                if (variantInserts.length > 0) {
+                    const { error: variantsError } = await supabase.from('product_variants').insert(variantInserts);
+                    if (variantsError) {
+                        logger.error('Error inserting variants on update:', variantsError);
+                        throw variantsError;
+                    }
+                }
             }
         }
 
