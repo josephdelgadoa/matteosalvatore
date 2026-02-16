@@ -14,7 +14,9 @@ export const NewsletterPopup = () => {
     useEffect(() => {
         // Check localStorage to see if user has already seen/closed the popup
         const hasSeenPopup = localStorage.getItem('ms_newsletter_seen');
-        if (!hasSeenPopup) {
+        const isForced = window.location.hash === '#newsletter';
+
+        if (!hasSeenPopup || isForced) {
             const timer = setTimeout(() => {
                 setIsOpen(true);
             }, 3000); // 3 seconds delay
