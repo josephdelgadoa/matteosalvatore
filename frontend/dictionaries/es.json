@@ -53,6 +53,17 @@
         "footwear": "Calzado",
         "explore": "Explorar",
         "trending": "Tendencia Ahora",
+        "featuredCategories": "Categorías Destacadas",
+        "categories": {
+            "poloBasico": "Polo Básico",
+            "setTulum": "Set Tulum",
+            "conjuntoRangla": "Conjunto Rangla",
+            "hoodiePremium": "Hoodie Premium",
+            "cargoFit": "Cargo Fit",
+            "skinnyFit": "Skinny Fit",
+            "joggerCargoFit": "Jogger Cargo Fit",
+            "calzado": "Calzado"
+        },
         "finishingTouches": "Toques Finales",
         "philosophy": {
             "title": "Nuestra Filosofía",

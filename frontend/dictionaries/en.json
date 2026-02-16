@@ -53,6 +53,17 @@
         "footwear": "Footwear",
         "explore": "Explore",
         "trending": "Trending Now",
+        "featuredCategories": "Featured Categories",
+        "categories": {
+            "poloBasico": "Basic Polo",
+            "setTulum": "Tulum Set",
+            "conjuntoRangla": "Rangla Set",
+            "hoodiePremium": "Premium Hoodie",
+            "cargoFit": "Cargo Fit",
+            "skinnyFit": "Skinny Fit",
+            "joggerCargoFit": "Jogger Cargo Fit",
+            "calzado": "Footwear"
+        },
         "finishingTouches": "Finishing Touches",
         "philosophy": {
             "title": "Our Philosophy",

@@ -56,23 +56,32 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
 
             {/* Featured Categories */}
             <section className="ms-container">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    <Link href={`/${params.lang}/category/clothing`} className="group block overflow-hidden relative aspect-[4/5] md:aspect-[3/2]">
-                        <div className="absolute inset-0 bg-ms-black/10 group-hover:bg-ms-black/0 transition-colors z-10" />
-                        <div className="absolute inset-0 bg-[url('/images/matteo-salvatore-hoddies-2.jpeg')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
-                        <div className="absolute bottom-8 left-8 z-20">
-                            <h3 className="text-3xl font-serif text-ms-white mb-2">{dict.home.clothing}</h3>
-                            <span className="text-sm uppercase tracking-widest text-ms-white border-b border-white pb-1">{dict.home.explore}</span>
-                        </div>
-                    </Link>
-                    <Link href={`/${params.lang}/category/footwear`} className="group block overflow-hidden relative aspect-[4/5] md:aspect-[3/2]">
-                        <div className="absolute inset-0 bg-ms-black/10 group-hover:bg-ms-black/0 transition-colors z-10" />
-                        <div className="absolute inset-0 bg-[url('/images/matteo-salvatore-joggers.jpeg')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
-                        <div className="absolute bottom-8 left-8 z-20">
-                            <h3 className="text-3xl font-serif text-ms-white mb-2">{dict.home.footwear}</h3>
-                            <span className="text-sm uppercase tracking-widest text-ms-white border-b border-white pb-1">{dict.home.explore}</span>
-                        </div>
-                    </Link>
+                <h2 className="ms-heading-2 mb-12 text-center text-ms-black">{dict.home.featuredCategories}</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                    {[
+                        { key: 'poloBasico', img: '/images/hero-image-ruso-1.jpeg', link: 'Polo Basico' }, // Reusing hero image
+                        { key: 'setTulum', img: '/images/hero-image-ruso-2.jpeg', link: 'Set Tulum' }, // Reusing hero image
+                        { key: 'conjuntoRangla', img: '/images/hero-image-01.png', link: 'Conjunto Rangla' }, // Reusing hero image
+                        { key: 'hoodiePremium', img: '/images/hero-hoddie.jpeg', link: 'Hoodie Premium' },
+                        { key: 'cargoFit', img: '/images/hero-cargo-pants.jpeg', link: 'Cargo Fit' },
+                        { key: 'skinnyFit', img: '/images/hero-image-ruso-2.jpeg', link: 'Skinny Fit' }, // Reusing existing
+                        { key: 'joggerCargoFit', img: '/images/hero-jogger.jpeg', link: 'Jogger Cargo Fit' },
+                        { key: 'calzado', img: '/images/matteo-salvatore-joggers.jpeg', link: 'Calzado' } // Reusing existing
+                    ].map((category) => (
+                        <Link key={category.key} href={`/${params.lang}/products?q=${encodeURIComponent(category.link)}`} className="group block relative aspect-[3/4] overflow-hidden rounded-lg">
+                            <div className="absolute inset-0 bg-ms-black/20 group-hover:bg-ms-black/10 transition-colors z-10" />
+                            <div
+                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                                style={{ backgroundImage: `url('${category.img}')` }}
+                            />
+                            <div className="absolute bottom-4 left-4 z-20">
+                                <h3 className="text-xl font-serif text-ms-white mb-1 group-hover:translate-x-1 transition-transform">
+                                    {/* @ts-ignore */}
+                                    {dict.home.categories[category.key]}
+                                </h3>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </section>
 
