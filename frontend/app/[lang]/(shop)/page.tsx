@@ -13,6 +13,13 @@ import { Locale } from '@/i18n-config';
 import { getDictionary } from '../../../get-dictionary';
 
 import { contentApi } from '@/lib/api/content';
+import { createClient } from '@supabase/supabase-js';
+
+// Server-side supabase client for fetching categories
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export const revalidate = 0;
 
@@ -22,16 +29,53 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     // Fetch Data
     // 0. Content: Hero Slider
     let heroSlides = await contentApi.getHeroSlides(params.lang);
-    console.log(`[Homepage] Fetched ${heroSlides?.length || 0} slides for ${params.lang}`);
-    if (heroSlides && heroSlides.length > 0) {
-        console.log('[Homepage] First Slide ID:', heroSlides[0].id, 'Image:', heroSlides[0].image);
-    }
 
     // Fallback to dictionary if empty (or if migration not run yet)
     if (!heroSlides || heroSlides.length === 0) {
-        console.log('[Homepage] Using fallback slides from dictionary');
         heroSlides = dict.hero.slides.map((s, i) => ({ ...s, id: i + 1, link: s.link || '/products' }));
     }
+
+    // 0.1 Featured Categories (Dynamic)
+    let categories: any[] = [];
+    try {
+        const { data } = await supabase
+            .from('featured_categories')
+            .select('*')
+            .eq('is_active', true)
+            .order('display_order', { ascending: true })
+            .limit(5); // Get top 5 for the grid
+
+        categories = data || [];
+
+        // Map to display structure
+        if (categories.length > 0) {
+            categories = categories.map(c => ({
+                key: c.id,
+                img: c.image_url,
+                link: c.link_url,
+                // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
+                title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es)
+            }));
+        }
+    } catch (e) {
+        console.error('Error fetching categories:', e);
+    }
+
+    // Fallback if no dynamic categories
+    if (categories.length === 0) {
+        // ... (Keep existing fallback if needed, or render nothing)
+        categories = [
+            { key: 'poloBasico', img: '/images/hero-image-ruso-1.jpeg', link: 'Polo Basico', title: 'Polo Basico' },
+            { key: 'setTulum', img: '/images/hero-image-ruso-2.jpeg', link: 'Set Tulum', title: 'Set Tulum' },
+            { key: 'conjuntoRangla', img: '/images/hero-image-01.png', link: 'Conjunto Rangla', title: 'Conjunto Rangla' },
+            { key: 'hoodiePremium', img: '/images/hero-hoddie.jpeg', link: 'Hoodie Premium', title: 'Hoodie Premium' },
+            { key: 'cargoFit', img: '/images/hero-cargo-pants.jpeg', link: 'Cargo Fit', title: 'Cargo Fit' }
+        ];
+    }
+
+    // Ensure we have exactly 5 items for the grid by padding if necessary (or just rendering what we have safely)
+    // The grid usage below depends on index, so it handles < 5 items gracefully but layout might look incomplete.
+
 
     // 1. Trending: Newest products
     const trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
@@ -54,34 +98,62 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 viewAllLink={`/${params.lang}/products`}
             />
 
-            {/* Featured Categories */}
+            {/* Featured Categories (Custom 5-Item Grid) */}
             <section className="ms-container">
                 <h2 className="ms-heading-2 mb-12 text-center text-ms-black">{dict.home.featuredCategories}</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                    {[
-                        { key: 'poloBasico', img: '/images/hero-image-ruso-1.jpeg', link: 'Polo Basico' }, // Reusing hero image
-                        { key: 'setTulum', img: '/images/hero-image-ruso-2.jpeg', link: 'Set Tulum' }, // Reusing hero image
-                        { key: 'conjuntoRangla', img: '/images/hero-image-01.png', link: 'Conjunto Rangla' }, // Reusing hero image
-                        { key: 'hoodiePremium', img: '/images/hero-hoddie.jpeg', link: 'Hoodie Premium' },
-                        { key: 'cargoFit', img: '/images/hero-cargo-pants.jpeg', link: 'Cargo Fit' },
-                        { key: 'skinnyFit', img: '/images/hero-image-ruso-2.jpeg', link: 'Skinny Fit' }, // Reusing existing
-                        { key: 'joggerCargoFit', img: '/images/hero-jogger.jpeg', link: 'Jogger Cargo Fit' },
-                        { key: 'calzado', img: '/images/matteo-salvatore-joggers.jpeg', link: 'Calzado' } // Reusing existing
-                    ].map((category) => (
-                        <Link key={category.key} href={`/${params.lang}/products?q=${encodeURIComponent(category.link)}`} className="group block relative aspect-[3/4] overflow-hidden rounded-lg">
-                            <div className="absolute inset-0 bg-ms-black/20 group-hover:bg-ms-black/10 transition-colors z-10" />
-                            <div
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                                style={{ backgroundImage: `url('${category.img}')` }}
-                            />
-                            <div className="absolute bottom-4 left-4 z-20">
-                                <h3 className="text-xl font-serif text-ms-white mb-1 group-hover:translate-x-1 transition-transform">
-                                    {/* @ts-ignore */}
-                                    {dict.home.categories[category.key]}
-                                </h3>
+
+                {/* Desktop: 2 Cols (50/50). Left is 1 item. Right is 2 rows of 2 items. Gap 20px. */}
+                <div className="flex flex-col md:flex-row gap-[20px] h-auto md:h-[800px]">
+
+                    {/* Left Column (50%) - Item 0 */}
+                    <div className="w-full md:w-1/2 h-[400px] md:h-full">
+                        {categories[0] && (
+                            <Link href={categories[0].link.startsWith('http') ? categories[0].link : `/${params.lang}/products?q=${encodeURIComponent(categories[0].link)}`} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                <CategoryCardContent category={categories[0]} dict={dict} />
+                            </Link>
+                        )}
+                    </div>
+
+                    {/* Right Column (50%) - Items 1-4 */}
+                    <div className="w-full md:w-1/2 flex flex-col gap-[20px] h-full">
+
+                        {/* Top Row (50%) - Items 1 & 2 */}
+                        <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
+                            <div className="w-full md:w-1/2 h-full">
+                                {categories[1] && (
+                                    <Link href={categories[1].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                        <CategoryCardContent category={categories[1]} dict={dict} />
+                                    </Link>
+                                )}
                             </div>
-                        </Link>
-                    ))}
+                            <div className="w-full md:w-1/2 h-full">
+                                {categories[2] && (
+                                    <Link href={categories[2].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                        <CategoryCardContent category={categories[2]} dict={dict} />
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Bottom Row (50%) - Items 3 & 4 */}
+                        <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
+                            <div className="w-full md:w-1/2 h-full">
+                                {categories[3] && (
+                                    <Link href={categories[3].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                        <CategoryCardContent category={categories[3]} dict={dict} />
+                                    </Link>
+                                )}
+                            </div>
+                            <div className="w-full md:w-1/2 h-full">
+                                {categories[4] && (
+                                    <Link href={categories[4].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                        <CategoryCardContent category={categories[4]} dict={dict} />
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </section>
 
@@ -151,3 +223,21 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     );
 }
 
+// Helper component for content to reduce duplication
+function CategoryCardContent({ category, dict }: { category: any, dict: any }) {
+    return (
+        <>
+            <div className="absolute inset-0 bg-ms-black/20 group-hover:bg-ms-black/10 transition-colors z-10" />
+            <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={{ backgroundImage: `url('${category.img}')` }}
+            />
+            <div className="absolute bottom-4 left-4 z-20">
+                <h3 className="text-xl font-serif text-ms-white mb-1 group-hover:translate-x-1 transition-transform">
+                    {/* @ts-ignore */}
+                    {dict.home.categories?.[category.key] || category.title}
+                </h3>
+            </div>
+        </>
+    );
+}

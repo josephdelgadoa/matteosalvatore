@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { productsApi, Product, ProductVariant } from '@/lib/api/products';
+import { productCategoriesApi, ProductCategory } from '@/lib/api/productCategories';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { ImageUploader } from '@/components/admin/ImageUploader';
-import { Trash, Plus } from 'lucide-react';
-import { PRODUCT_CATEGORIES } from '@/lib/constants';
+import { Trash, Plus, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 
 export default function ProductFormPage({ params }: { params: { id: string } }) {
     const router = useRouter();
@@ -18,6 +19,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
     const [isLoading, setIsLoading] = useState(!isNew);
     const [isSaving, setIsSaving] = useState(false);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
 
     // Form State
     const [formData, setFormData] = useState<Partial<Product>>({
@@ -26,9 +28,9 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         slug: '',
         description_es: '',
         description_en: '',
-        seo_keywords_es: '', // Mapped to Hashtags
+        seo_keywords_es: '',
         base_price: 0,
-        category: 'clothing',
+        category: '',
         subcategory: '',
         product_images: [],
         product_variants: []
@@ -37,21 +39,46 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     const [images, setImages] = useState<any[]>([]);
 
     useEffect(() => {
-        if (!isNew) {
-            const fetchProduct = async () => {
-                try {
+        const loadData = async () => {
+            try {
+                // 1. Fetch Categories
+                const cats = await productCategoriesApi.getAll();
+                setCategories(cats);
+
+                // 2. Fetch Product if existing
+                if (!isNew) {
                     const product = await productsApi.getBySlug(params.id);
                     setFormData(product);
                     setImages(product.product_images?.sort((a: any, b: any) => a.display_order - b.display_order) || []);
-                } catch (err) {
-                    addToast('Failed to load product', 'error');
-                } finally {
-                    setIsLoading(false);
                 }
-            };
-            fetchProduct();
-        }
+            } catch (err) {
+                console.error(err);
+                addToast('Failed to load data', 'error');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        loadData();
     }, [params.id, isNew, addToast]);
+
+    // Derived State for Taxonomy logic
+    // Roots: No parent_id
+    const rootCategories = useMemo(() =>
+        categories.filter(c => !c.parent_id && c.is_active),
+        [categories]);
+
+    // Available subcategories based on selected root slug
+    const availableSubcategories = useMemo(() => {
+        if (!formData.category) return [];
+        // Find the root category object that matches the current selected slug
+        const parent = categories.find(c => c.slug === formData.category || c.id === formData.category); // Handle legacy ID or Slug match?
+        // Actually, let's look for slug match first as that's what we store
+        const parentObj = categories.find(c => c.slug === formData.category);
+
+        if (!parentObj) return [];
+
+        return categories.filter(c => c.parent_id === parentObj.id && c.is_active);
+    }, [categories, formData.category]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -60,7 +87,6 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         try {
             const payload = {
                 ...formData,
-                // Reconstruct images array from simple URLs
                 product_images: images.map((img, idx) => ({
                     image_url: typeof img === 'string' ? img : img.image_url,
                     color: typeof img === 'string' ? null : img.color,
@@ -73,14 +99,12 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                 await productsApi.create(payload);
                 addToast('Product created successfully', 'success');
             } else {
-                // Need ID for update. If we fetched by slug, we have ID in formData.
                 if (formData.id) {
                     await productsApi.update(formData.id, payload);
                     addToast('Product updated successfully', 'success');
                 }
             }
 
-            // Redirect after delay
             setTimeout(() => router.push('/admin/products'), 1000);
 
         } catch (err: any) {
@@ -129,7 +153,6 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
             <form onSubmit={handleSubmit} className="space-y-8">
 
-                {/* Basic Info */}
                 <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
                     <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">Basic Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -144,7 +167,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 required
                                 placeholder="e.g. urban-hoodie-black"
                             />
-                            <p className="text-xs text-ms-stone mt-1">Unique identifier for the URL (e.g. domain.com/products/<b>your-slug</b>)</p>
+                            <p className="text-xs text-ms-stone mt-1">Unique identifier for the URL</p>
                         </div>
                         <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
 
@@ -164,9 +187,9 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     required
                                 >
                                     <option value="">Select Category</option>
-                                    {PRODUCT_CATEGORIES.map(cat => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.label.es}
+                                    {rootCategories.map(cat => (
+                                        <option key={cat.id} value={cat.slug}>
+                                            {cat.name_es}
                                         </option>
                                     ))}
                                 </select>
@@ -178,13 +201,12 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     className="ms-input w-full h-10"
                                     value={formData.subcategory || ''}
                                     onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
-                                    disabled={!formData.category} // Disable if no category selected
+                                    disabled={!formData.category || availableSubcategories.length === 0}
                                 >
                                     <option value="">Select Subcategory</option>
-                                    {/* Safely map subcategories */}
-                                    {PRODUCT_CATEGORIES.find(c => c.id === formData.category)?.subcategories?.map(sub => (
-                                        <option key={sub.id} value={sub.id}>
-                                            {sub.label.es}
+                                    {availableSubcategories.map(sub => (
+                                        <option key={sub.id} value={sub.slug}>
+                                            {sub.name_es}
                                         </option>
                                     ))}
                                 </select>
@@ -202,7 +224,6 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 onChange={e => setFormData({ ...formData, description_es: e.target.value })}
                             />
                         </div>
-
                         <div className="col-span-2">
                             <div className="flex justify-between mb-1">
                                 <label className="ms-label block">Description (EN) <span className="text-xs font-normal text-ms-stone ml-2">(Supports HTML)</span></label>
@@ -221,38 +242,14 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 <span className="text-xs text-ms-stone">Comma separated</span>
                             </div>
                             <Input
-                                placeholder="e.g. streetwear, premium, hoodie, lima"
+                                placeholder="e.g. streetwear, premium"
                                 value={formData.seo_keywords_es || ''}
                                 onChange={e => setFormData({ ...formData, seo_keywords_es: e.target.value, seo_keywords_en: e.target.value })}
                             />
-                            <p className="text-xs text-ms-stone mt-1">Used for SEO and internal search.</p>
                         </div>
                     </div>
                 </section>
 
-                {/* SEO Configuration */}
-                <section className="bg-ms-white p-6 border border-ms-fog space-y-4 hidden"> {/* Hidden for now as we map Hashtags to seo_keywords and generate other fields automatically or use defaults */}
-                    <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">SEO Configuration (Optional)</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <Input label="SEO Title (ES)" value={formData.seo_title_es || ''} onChange={e => setFormData({ ...formData, seo_title_es: e.target.value })} />
-                        <Input label="SEO Title (EN)" value={formData.seo_title_en || ''} onChange={e => setFormData({ ...formData, seo_title_en: e.target.value })} />
-
-                        <div className="col-span-2">
-                            <label className="ms-label block mb-1">SEO Description (ES)</label>
-                            <textarea className="ms-input min-h-[80px]" value={formData.seo_description_es || ''} onChange={e => setFormData({ ...formData, seo_description_es: e.target.value })} />
-                        </div>
-                        <div className="col-span-2">
-                            <label className="ms-label block mb-1">SEO Description (EN)</label>
-                            <textarea className="ms-input min-h-[80px]" value={formData.seo_description_en || ''} onChange={e => setFormData({ ...formData, seo_description_en: e.target.value })} />
-                        </div>
-
-                        <div className="col-span-2">
-                            <Input label="SEO Keywords (Comma separated)" value={formData.seo_keywords_es || ''} onChange={e => setFormData({ ...formData, seo_keywords_es: e.target.value })} />
-                        </div>
-                    </div>
-                </section>
-
-                {/* Images */}
                 <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
                     <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">Images</h3>
                     <ImageUploader
@@ -263,7 +260,6 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     />
                 </section>
 
-                {/* Variants */}
                 <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
                     <div className="flex items-center justify-between border-b border-ms-fog pb-2 mb-4">
                         <h3 className="font-medium text-lg">Variants</h3>
@@ -272,50 +268,34 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                         </Button>
                     </div>
 
-                    <div className="space-y-3">
+                    <Reorder.Group axis="y" values={formData.product_variants || []} onReorder={(newVariants) => setFormData({ ...formData, product_variants: newVariants })} className="space-y-3">
                         {formData.product_variants?.map((variant, idx) => (
-                            <div key={idx} className="flex gap-4 items-end bg-ms-ivory/30 p-3 border border-ms-fog">
+                            <Reorder.Item key={variant.sku_variant || idx} value={variant} className="flex gap-4 items-end bg-ms-ivory/30 p-3 border border-ms-fog cursor-default">
+                                <div className="cursor-grab active:cursor-grabbing p-2 text-ms-stone hover:text-ms-black">
+                                    <GripVertical className="w-5 h-5" />
+                                </div>
                                 <div className="w-24">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Size</label>
-                                    <input
-                                        className="ms-input h-8 text-sm"
-                                        value={variant.size}
-                                        onChange={e => handleVariantChange(idx, 'size', e.target.value)}
-                                    />
+                                    <input className="ms-input h-8 text-sm" value={variant.size} onChange={e => handleVariantChange(idx, 'size', e.target.value)} />
                                 </div>
                                 <div className="w-32">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Color</label>
-                                    <input
-                                        className="ms-input h-8 text-sm"
-                                        value={variant.color}
-                                        onChange={e => handleVariantChange(idx, 'color', e.target.value)}
-                                    />
+                                    <input className="ms-input h-8 text-sm" value={variant.color} onChange={e => handleVariantChange(idx, 'color', e.target.value)} />
                                 </div>
                                 <div className="w-24">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Stock</label>
-                                    <input
-                                        type="number"
-                                        className="ms-input h-8 text-sm"
-                                        value={variant.stock_quantity}
-                                        onChange={e => handleVariantChange(idx, 'stock_quantity', parseInt(e.target.value))}
-                                    />
+                                    <input type="number" className="ms-input h-8 text-sm" value={variant.stock_quantity} onChange={e => handleVariantChange(idx, 'stock_quantity', parseInt(e.target.value))} />
                                 </div>
-                                <Button
-                                    type="button"
-                                    variant="text"
-                                    className="text-ms-error hover:bg-ms-error/10 h-8 w-8 ml-auto"
-                                    onClick={() => removeVariant(idx)}
-                                >
+                                <button type="button" className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 flex items-center justify-center rounded-md ml-auto" onClick={() => removeVariant(idx)}>
                                     <Trash className="w-4 h-4" />
-                                </Button>
-                            </div>
+                                </button>
+                            </Reorder.Item>
                         ))}
-                        {(!formData.product_variants || formData.product_variants.length === 0) && (
-                            <p className="text-sm text-ms-stone italic">No variants added.</p>
-                        )}
-                    </div>
+                    </Reorder.Group>
+                    {(!formData.product_variants || formData.product_variants.length === 0) && (
+                        <p className="text-sm text-ms-stone italic">No variants added.</p>
+                    )}
                 </section>
-
             </form>
         </div>
     );

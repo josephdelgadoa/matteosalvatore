@@ -26,6 +26,7 @@ export interface ProductVariant {
     color: string;
     stock_quantity: number;
     is_available: boolean;
+    sku_variant?: string;
 }
 
 export interface ProductImage {

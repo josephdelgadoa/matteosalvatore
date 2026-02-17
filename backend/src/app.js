@@ -39,6 +39,8 @@ const ordersRouter = require('./routes/orders');
 const paymentRouter = require('./routes/payment');
 const contentRouter = require('./routes/content');
 const usersRouter = require('./routes/users');
+const categoriesRouter = require('./routes/categories');
+const productCategoriesRouter = require('./routes/productCategories'); // Taxonomy (New)
 
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
@@ -46,6 +48,8 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/content', contentRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/categories', categoriesRouter);
+app.use('/api/product-categories', productCategoriesRouter);
 app.use('/api/health', require('./routes/health'));
 
 app.get('/', (req, res) => {
@@ -76,5 +80,6 @@ app.use((err, req, res, next) => {
         stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
     });
 });
+
 
 module.exports = app;

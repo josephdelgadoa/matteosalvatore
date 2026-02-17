@@ -17,6 +17,8 @@ import {
 const menuItems = [
     { href: '/admin', label: 'Overview', icon: LayoutDashboard },
     { href: '/admin/products', label: 'Products', icon: ShoppingBag },
+    { href: '/admin/categories', label: 'Product Categories', icon: LayoutDashboard }, // Renamed
+    { href: '/admin/settings/categories-images', label: 'Categories Images', icon: LayoutDashboard },
     { href: '/admin/orders', label: 'Orders', icon: Package },
     { href: '/admin/customers', label: 'Customers', icon: Users },
     { href: '/admin/users', label: 'Users', icon: Users },
