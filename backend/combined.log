@@ -212,3 +212,5 @@
 {"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-02-17T04:19:21.453Z"}
 {"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-17T04:52:19.323Z"}
 {"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-17T04:53:15.736Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-17T05:09:34.480Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-17T05:09:35.988Z"}

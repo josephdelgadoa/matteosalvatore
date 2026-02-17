@@ -48,6 +48,7 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
+        console.log('Creating category with body:', req.body);
         const { title_es, title_en, subtitle_es, subtitle_en, image_url, link_url, display_order, is_active } = req.body;
 
         const { data, error } = await supabase
@@ -56,16 +57,20 @@ exports.create = async (req, res) => {
             .select()
             .single();
 
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase Create Error:', error);
+            throw error;
+        }
         res.status(201).json(data);
     } catch (err) {
         console.error('Error creating category:', err);
-        res.status(500).json({ error: 'Failed to create category' });
+        res.status(500).json({ error: 'Failed to create category', details: err.message, hint: err.hint });
     }
 };
 
 exports.update = async (req, res) => {
     try {
+        console.log(`Updating category ${req.params.id} with:`, req.body);
         const { id } = req.params;
         const { id: _, created_at, updated_at, ...updates } = req.body;
 
@@ -76,11 +81,14 @@ exports.update = async (req, res) => {
             .select()
             .single();
 
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase Update Error:', error);
+            throw error;
+        }
         res.status(200).json(data);
     } catch (err) {
         console.error('Error updating category:', err);
-        res.status(500).json({ error: 'Failed to update category' });
+        res.status(500).json({ error: 'Failed to update category', details: err.message, hint: err.hint });
     }
 };
 
