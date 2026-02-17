@@ -52,9 +52,9 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             categories = categories.map(c => ({
                 key: c.id,
                 img: c.image_url,
-                link: c.link_url,
                 // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
-                title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es)
+                title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es),
+                link: c.link_url || '#' // Fallback to avoid null pointer
             }));
         }
     } catch (e) {
@@ -108,7 +108,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                     {/* Left Column (50%) - Item 0 */}
                     <div className="w-full md:w-1/2 h-[400px] md:h-full">
                         {categories[0] && (
-                            <Link href={categories[0].link.startsWith('http') ? categories[0].link : `/${params.lang}/products?q=${encodeURIComponent(categories[0].link)}`} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                            <Link href={formatCategoryLink(categories[0].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                 <CategoryCardContent category={categories[0]} dict={dict} />
                             </Link>
                         )}
@@ -121,14 +121,14 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                         <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
                             <div className="w-full md:w-1/2 h-full">
                                 {categories[1] && (
-                                    <Link href={categories[1].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                    <Link href={formatCategoryLink(categories[1].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[1]} dict={dict} />
                                     </Link>
                                 )}
                             </div>
                             <div className="w-full md:w-1/2 h-full">
                                 {categories[2] && (
-                                    <Link href={categories[2].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                    <Link href={formatCategoryLink(categories[2].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[2]} dict={dict} />
                                     </Link>
                                 )}
@@ -139,14 +139,14 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                         <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
                             <div className="w-full md:w-1/2 h-full">
                                 {categories[3] && (
-                                    <Link href={categories[3].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                    <Link href={formatCategoryLink(categories[3].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[3]} dict={dict} />
                                     </Link>
                                 )}
                             </div>
                             <div className="w-full md:w-1/2 h-full">
                                 {categories[4] && (
-                                    <Link href={categories[4].link || '#'} className="group block relative w-full h-full overflow-hidden rounded-lg">
+                                    <Link href={formatCategoryLink(categories[4].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[4]} dict={dict} />
                                     </Link>
                                 )}
@@ -223,6 +223,27 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     );
 }
 
+// Helper to generate clean, safe links
+function formatCategoryLink(link: string | null, lang: string): string {
+    if (!link) return '#';
+    // External links
+    if (link.startsWith('http://') || link.startsWith('https://')) return link;
+    // Internal absolute paths (user knows what they are doing)
+    if (link.startsWith('/')) return link;
+
+    // Default: Slugify and link to category page
+    // "Polo Basico" -> "polo-basico"
+    const slug = link.toLowerCase().trim()
+        .replace(/[^\w\s-]/g, '') // Remove special chars
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/-+/g, '-');     // Collaborative dashes
+
+    // Fallback if slug is empty
+    if (!slug) return `/${lang}/products`;
+
+    return `/${lang}/category/${slug}`;
+}
+
 // Helper component for content to reduce duplication
 function CategoryCardContent({ category, dict }: { category: any, dict: any }) {
     return (
@@ -230,7 +251,7 @@ function CategoryCardContent({ category, dict }: { category: any, dict: any }) {
             <div className="absolute inset-0 bg-ms-black/20 group-hover:bg-ms-black/10 transition-colors z-10" />
             <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url('${category.img}')` }}
+                style={{ backgroundImage: `url('${category.image_url || category.img}')` }}
             />
             <div className="absolute bottom-4 left-4 z-20">
                 <h3 className="text-xl font-serif text-ms-white mb-1 group-hover:translate-x-1 transition-transform">

@@ -11,7 +11,8 @@ import {
     Users,
     Settings,
     Package,
-    LogOut
+    LogOut,
+    Menu
 } from 'lucide-react';
 
 const menuItems = [
@@ -22,6 +23,7 @@ const menuItems = [
     { href: '/admin/orders', label: 'Orders', icon: Package },
     { href: '/admin/customers', label: 'Customers', icon: Users },
     { href: '/admin/users', label: 'Users', icon: Users },
+    { href: '/admin/settings/menu', label: 'Menu Bar', icon: Menu },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

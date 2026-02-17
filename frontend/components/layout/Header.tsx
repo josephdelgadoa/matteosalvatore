@@ -49,6 +49,29 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
         }
     };
 
+    // Fetch menu items
+    const [menuItems, setMenuItems] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchMenu = async () => {
+            try {
+                // We need to import menuApi here. 
+                // Since I cannot add import easily with this tool without overwriting top, I will assume I added it.
+                // Wait, I need to add the import first.
+                // Let's do this in two steps.
+                // Actually, I can use dynamic import or just added it to the top.
+                // I will add the import in a separate call or try to combine.
+            } catch (error) {
+                console.error('Failed to fetch menu:', error);
+            }
+        };
+
+        // Dynamic import to avoid breaking changes if I miss the top import
+        import('@/lib/api/menu').then(({ menuApi }) => {
+            menuApi.getAll().then(data => setMenuItems(data)).catch(console.error);
+        });
+    }, []);
+
     return (
         <>
             <header
@@ -88,7 +111,7 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
                     <div className="flex items-center gap-8">
                         {/* Desktop Navigation */}
                         <div className="hidden md:block">
-                            <Navigation lang={lang} dict={dict} />
+                            <Navigation lang={lang} dict={dict} menuItems={menuItems} />
                         </div>
 
                         {/* Icons */}
@@ -164,6 +187,7 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
                 lang={lang}
                 dict={dict}
                 commonDict={commonDict}
+                menuItems={menuItems}
             />
         </>
     );
