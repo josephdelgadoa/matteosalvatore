@@ -15,6 +15,7 @@ exports.getAll = async (req, res) => {
         const { data, error } = await supabase
             .from(TABLE)
             .select('*')
+            .order('display_order', { ascending: true })
             .order('name_es', { ascending: true });
 
         if (error) throw error;
@@ -117,5 +118,73 @@ exports.delete = async (req, res) => {
     } catch (err) {
         console.error('[ProductCategories] Error deleting:', err);
         res.status(500).json({ error: 'Failed to delete category' });
+    }
+};
+
+exports.reorder = async (req, res) => {
+    try {
+        const { items } = req.body; // Array of { id, parent_id, display_order }
+
+        if (!items || !Array.isArray(items)) {
+            return res.status(400).json({ error: 'Invalid items array' });
+        }
+
+        // 1. Fetch ALL categories to get existing data (satisfies NOT NULL) and for cycle checks
+        const { data: allCategories, error: fetchError } = await supabase.from(TABLE).select('*');
+        if (fetchError) throw fetchError;
+
+        const categoryMap = new Map(allCategories.map(c => [c.id, c]));
+
+        // 2. Prepare the "Next State" for cycle detection
+        const nextState = new Map(allCategories.map(c => [c.id, c.parent_id]));
+        // Overlay proposed changes
+        items.forEach(item => {
+            nextState.set(item.id, item.parent_id || null);
+        });
+
+        // 3. Cycle Detection
+        for (const [id, parentId] of nextState.entries()) {
+            let current = parentId;
+            const visited = new Set([id]);
+            let depth = 0;
+
+            while (current && depth < 20) {
+                if (visited.has(current)) {
+                    return res.status(400).json({ error: `Circular dependency detected involving category ID ${id}` });
+                }
+                visited.add(current);
+                current = nextState.get(current);
+                depth++;
+            }
+        }
+
+        // 4. Prepare Updates (Merge with existing data)
+        const updates = items.map(item => {
+            const existing = categoryMap.get(item.id);
+            if (!existing) return null; // Should not happen if ID is valid
+
+            return {
+                ...existing, // Keep name_es, name_en, etc.
+                parent_id: item.parent_id === undefined ? null : item.parent_id,
+                display_order: item.display_order,
+                updated_at: new Date().toISOString()
+            };
+        }).filter(Boolean);
+
+        if (updates.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        // 5. Perform Upsert
+        const { data, error } = await supabase
+            .from(TABLE)
+            .upsert(updates)
+            .select();
+
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (err) {
+        console.error('[ProductCategories] Error reordering:', err);
+        res.status(500).json({ error: 'Failed to reorder categories', details: err.message });
     }
 };

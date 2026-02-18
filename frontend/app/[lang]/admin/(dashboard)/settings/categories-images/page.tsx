@@ -28,6 +28,8 @@ export default function CategoriesImagesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
 
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
     // Ensure we have 5 slots
     useEffect(() => {
         loadCategories();
@@ -40,7 +42,7 @@ export default function CategoriesImagesPage() {
 
             // Map existing categories to 5 slots based on order, or create empty placeholders
             const slots = Array(5).fill(null).map((_, index) => {
-                const existing = data.find((c: any) => c.display_order === index && c.is_active);
+                const existing = data.find((c: any) => c.display_order === index);
                 return existing || {
                     id: '', // Empty ID means new
                     title_es: '',
@@ -55,9 +57,10 @@ export default function CategoriesImagesPage() {
             });
 
             setCategories(slots);
-        } catch (error) {
-            console.error(error);
-            addToast('Failed to load categories', 'error');
+        } catch (error: any) {
+            console.error('Error loading categories:', error);
+            const msg = error.response?.data?.error || error.message || 'Failed to load categories';
+            addToast(`Error: ${msg}`, 'error');
         } finally {
             setIsLoading(false);
         }
@@ -69,18 +72,57 @@ export default function CategoriesImagesPage() {
         setCategories(newCategories);
     };
 
+    // DND Handlers
+    const handleDragStart = (e: React.DragEvent, index: number) => {
+        setDraggedIndex(index);
+        e.dataTransfer.effectAllowed = "move";
+        // Transparent drag image or default
+    };
+
+    const handleDragOver = (e: React.DragEvent, index: number) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+    };
+
+    const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+        e.preventDefault();
+        if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+        const newCategories = [...categories];
+
+        // Swap items
+        const draggedItem = newCategories[draggedIndex];
+        const targetItem = newCategories[targetIndex];
+
+        newCategories[draggedIndex] = targetItem;
+        newCategories[targetIndex] = draggedItem;
+
+        // Update display_order for all to reflect new positions
+        const updatedCategories = newCategories.map((cat, idx) => ({
+            ...cat,
+            display_order: idx
+        }));
+
+        setCategories(updatedCategories);
+        setDraggedIndex(null);
+    };
+
     const handleSave = async () => {
         setIsSaving(true);
         try {
             // Save each slot
-            for (const category of categories) {
-                // Skip completely empty ones if they don't have an ID
-                if (!category.id && !category.image_url && !category.title_es) continue;
+            for (let i = 0; i < categories.length; i++) {
+                const category = categories[i];
+                // Ensure correct order before saving
+                const payload = { ...category, display_order: i };
 
-                if (category.id) {
-                    await categoriesApi.update(category.id, category);
+                // Skip completely empty ones if they don't have an ID
+                if (!payload.id && !payload.image_url && !payload.title_es) continue;
+
+                if (payload.id) {
+                    await categoriesApi.update(payload.id, payload);
                 } else {
-                    await categoriesApi.create(category);
+                    await categoriesApi.create(payload);
                 }
             }
             addToast('Categories updated successfully', 'success');
@@ -102,15 +144,24 @@ export default function CategoriesImagesPage() {
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="ms-heading-2">Categories Images</h1>
-                    <p className="text-ms-stone mt-1">Manage the 5 main categories displayed on the homepage.</p>
+                    <p className="text-ms-stone mt-1">Manage the 5 main categories displayed on the homepage. Drag to reorder.</p>
                 </div>
                 <Button onClick={handleSave} isLoading={isSaving}>Save Changes</Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Slot 0: Large Left */}
-                <div className="md:row-span-2 border border-ms-fog rounded-lg p-6 bg-white space-y-4">
-                    <h3 className="font-medium text-lg border-b border-ms-fog pb-2">Main Category (Left) <span className="text-xs text-ms-stone font-normal ml-2">Slot 1</span></h3>
+                <div
+                    className={`md:row-span-2 border rounded-lg p-6 space-y-4 transition-all ${draggedIndex === 0 ? 'border-dashed border-ms-brand-primary bg-ms-brand-primary/5' : 'border-ms-fog bg-white'}`}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, 0)}
+                    onDragOver={(e) => handleDragOver(e, 0)}
+                    onDrop={(e) => handleDrop(e, 0)}
+                >
+                    <div className="flex items-center justify-between border-b border-ms-fog pb-2">
+                        <h3 className="font-medium text-lg">Main Category (Left) <span className="text-xs text-ms-stone font-normal ml-2">Slot 1</span></h3>
+                        <span className="text-ms-stone cursor-move" title="Drag to move">:::</span>
+                    </div>
                     <CategorySlot index={0} category={categories[0]} onUpdate={handleUpdate} />
                 </div>
 
@@ -118,29 +169,78 @@ export default function CategoriesImagesPage() {
                 <div className="space-y-8">
                     {/* Top Row */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="border border-ms-fog rounded-lg p-6 bg-white space-y-4">
-                            <h3 className="font-medium text-sm border-b border-ms-fog pb-2">Top Right 1 <span className="text-xs text-ms-stone font-normal ml-1">Slot 2</span></h3>
-                            <CategorySlot index={1} category={categories[1]} onUpdate={handleUpdate} compact />
-                        </div>
-                        <div className="border border-ms-fog rounded-lg p-6 bg-white space-y-4">
-                            <h3 className="font-medium text-sm border-b border-ms-fog pb-2">Top Right 2 <span className="text-xs text-ms-stone font-normal ml-1">Slot 3</span></h3>
-                            <CategorySlot index={2} category={categories[2]} onUpdate={handleUpdate} compact />
-                        </div>
+                        <DraggableSlot
+                            index={1}
+                            category={categories[1]}
+                            onUpdate={handleUpdate}
+                            title="Top Right 1"
+                            slotLabel="Slot 2"
+                            onDragStart={handleDragStart}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                            isDragged={draggedIndex === 1}
+                        />
+                        <DraggableSlot
+                            index={2}
+                            category={categories[2]}
+                            onUpdate={handleUpdate}
+                            title="Top Right 2"
+                            slotLabel="Slot 3"
+                            onDragStart={handleDragStart}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                            isDragged={draggedIndex === 2}
+                        />
                     </div>
 
                     {/* Bottom Row */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="border border-ms-fog rounded-lg p-6 bg-white space-y-4">
-                            <h3 className="font-medium text-sm border-b border-ms-fog pb-2">Bottom Right 1 <span className="text-xs text-ms-stone font-normal ml-1">Slot 4</span></h3>
-                            <CategorySlot index={3} category={categories[3]} onUpdate={handleUpdate} compact />
-                        </div>
-                        <div className="border border-ms-fog rounded-lg p-6 bg-white space-y-4">
-                            <h3 className="font-medium text-sm border-b border-ms-fog pb-2">Bottom Right 2 <span className="text-xs text-ms-stone font-normal ml-1">Slot 5</span></h3>
-                            <CategorySlot index={4} category={categories[4]} onUpdate={handleUpdate} compact />
-                        </div>
+                        <DraggableSlot
+                            index={3}
+                            category={categories[3]}
+                            onUpdate={handleUpdate}
+                            title="Bottom Right 1"
+                            slotLabel="Slot 4"
+                            onDragStart={handleDragStart}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                            isDragged={draggedIndex === 3}
+                        />
+                        <DraggableSlot
+                            index={4}
+                            category={categories[4]}
+                            onUpdate={handleUpdate}
+                            title="Bottom Right 2"
+                            slotLabel="Slot 5"
+                            onDragStart={handleDragStart}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                            isDragged={draggedIndex === 4}
+                        />
                     </div>
                 </div>
             </div>
+        </div>
+    );
+}
+
+function DraggableSlot({
+    index, category, onUpdate, title, slotLabel,
+    onDragStart, onDragOver, onDrop, isDragged
+}: any) {
+    return (
+        <div
+            className={`border rounded-lg p-6 space-y-4 transition-all ${isDragged ? 'border-dashed border-ms-brand-primary bg-ms-brand-primary/5' : 'border-ms-fog bg-white'}`}
+            draggable
+            onDragStart={(e) => onDragStart(e, index)}
+            onDragOver={(e) => onDragOver(e, index)}
+            onDrop={(e) => onDrop(e, index)}
+        >
+            <div className="flex items-center justify-between border-b border-ms-fog pb-2">
+                <h3 className="font-medium text-sm">{title} <span className="text-xs text-ms-stone font-normal ml-1">{slotLabel}</span></h3>
+                <span className="text-ms-stone cursor-move text-xs" title="Drag to move">:::</span>
+            </div>
+            <CategorySlot index={index} category={category} onUpdate={onUpdate} compact />
         </div>
     );
 }

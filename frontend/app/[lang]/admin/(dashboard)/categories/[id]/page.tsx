@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { productCategoriesApi } from '@/lib/api/productCategories';
+import { productCategoriesApi, ProductCategory } from '@/lib/api/productCategories';
 import { Spinner } from '@/components/ui/Spinner';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { ArrowLeft } from 'lucide-react';
@@ -12,39 +12,48 @@ import Link from 'next/link';
 
 export default function ProductCategoryForm({ params }: { params: { id: string } }) {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { addToast } = useToast();
     const isNew = params.id === 'new';
+    const parentIdParam = searchParams.get('parentId');
 
     const [isLoading, setIsLoading] = useState(!isNew);
     const [isSaving, setIsSaving] = useState(false);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
 
     const [formData, setFormData] = useState({
         name_es: '',
         name_en: '',
         description_es: '',
         description_en: '',
+        parent_id: parentIdParam || '', // Default to param if present
         is_active: true
     });
 
     useEffect(() => {
-        if (!isNew) {
-            loadCategory();
-        }
+        loadData();
     }, [params.id]);
 
-    const loadCategory = async () => {
+    const loadData = async () => {
         try {
-            const data = await productCategoriesApi.getById(params.id);
-            setFormData({
-                name_es: data.name_es || '',
-                name_en: data.name_en || '',
-                description_es: data.description_es || '',
-                description_en: data.description_en || '',
-                is_active: data.is_active
-            });
+            // Load all categories for the dropdown
+            const allCategories = await productCategoriesApi.getAll();
+            setCategories(allCategories);
+
+            if (!isNew) {
+                const data = await productCategoriesApi.getById(params.id);
+                setFormData({
+                    name_es: data.name_es || '',
+                    name_en: data.name_en || '',
+                    description_es: data.description_es || '',
+                    description_en: data.description_en || '',
+                    parent_id: data.parent_id || '',
+                    is_active: data.is_active
+                });
+            }
         } catch (error) {
             console.error(error);
-            addToast('Failed to load category', 'error');
+            addToast('Failed to load data', 'error');
         } finally {
             setIsLoading(false);
         }
@@ -54,26 +63,35 @@ export default function ProductCategoryForm({ params }: { params: { id: string }
         e.preventDefault();
         setIsSaving(true);
         try {
+            const payload: Partial<ProductCategory> = {
+                ...formData,
+                parent_id: formData.parent_id === '' ? undefined : formData.parent_id
+            };
+
             if (isNew) {
-                await productCategoriesApi.create(formData);
+                await productCategoriesApi.create(payload);
                 addToast('Category created successfully', 'success');
             } else {
-                await productCategoriesApi.update(params.id, formData);
+                await productCategoriesApi.update(params.id, payload);
                 addToast('Category updated successfully', 'success');
             }
             // Navigate back after delay
             setTimeout(() => {
                 router.push('/admin/categories');
             }, 1000);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            addToast('Failed to save category', 'error');
+            const msg = error.response?.data?.error || error.message || 'Unknown error';
+            addToast(`Failed to save category: ${msg}`, 'error');
         } finally {
             setIsSaving(false);
         }
     };
 
     if (isLoading) return <div className="flex justify-center p-20"><Spinner /></div>;
+
+    // Filter out self to prevent circular dependency (simple check)
+    const validParents = categories.filter(c => c.id !== params.id);
 
     return (
         <div className="max-w-2xl mx-auto pb-20">
@@ -108,6 +126,24 @@ export default function ProductCategoryForm({ params }: { params: { id: string }
                             placeholder="Ex. T-Shirts"
                         />
                     </div>
+                </div>
+
+                {/* Parent Category */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-ms-black">Parent Category</label>
+                    <select
+                        className="ms-input w-full"
+                        value={formData.parent_id}
+                        onChange={e => setFormData({ ...formData, parent_id: e.target.value })}
+                    >
+                        <option value="">None (Top Level)</option>
+                        {validParents.map(cat => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.name_en} / {cat.name_es}
+                            </option>
+                        ))}
+                    </select>
+                    <p className="text-xs text-ms-stone">Select a parent category to nest this under.</p>
                 </div>
 
                 {/* Descriptions */}

@@ -43,26 +43,37 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             .select('*')
             .eq('is_active', true)
             .order('display_order', { ascending: true })
-            .limit(5); // Get top 5 for the grid
+            .limit(20); // Fetch more than 5 to handle potential duplicates in display_order
 
-        categories = data || [];
+        const rawData = data || [];
 
-        // Map to display structure
-        if (categories.length > 0) {
-            categories = categories.map(c => ({
-                key: c.id,
-                img: c.image_url,
-                // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
-                title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es),
-                link: c.link_url || '#' // Fallback to avoid null pointer
-            }));
+        // Map to display structure and place in correct slots
+        if (rawData.length > 0) {
+            // Initialize array with nulls
+            const slots = Array(5).fill(null);
+
+            rawData.forEach(c => {
+                if (c.display_order >= 0 && c.display_order < 5) {
+                    slots[c.display_order] = {
+                        key: c.id,
+                        img: c.image_url,
+                        // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
+                        title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es),
+                        link: c.link_url || '#' // Fallback to avoid null pointer
+                    };
+                }
+            });
+            categories = slots;
         }
     } catch (e) {
         console.error('Error fetching categories:', e);
     }
 
+    // Check if we have ANY categories to decide whether to show fallback
+    const hasCategories = categories.some(c => c !== null);
+
     // Fallback if no dynamic categories
-    if (categories.length === 0) {
+    if (!hasCategories) {
         // ... (Keep existing fallback if needed, or render nothing)
         categories = [
             { key: 'poloBasico', img: '/images/hero-image-ruso-1.jpeg', link: 'Polo Basico', title: 'Polo Basico' },
@@ -80,11 +91,25 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     // 1. Trending: Newest products
     const trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
 
+    // 1.1 Best Sellers
+    const bestSellerIds = [
+        '987abbf0-3eca-4ba5-97cd-615af86772d8', // Jogger
+        '08c57d73-cdf9-4e98-9e9d-7a37f82dd785', // Polo
+        '1b33b970-deee-4f97-8562-32296319f323', // Cargo Pants
+        '18a2c717-b596-401c-8010-b79d46dad24f'  // Hoodie
+    ];
+    let bestSellingProducts = await productsApi.getAll({ ids: bestSellerIds }).catch(() => []);
+
+    // Sort logic to match requested order
+    bestSellingProducts = bestSellingProducts.sort((a: any, b: any) => {
+        return bestSellerIds.indexOf(a.id) - bestSellerIds.indexOf(b.id);
+    });
+
     // 2. Finishing Touches: Accessories
     const finishingProducts = await productsApi.getAll({ category: 'accessories', limit: 4 }).catch(() => []);
 
     return (
-        <div className="space-y-32 pb-24">
+        <div className="space-y-16 pb-24">
             <NewsletterPopup />
 
             {/* Hero Section */}
@@ -94,6 +119,14 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             <ProductGrid
                 title={dict.home.trending}
                 products={trendingProducts}
+                lang={params.lang}
+                viewAllLink={`/${params.lang}/products`}
+            />
+
+            {/* Best Sellers */}
+            <ProductGrid
+                title={dict.home.bestSellers}
+                products={bestSellingProducts}
                 lang={params.lang}
                 viewAllLink={`/${params.lang}/products`}
             />

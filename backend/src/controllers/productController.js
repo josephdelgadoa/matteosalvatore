@@ -22,6 +22,12 @@ exports.getAllProducts = async (req, res, next) => {
             query = query.eq('is_active', true);
         }
 
+        // Filter by IDs
+        if (req.query.ids) {
+            const ids = req.query.ids.split(',');
+            query = query.in('id', ids);
+        }
+
         // Sorting
         if (sort === 'price-asc') query = query.order('base_price', { ascending: true });
         if (sort === 'price-desc') query = query.order('base_price', { ascending: false });

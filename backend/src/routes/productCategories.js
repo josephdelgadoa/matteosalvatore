@@ -10,6 +10,7 @@ const asyncHandler = fn => (req, res, next) =>
 router.get('/', asyncHandler(controller.getAll));
 router.get('/:id', asyncHandler(controller.getById));
 router.post('/', asyncHandler(controller.create));
+router.put('/reorder', asyncHandler(controller.reorder)); // Must be before /:id
 router.put('/:id', asyncHandler(controller.update));
 router.delete('/:id', asyncHandler(controller.delete));
 

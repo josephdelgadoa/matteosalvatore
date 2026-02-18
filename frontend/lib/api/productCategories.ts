@@ -9,6 +9,7 @@ export interface ProductCategory {
     description: string;
     image_url?: string;
     parent_id?: string;
+    display_order?: number;
     is_active: boolean;
 }
 
@@ -30,6 +31,11 @@ export const productCategoriesApi = {
 
     update: async (id: string, data: Partial<ProductCategory>) => {
         const response = await api.put(`/product-categories/${id}`, data);
+        return response.data;
+    },
+
+    reorder: async (items: { id: string; parent_id?: string | null; display_order: number }[]) => {
+        const response = await api.put('/product-categories/reorder', { items });
         return response.data;
     },
 

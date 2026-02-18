@@ -1,0 +1,1 @@
+{"error":"Failed to reorder categories","details":"null value in column \"name_es\" of relation \"product_categories\" violates not-null constraint"}

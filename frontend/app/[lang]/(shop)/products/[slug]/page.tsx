@@ -150,8 +150,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
 
                     <div className="space-y-4">
                         <div
-                            className="text-ms-stone leading-relaxed space-y-4 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5"
-                            dangerouslySetInnerHTML={{ __html: product.description_es || '' }}
+                            className="text-ms-stone leading-relaxed space-y-4 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 prose max-w-none"
+                            dangerouslySetInnerHTML={{ __html: (params.lang === 'en' ? product.description_en : product.description_es) || '' }}
                         />
                     </div>
 

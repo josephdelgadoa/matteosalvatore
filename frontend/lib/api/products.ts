@@ -40,10 +40,13 @@ export interface ProductImage {
 }
 
 export const productsApi = {
-    getAll: async (params?: { category?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc'; includeInactive?: boolean }) => {
+    getAll: async (params?: { category?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc'; includeInactive?: boolean; ids?: string[] }) => {
         const queryParams: any = { ...params };
         if (params?.includeInactive) {
             queryParams.include_inactive = 'true';
+        }
+        if (params?.ids) {
+            queryParams.ids = params.ids.join(',');
         }
         const response = await api.get('/products', { params: queryParams });
 
