@@ -11,6 +11,21 @@ import { Spinner } from '@/components/ui/Spinner';
 import { ImageUploader } from '@/components/admin/ImageUploader';
 import { Trash, Plus, GripVertical } from 'lucide-react';
 import { Reorder } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
+const quillModules = {
+    toolbar: [
+        [{ 'font': [] }],
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code-block', 'image'],
+        [{ 'indent': '-1' }, { 'indent': '+1' }, { 'list': 'bullet' }, { 'list': 'ordered' }],
+        [{ 'align': [] }],
+        ['clean']
+    ]
+};
 
 export default function ProductFormPage({ params }: { params: { id: string } }) {
     const router = useRouter();
@@ -218,22 +233,38 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 <label className="ms-label block">Description (ES) <span className="text-xs font-normal text-ms-stone ml-2">(Supports HTML)</span></label>
                                 <span className="text-xs text-ms-stone">{(formData.description_es || '').length} chars</span>
                             </div>
-                            <textarea
-                                className="ms-input min-h-[100px]"
-                                value={formData.description_es || ''}
-                                onChange={e => setFormData({ ...formData, description_es: e.target.value })}
-                            />
+                            <div className="bg-white pb-12">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={formData.description_es || ''}
+                                    onChange={value => {
+                                        if (value !== formData.description_es) {
+                                            setFormData({ ...formData, description_es: value });
+                                        }
+                                    }}
+                                    modules={quillModules}
+                                    className="h-64"
+                                />
+                            </div>
                         </div>
                         <div className="col-span-2">
                             <div className="flex justify-between mb-1">
                                 <label className="ms-label block">Description (EN) <span className="text-xs font-normal text-ms-stone ml-2">(Supports HTML)</span></label>
                                 <span className="text-xs text-ms-stone">{(formData.description_en || '').length} chars</span>
                             </div>
-                            <textarea
-                                className="ms-input min-h-[100px]"
-                                value={formData.description_en || ''}
-                                onChange={e => setFormData({ ...formData, description_en: e.target.value })}
-                            />
+                            <div className="bg-white pb-12">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={formData.description_en || ''}
+                                    onChange={value => {
+                                        if (value !== formData.description_en) {
+                                            setFormData({ ...formData, description_en: value });
+                                        }
+                                    }}
+                                    modules={quillModules}
+                                    className="h-64"
+                                />
+                            </div>
                         </div>
 
                         <div className="col-span-2">
