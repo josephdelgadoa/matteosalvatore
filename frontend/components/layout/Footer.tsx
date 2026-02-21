@@ -91,9 +91,10 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                 </div>
 
                 <div className="pt-8 border-t border-ms-fog flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-xs text-ms-silver uppercase tracking-wide">
-                        © {new Date().getFullYear()} Matteo Salvatore. {dict.rights} <span className="hidden md:inline">|</span> <span className="block md:inline mt-1 md:mt-0">{dict.designedBy} <a href="https://nexa-sphere.com" target="_blank" rel="noopener noreferrer" className="hover:text-ms-stone transition-colors">Nexa-Sphere.com</a></span>
-                    </p>
+                    <div className="text-xs text-ms-silver uppercase tracking-wide flex flex-col gap-1 text-center md:text-left">
+                        <p>© {new Date().getFullYear()} Matteo Salvatore</p>
+                        <p>Powered by <a href="https://nexa-sphere.com" target="_blank" rel="noopener noreferrer" className="hover:text-ms-stone transition-colors">Nexa-Sphere</a></p>
+                    </div>
                     <div className="flex gap-6">
                         <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.privacy}</a>
                         <a href="#" className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.terms}</a>
