@@ -109,7 +109,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     const finishingProducts = await productsApi.getAll({ category: 'accessories', limit: 4 }).catch(() => []);
 
     return (
-        <div className="space-y-16 pb-24">
+        <div className="space-y-16 pb-0">
             <NewsletterPopup />
 
             {/* Hero Section */}
