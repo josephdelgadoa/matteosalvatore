@@ -379,3 +379,11 @@
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T19:37:17.018Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T19:37:26.780Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T19:37:26.858Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T19:54:40.194Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T19:54:40.286Z"}
+{"level":"info","message":"Inserting 6 variants for product update...","service":"user-service","timestamp":"2026-02-21T20:25:28.794Z"}
+{"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-21T20:58:47.970Z"}
+{"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-21T20:59:12.471Z"}
+{"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-21T21:03:34.822Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T21:04:21.100Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-21T21:04:21.177Z"}
