@@ -23,7 +23,7 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
             try {
                 // Fetch all categories to find the matching one by slug
                 const categories = await productCategoriesApi.getAll();
-                const matchedCategory = categories.find((c: ProductCategory) => c.slug === params.slug);
+                const matchedCategory = categories.find((c: ProductCategory) => c.slug_es === params.slug || c.slug_en === params.slug);
                 if (matchedCategory) {
                     setCategory(matchedCategory);
                 }
