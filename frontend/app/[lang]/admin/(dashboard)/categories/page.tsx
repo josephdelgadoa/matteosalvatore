@@ -263,7 +263,7 @@ export default function ProductCategoriesPage({ params }: { params: { lang: Loca
     );
 }
 
-export function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDelete, dict, lang }: any) {
+function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDelete, dict, lang }: any) {
     if (!items || items.length === 0) return null;
 
     return (
