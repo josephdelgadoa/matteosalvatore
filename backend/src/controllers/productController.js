@@ -65,7 +65,7 @@ exports.getProductBySlug = async (req, res, next) => {
         product_images(*),
         reviews(*)
       `)
-            .eq('slug', slug)
+            .or(`slug_es.eq.${slug},slug_en.eq.${slug}`)
             .single();
 
         if (error || !product) {

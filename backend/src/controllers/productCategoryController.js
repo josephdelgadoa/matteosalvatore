@@ -50,15 +50,16 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const { name_es, name_en, description_es, description_en, image_url, parent_id, is_active } = req.body;
+        const { name_es, name_en, slug_es, slug_en, description_es, description_en, image_url, parent_id, is_active } = req.body;
 
         // Generate slug from Spanish name
-        const slug = slugify(name_es, { lower: true, strict: true });
+        const generatedSlug = slugify(name_es, { lower: true, strict: true });
 
         const payload = {
             name_es,
             name_en,
-            slug,
+            slug_es: slug_es || generatedSlug,
+            slug_en: slug_en || generatedSlug,
             description_es,
             description_en,
             image_url,
@@ -83,7 +84,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const { id } = req.params;
-        const { id: _, created_at, updated_at, slug, ...updates } = req.body;
+        const { id: _, created_at, updated_at, ...updates } = req.body;
 
         // Optionally regenerate slug if name_es changes (skipped for simplicity/stability)
 

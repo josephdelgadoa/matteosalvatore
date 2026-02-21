@@ -37,7 +37,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                     <p className="text-ms-stone mb-8 leading-relaxed">
                         {dict.empty.text}
                     </p>
-                    <Link href={`/${lang}/category/clothing`}>
+                    <Link href={`/${lang}/${lang === 'es' ? 'categoria' : 'category'}/clothing`}>
                         <Button size="lg">{dict.empty.cta}</Button>
                     </Link>
                 </div>
@@ -73,7 +73,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                                 <div className="flex-1 flex flex-col justify-between">
                                     <div>
                                         <div className="flex justify-between items-start mb-2">
-                                            <Link href={`/${lang}/products/${item.slug}`} className="font-medium hover:text-ms-stone transition-colors">
+                                            <Link href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}/${item.slug}`} className="font-medium hover:text-ms-stone transition-colors">
                                                 {item.name}
                                             </Link>
                                             <button

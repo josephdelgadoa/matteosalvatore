@@ -35,9 +35,10 @@ export const ProductGrid = ({ title, products, lang, viewAllLink }: ProductGridP
 
                         // Determine name based on lang, fallback to other if missing
                         const name = lang === 'es' ? (product.name_es || product.name_en) : (product.name_en || product.name_es);
+                        const productSlug = lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
 
                         return (
-                            <Link href={`/${lang}/products/${product.slug}`} key={product.id} className="group cursor-pointer">
+                            <Link href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}/${productSlug}`} key={product.id} className="group cursor-pointer">
                                 <div className="aspect-[3/4] overflow-hidden bg-ms-pearl mb-4 relative">
                                     <div
                                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -46,7 +47,7 @@ export const ProductGrid = ({ title, products, lang, viewAllLink }: ProductGridP
                                     {/* Optional: Add 'New' or 'Trending' badge here if needed */}
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors truncate">{name}</h3>
+                                    <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors line-clamp-2" title={name}>{name}</h3>
                                     <p className="text-sm font-medium">S/. {product.base_price.toFixed(2)}</p>
                                 </div>
                             </Link>

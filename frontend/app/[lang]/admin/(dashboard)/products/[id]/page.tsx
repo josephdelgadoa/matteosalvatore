@@ -40,10 +40,16 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     const [formData, setFormData] = useState<Partial<Product>>({
         name_es: '',
         name_en: '',
-        slug: '',
+        slug_es: '',
+        slug_en: '',
         description_es: '',
         description_en: '',
         seo_keywords_es: '',
+        seo_keywords_en: '',
+        seo_title_es: '',
+        seo_title_en: '',
+        seo_description_es: '',
+        seo_description_en: '',
         base_price: 0,
         category: '',
         subcategory: '',
@@ -85,10 +91,13 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     // Available subcategories based on selected root slug
     const availableSubcategories = useMemo(() => {
         if (!formData.category) return [];
-        // Find the root category object that matches the current selected slug
-        const parent = categories.find(c => c.slug === formData.category || c.id === formData.category); // Handle legacy ID or Slug match?
-        // Actually, let's look for slug match first as that's what we store
-        const parentObj = categories.find(c => c.slug === formData.category);
+        // Handle matching against either the new slug_es, old unified slug, english slug, or pure UUID to ensure robustness
+        const parentObj = categories.find((c: any) =>
+            c.slug_es === formData.category ||
+            c.slug === formData.category ||
+            c.slug_en === formData.category ||
+            c.id === formData.category
+        );
 
         if (!parentObj) return [];
 
@@ -159,7 +168,14 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         <div className="max-w-4xl mx-auto pb-20">
             <ToastContainer />
             <div className="flex items-center justify-between mb-8">
-                <h1 className="ms-heading-2">{isNew ? 'New Product' : `Edit ${formData.name_es}`}</h1>
+                <h1 className="ms-heading-2 flex items-baseline gap-3">
+                    {isNew ? 'New Product' : (
+                        <>
+                            <span className="text-2xl text-ms-stone font-normal">Edit</span>
+                            <span>{formData.name_es}</span>
+                        </>
+                    )}
+                </h1>
                 <div className="flex gap-3">
                     <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
                     <Button onClick={handleSubmit} isLoading={isSaving}>Save Product</Button>
@@ -174,15 +190,25 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                         <Input label="Name (ES)" value={formData.name_es || ''} onChange={e => setFormData({ ...formData, name_es: e.target.value })} required />
                         <Input label="Name (EN)" value={formData.name_en || ''} onChange={e => setFormData({ ...formData, name_en: e.target.value })} />
 
-                        <div className="col-span-2 md:col-span-1">
+                        <div className="col-span-1">
                             <Input
-                                label="Slug"
-                                value={formData.slug || ''}
-                                onChange={e => setFormData({ ...formData, slug: e.target.value })}
+                                label="Slug (ES)"
+                                value={formData.slug_es || ''}
+                                onChange={e => setFormData({ ...formData, slug_es: e.target.value })}
                                 required
                                 placeholder="e.g. urban-hoodie-black"
                             />
-                            <p className="text-xs text-ms-stone mt-1">Unique identifier for the URL</p>
+                            <p className="text-xs text-ms-stone mt-1">Unique identifier for Spanish URL</p>
+                        </div>
+                        <div className="col-span-1 md:col-span-1">
+                            <Input
+                                label="Slug (EN)"
+                                value={formData.slug_en || ''}
+                                onChange={e => setFormData({ ...formData, slug_en: e.target.value })}
+                                required
+                                placeholder="e.g. urban-hoodie-black"
+                            />
+                            <p className="text-xs text-ms-stone mt-1">Unique identifier for English URL</p>
                         </div>
                         <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
 
@@ -190,7 +216,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                             <div>
                                 <label className="ms-label block mb-1">Category</label>
                                 <select
-                                    className="ms-input w-full h-10"
+                                    className="ms-input w-full"
                                     value={formData.category || ''}
                                     onChange={e => {
                                         setFormData({
@@ -202,28 +228,36 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     required
                                 >
                                     <option value="">Select Category</option>
-                                    {rootCategories.map(cat => (
-                                        <option key={cat.id} value={cat.slug}>
-                                            {cat.name_es}
-                                        </option>
-                                    ))}
+                                    {rootCategories.map((cat: any) => {
+                                        // The product might have been saved with the original slug, or the new slug_es.
+                                        // We ensure the option value covers both potential states for display continuity.
+                                        const optionValue = cat.slug_es || cat.slug || cat.id;
+                                        return (
+                                            <option key={cat.id} value={optionValue}>
+                                                {cat.name_es} / {cat.name_en}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
 
                             <div>
                                 <label className="ms-label block mb-1">Subcategory</label>
                                 <select
-                                    className="ms-input w-full h-10"
+                                    className="ms-input w-full"
                                     value={formData.subcategory || ''}
                                     onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
                                     disabled={!formData.category || availableSubcategories.length === 0}
                                 >
                                     <option value="">Select Subcategory</option>
-                                    {availableSubcategories.map(sub => (
-                                        <option key={sub.id} value={sub.slug}>
-                                            {sub.name_es}
-                                        </option>
-                                    ))}
+                                    {availableSubcategories.map((sub: any) => {
+                                        const optionValue = sub.slug_es || sub.slug || sub.id;
+                                        return (
+                                            <option key={sub.id} value={optionValue}>
+                                                {sub.name_es} / {sub.name_en}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                         </div>
@@ -282,6 +316,58 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                 </section>
 
                 <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
+                    <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">SEO Metadata</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="col-span-1 md:col-span-1">
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="ms-label block">SEO Title (ES)</label>
+                                <span className="text-xs text-ms-stone">{(formData.seo_title_es || '').length}/60</span>
+                            </div>
+                            <Input
+                                value={formData.seo_title_es || ''}
+                                onChange={e => setFormData({ ...formData, seo_title_es: e.target.value })}
+                                maxLength={60}
+                            />
+                        </div>
+                        <div className="col-span-1 md:col-span-1">
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="ms-label block">SEO Title (EN)</label>
+                                <span className="text-xs text-ms-stone">{(formData.seo_title_en || '').length}/60</span>
+                            </div>
+                            <Input
+                                value={formData.seo_title_en || ''}
+                                onChange={e => setFormData({ ...formData, seo_title_en: e.target.value })}
+                                maxLength={60}
+                            />
+                        </div>
+                        <div className="col-span-1 md:col-span-1">
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="ms-label block">SEO Description (ES)</label>
+                                <span className="text-xs text-ms-stone">{(formData.seo_description_es || '').length}/160</span>
+                            </div>
+                            <textarea
+                                className="ms-input w-full p-2 h-24"
+                                maxLength={160}
+                                value={formData.seo_description_es || ''}
+                                onChange={e => setFormData({ ...formData, seo_description_es: e.target.value })}
+                            />
+                        </div>
+                        <div className="col-span-1 md:col-span-1">
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="ms-label block">SEO Description (EN)</label>
+                                <span className="text-xs text-ms-stone">{(formData.seo_description_en || '').length}/160</span>
+                            </div>
+                            <textarea
+                                className="ms-input w-full p-2 h-24"
+                                maxLength={160}
+                                value={formData.seo_description_en || ''}
+                                onChange={e => setFormData({ ...formData, seo_description_en: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                </section>
+
+                <section className="bg-ms-white p-6 border border-ms-fog space-y-4">
                     <h3 className="font-medium text-lg border-b border-ms-fog pb-2 mb-4">Images</h3>
                     <ImageUploader
                         value={images}
@@ -307,15 +393,15 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 </div>
                                 <div className="w-24">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Size</label>
-                                    <input className="ms-input h-8 text-sm" value={variant.size} onChange={e => handleVariantChange(idx, 'size', e.target.value)} />
+                                    <input className="w-full px-3 h-10 bg-ms-white border border-ms-fog text-sm focus:outline-none focus:border-ms-black transition-colors" value={variant.size} onChange={e => handleVariantChange(idx, 'size', e.target.value)} />
                                 </div>
                                 <div className="w-32">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Color</label>
-                                    <input className="ms-input h-8 text-sm" value={variant.color} onChange={e => handleVariantChange(idx, 'color', e.target.value)} />
+                                    <input className="w-full px-3 h-10 bg-ms-white border border-ms-fog text-sm focus:outline-none focus:border-ms-black transition-colors" value={variant.color} onChange={e => handleVariantChange(idx, 'color', e.target.value)} />
                                 </div>
                                 <div className="w-24">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Stock</label>
-                                    <input type="number" className="ms-input h-8 text-sm" value={variant.stock_quantity} onChange={e => handleVariantChange(idx, 'stock_quantity', parseInt(e.target.value))} />
+                                    <input type="number" className="w-full px-3 h-10 bg-ms-white border border-ms-fog text-sm focus:outline-none focus:border-ms-black transition-colors" value={variant.stock_quantity} onChange={e => handleVariantChange(idx, 'stock_quantity', parseInt(e.target.value))} />
                                 </div>
                                 <button type="button" className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 flex items-center justify-center rounded-md ml-auto" onClick={() => removeVariant(idx)}>
                                     <Trash className="w-4 h-4" />

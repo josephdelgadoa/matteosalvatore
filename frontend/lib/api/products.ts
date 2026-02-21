@@ -2,7 +2,8 @@ import api from './api';
 
 export interface Product {
     id: string;
-    slug: string;
+    slug_es: string;
+    slug_en: string;
     name_es: string;
     name_en: string;
     description_es: string;

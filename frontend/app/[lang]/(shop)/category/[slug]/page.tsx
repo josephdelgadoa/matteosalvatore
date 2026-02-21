@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { productsApi, Product } from '@/lib/api/products';
+import { productCategoriesApi, ProductCategory } from '@/lib/api/productCategories';
 import { Spinner } from '@/components/ui/Spinner';
 
 import { PageHero } from '@/components/ui/PageHero';
@@ -10,27 +11,23 @@ import { PageHero } from '@/components/ui/PageHero';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
 
-const categoryImages: Record<string, string> = {
-    clothing: '/images/matteo-salvatore-hoddies-2.jpeg',
-    footwear: '/images/matteo-salvatore-joggers.jpeg',
-    default: '/images/hero-image-01.png'
-};
-
 export default function CategoryPage({ params }: { params: { slug: string; lang: Locale } }) {
     const [products, setProducts] = useState<Product[]>([]);
+    const [category, setCategory] = useState<ProductCategory | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Capitalize slug for display title
-    const categoryTitle = params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
-
-    // Select image
-    const heroImage = categoryImages[params.slug.toLowerCase()] || categoryImages.default;
-
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             setIsLoading(true);
             try {
+                // Fetch all categories to find the matching one by slug
+                const categories = await productCategoriesApi.getAll();
+                const matchedCategory = categories.find((c: ProductCategory) => c.slug === params.slug);
+                if (matchedCategory) {
+                    setCategory(matchedCategory);
+                }
+
                 // Fetch products filtered by category
                 const data = await productsApi.getAll({ category: params.slug });
                 setProducts(data);
@@ -42,7 +39,7 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
             }
         };
 
-        fetchProducts();
+        fetchData();
     }, [params.slug]);
 
     if (isLoading) {
@@ -61,10 +58,18 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
         );
     }
 
+    // Determine Title based on language
+    const displayTitle = category
+        ? (params.lang === 'es' ? (category.name_es || category.name_en) : (category.name_en || category.name_es))
+        : (params.slug.charAt(0).toUpperCase() + params.slug.slice(1));
+
+    // Determine Hero Image
+    const heroImage = category?.image_url || '/images/hero-image-01.png';
+
     return (
         <div className="animate-fade-in">
             <PageHero
-                title={categoryTitle}
+                title={displayTitle}
                 subtitle="Collection"
                 image={heroImage}
             />
@@ -72,14 +77,14 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
             <div className="ms-container py-12 md:py-20">
                 <div className="mb-12 text-center">
                     <p className="text-ms-stone max-w-lg mx-auto">
-                        Explore our curated selection of premium {params.slug}.
+                        Explore our curated selection of premium {displayTitle}.
                     </p>
                 </div>
 
                 {products.length === 0 ? (
                     <div className="text-center py-20 bg-ms-stone/5 rounded-lg">
                         <p className="text-xl text-ms-stone">No products found in this category.</p>
-                        <Link href={`/${params.lang}/products`} className="text-ms-black underline mt-4 inline-block hover:opacity-70">
+                        <Link href={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}`} className="text-ms-black underline mt-4 inline-block hover:opacity-70">
                             View All Products
                         </Link>
                     </div>
@@ -91,8 +96,13 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
                                 || product.product_images?.[0]?.image_url
                                 || 'https://via.placeholder.com/400x500?text=No+Image';
 
+                            // Localize product name
+                            const productName = params.lang === 'es' ? (product.name_es || product.name_en) : (product.name_en || product.name_es);
+                            // Localize slug
+                            const productSlug = params.lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
+
                             return (
-                                <Link href={`/${params.lang}/products/${product.slug}`} key={product.id} className="group cursor-pointer">
+                                <Link href={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}/${productSlug}`} key={product.id} className="group cursor-pointer">
                                     <div className="aspect-[3/4] overflow-hidden bg-ms-pearl mb-4 relative">
                                         <div
                                             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -101,7 +111,7 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
                                         {/* Quick Add overlay could go here */}
                                     </div>
                                     <div className="space-y-1">
-                                        <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors">{product.name_es}</h3>
+                                        <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors line-clamp-2" title={productName}>{productName}</h3>
                                         <p className="text-sm font-medium">S/. {product.base_price.toFixed(2)}</p>
                                     </div>
                                 </Link>

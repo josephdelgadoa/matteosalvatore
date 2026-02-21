@@ -8,8 +8,11 @@ import { categoriesApi, FeaturedCategory } from '@/lib/api/categories';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { ImageUploader } from '@/components/admin/ImageUploader';
+import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
 export default function CategoriesImagesPage() {
+    const dict = useAdminDictionary();
     const router = useRouter();
     const { addToast } = useToast();
     const [categories, setCategories] = useState<Partial<FeaturedCategory>[]>(
@@ -59,7 +62,7 @@ export default function CategoriesImagesPage() {
             setCategories(slots);
         } catch (error: any) {
             console.error('Error loading categories:', error);
-            const msg = error.response?.data?.error || error.message || 'Failed to load categories';
+            const msg = error.response?.data?.error || error.message || dict.categoriesImages.loadError;
             addToast(`Error: ${msg}`, 'error');
         } finally {
             setIsLoading(false);
@@ -125,12 +128,12 @@ export default function CategoriesImagesPage() {
                     await categoriesApi.create(payload);
                 }
             }
-            addToast('Categories updated successfully', 'success');
+            addToast(dict.categoriesImages.saveSuccess, 'success');
             // Reload to get IDs
             loadCategories();
         } catch (error) {
             console.error(error);
-            addToast('Failed to save categories', 'error');
+            addToast(dict.categoriesImages.saveError, 'error');
         } finally {
             setIsSaving(false);
         }
@@ -143,10 +146,10 @@ export default function CategoriesImagesPage() {
             <ToastContainer />
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="ms-heading-2">Categories Images</h1>
-                    <p className="text-ms-stone mt-1">Manage the 5 main categories displayed on the homepage. Drag to reorder.</p>
+                    <h1 className="ms-heading-2">{dict.categoriesImages.title}</h1>
+                    <p className="text-ms-stone mt-1">{dict.categoriesImages.subtitle}</p>
                 </div>
-                <Button onClick={handleSave} isLoading={isSaving}>Save Changes</Button>
+                <Button onClick={handleSave} isLoading={isSaving}>{dict.categoriesImages.saveBtn}</Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -159,13 +162,12 @@ export default function CategoriesImagesPage() {
                     onDrop={(e) => handleDrop(e, 0)}
                 >
                     <div className="flex items-center justify-between border-b border-ms-fog pb-2">
-                        <h3 className="font-medium text-lg">Main Category (Left) <span className="text-xs text-ms-stone font-normal ml-2">Slot 1</span></h3>
+                        <h3 className="font-medium text-lg">{dict.categoriesImages.mainLeft} <span className="text-xs text-ms-stone font-normal ml-2">{dict.categoriesImages.slot} 1</span></h3>
                         <span className="text-ms-stone cursor-move" title="Drag to move">:::</span>
                     </div>
                     <CategorySlot index={0} category={categories[0]} onUpdate={handleUpdate} />
                 </div>
 
-                {/* Right Column Layout Visual */}
                 <div className="space-y-8">
                     {/* Top Row */}
                     <div className="grid grid-cols-2 gap-4">
@@ -173,8 +175,8 @@ export default function CategoriesImagesPage() {
                             index={1}
                             category={categories[1]}
                             onUpdate={handleUpdate}
-                            title="Top Right 1"
-                            slotLabel="Slot 2"
+                            title={dict.categoriesImages.topRight1}
+                            slotLabel={`${dict.categoriesImages.slot} 2`}
                             onDragStart={handleDragStart}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
@@ -184,8 +186,8 @@ export default function CategoriesImagesPage() {
                             index={2}
                             category={categories[2]}
                             onUpdate={handleUpdate}
-                            title="Top Right 2"
-                            slotLabel="Slot 3"
+                            title={dict.categoriesImages.topRight2}
+                            slotLabel={`${dict.categoriesImages.slot} 3`}
                             onDragStart={handleDragStart}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
@@ -199,8 +201,8 @@ export default function CategoriesImagesPage() {
                             index={3}
                             category={categories[3]}
                             onUpdate={handleUpdate}
-                            title="Bottom Right 1"
-                            slotLabel="Slot 4"
+                            title={dict.categoriesImages.bottomRight1}
+                            slotLabel={`${dict.categoriesImages.slot} 4`}
                             onDragStart={handleDragStart}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
@@ -210,8 +212,8 @@ export default function CategoriesImagesPage() {
                             index={4}
                             category={categories[4]}
                             onUpdate={handleUpdate}
-                            title="Bottom Right 2"
-                            slotLabel="Slot 5"
+                            title={dict.categoriesImages.bottomRight2}
+                            slotLabel={`${dict.categoriesImages.slot} 5`}
                             onDragStart={handleDragStart}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
@@ -246,6 +248,7 @@ function DraggableSlot({
 }
 
 function CategorySlot({ index, category, onUpdate, compact = false }: { index: number, category: any, onUpdate: any, compact?: boolean }) {
+    const dict = useAdminDictionary();
     const images = category.image_url ? [{ image_url: category.image_url }] : [];
 
     return (
@@ -261,17 +264,17 @@ function CategorySlot({ index, category, onUpdate, compact = false }: { index: n
 
             <div className={`grid ${compact ? 'grid-cols-1' : 'grid-cols-2'} gap-3`}>
                 <div className="space-y-1">
-                    <label className="text-xs font-medium text-ms-stone">Title (ES)</label>
+                    <label className="text-xs font-medium text-ms-stone">{dict.categoriesImages.titleEs}</label>
                     <input className="ms-input h-8 text-sm" value={category.title_es || ''} onChange={e => onUpdate(index, 'title_es', e.target.value)} />
                 </div>
                 <div className="space-y-1">
-                    <label className="text-xs font-medium text-ms-stone">Title (EN)</label>
+                    <label className="text-xs font-medium text-ms-stone">{dict.categoriesImages.titleEn}</label>
                     <input className="ms-input h-8 text-sm" value={category.title_en || ''} onChange={e => onUpdate(index, 'title_en', e.target.value)} />
                 </div>
             </div>
 
             <div className="space-y-1">
-                <label className="text-xs font-medium text-ms-stone">Link URL</label>
+                <label className="text-xs font-medium text-ms-stone">{dict.categoriesImages.linkUrl}</label>
                 <input className="ms-input h-8 text-sm" value={category.link_url || ''} onChange={e => onUpdate(index, 'link_url', e.target.value)} placeholder="/products/..." />
             </div>
         </div>

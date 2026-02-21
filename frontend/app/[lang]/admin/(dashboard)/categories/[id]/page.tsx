@@ -24,6 +24,8 @@ export default function ProductCategoryForm({ params }: { params: { id: string }
     const [formData, setFormData] = useState({
         name_es: '',
         name_en: '',
+        slug_es: '',
+        slug_en: '',
         description_es: '',
         description_en: '',
         parent_id: parentIdParam || '', // Default to param if present
@@ -45,6 +47,8 @@ export default function ProductCategoryForm({ params }: { params: { id: string }
                 setFormData({
                     name_es: data.name_es || '',
                     name_en: data.name_en || '',
+                    slug_es: data.slug_es || '',
+                    slug_en: data.slug_en || '',
                     description_es: data.description_es || '',
                     description_en: data.description_en || '',
                     parent_id: data.parent_id || '',
@@ -125,6 +129,28 @@ export default function ProductCategoryForm({ params }: { params: { id: string }
                             required
                             placeholder="Ex. T-Shirts"
                         />
+                    </div>
+                </div>
+
+                {/* Slugs */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-ms-black">Slug URL (ES)</label>
+                        <Input
+                            value={formData.slug_es}
+                            onChange={e => setFormData({ ...formData, slug_es: e.target.value })}
+                            placeholder="Ej. polos-basicos"
+                        />
+                        <p className="text-xs text-ms-stone">Leave blank to auto-generate from Spanish Name.</p>
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-ms-black">Slug URL (EN)</label>
+                        <Input
+                            value={formData.slug_en}
+                            onChange={e => setFormData({ ...formData, slug_en: e.target.value })}
+                            placeholder="Ex. basic-polos"
+                        />
+                        <p className="text-xs text-ms-stone">Leave blank to auto-generate from English Name.</p>
                     </div>
                 </div>
 

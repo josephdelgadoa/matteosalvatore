@@ -60,17 +60,22 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
 
                                             {isExpanded && (
                                                 <div className="pl-4 space-y-4 animate-in slide-in-from-top-2 duration-200">
-                                                    {item.children?.map((child: any) => (
-                                                        <div key={child.id} className="space-y-2">
-                                                            <Link
-                                                                href={child.link_url || '#'}
-                                                                onClick={onClose}
-                                                                className="block font-medium text-lg text-ms-black"
-                                                            >
-                                                                {lang === 'es' ? child.label_es : child.label_en}
-                                                            </Link>
-                                                        </div>
-                                                    ))}
+                                                    {item.children?.map((child: any) => {
+                                                        const labelText = lang === 'es' ? child.label_es : child.label_en;
+                                                        const slug = child.slug || labelText?.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+
+                                                        return (
+                                                            <div key={child.id} className="space-y-2">
+                                                                <Link
+                                                                    href={child.link_url || `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${slug}`}
+                                                                    onClick={onClose}
+                                                                    className="block font-medium text-lg text-ms-black"
+                                                                >
+                                                                    {labelText}
+                                                                </Link>
+                                                            </div>
+                                                        )
+                                                    })}
                                                 </div>
                                             )}
                                         </li>
@@ -79,7 +84,7 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                                     return (
                                         <li key={item.id}>
                                             <Link
-                                                href={item.link_url || '#'}
+                                                href={item.link_url || `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${item.slug || (lang === 'es' ? item.label_es : item.label_en)?.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')}`}
                                                 onClick={onClose}
                                                 className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
                                             >
@@ -136,6 +141,7 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                     <div className="flex items-center gap-4 mb-6">
                         <button
                             onClick={() => {
+                                document.cookie = `NEXT_LOCALE=es; path=/; max-age=31536000; SameSite=Lax`;
                                 const newPath = window.location.pathname.replace(`/${lang}`, '/es');
                                 window.location.href = newPath;
                             }}
@@ -146,6 +152,7 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                         <span className="text-ms-stone">|</span>
                         <button
                             onClick={() => {
+                                document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
                                 const newPath = window.location.pathname.replace(`/${lang}`, '/en');
                                 window.location.href = newPath;
                             }}

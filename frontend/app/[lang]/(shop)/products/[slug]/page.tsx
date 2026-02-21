@@ -21,6 +21,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
+    // Gallery and Modal State
+    const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isZoomed, setIsZoomed] = useState(false);
+
     const { addItem, isLoading: isAddingToCart } = useCart();
     const { addToast } = useToast();
 
@@ -107,10 +112,21 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
         return filtered.sort((a, b) => a.display_order - b.display_order);
     }, [product, selectedColor]);
 
+    // Reset selected image when color changes
+    useEffect(() => {
+        if (effectiveImages.length > 0) {
+            setSelectedImageId(effectiveImages[0].id);
+        } else {
+            setSelectedImageId(null);
+        }
+    }, [selectedColor, effectiveImages]);
+
+    const primaryImageObj = effectiveImages.find(img => img.id === selectedImageId) || effectiveImages[0];
+    const primaryImageUrl = primaryImageObj?.image_url || 'https://via.placeholder.com/600x800';
+
     if (isLoading) return <div className="flex h-[80vh] items-center justify-center"><Spinner size="lg" /></div>;
     if (!product) return <div className="text-center py-20">Product not found</div>;
 
-    const primaryImage = effectiveImages?.[0]?.image_url || 'https://via.placeholder.com/600x800';
     const displayPrice = product.base_price; // TODO: Add price_adjustment logic if needed
 
     return (
@@ -118,26 +134,40 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
             <ToastContainer />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
                 {/* Gallery */}
-                <div className="space-y-4">
-                    <div className="aspect-[3/4] bg-ms-pearl w-full overflow-hidden">
-                        <div
-                            className="w-full h-full bg-cover bg-center transition-all duration-500"
-                            style={{ backgroundImage: `url(${primaryImage})` }}
-                        />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        {effectiveImages.slice(1).map((img, i) => (
-                            <div
-                                key={img.id || i}
-                                className="aspect-[3/4] bg-ms-pearl overflow-hidden cursor-pointer hover:opacity-90"
-                                onClick={() => {
-                                    // Optional: clicking grid image sets it as primary? 
-                                    // For now just display.
-                                }}
+                <div className="flex flex-col md:flex-row gap-4 h-fit">
+                    {/* Vertical Thumbnails (Left) */}
+                    <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto md:max-h-[800px] scrollbar-hide order-2 md:order-1 flex-shrink-0">
+                        {effectiveImages.map((img) => (
+                            <button
+                                key={img.id}
+                                onClick={() => setSelectedImageId(img.id)}
+                                className={cn(
+                                    "w-16 h-20 md:w-20 md:h-24 flex-shrink-0 bg-ms-ivory border-2 transition-all overflow-hidden rounded-md",
+                                    selectedImageId === img.id ? "border-nav-blue object-cover" : "border-ms-fog/50 hover:border-ms-stone opacity-70 hover:opacity-100"
+                                )}
                             >
-                                <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${img.image_url})` }} />
-                            </div>
+                                <img src={img.image_url} alt={product.name_es} className="w-full h-full object-cover" />
+                            </button>
                         ))}
+                    </div>
+
+                    {/* Main Stage (Right) */}
+                    <div className="flex-1 order-1 md:order-2 space-y-4">
+                        <div className="aspect-[3/4] bg-ms-pearl w-full overflow-hidden relative cursor-zoom-in" onClick={() => setIsModalOpen(true)}>
+                            <img
+                                src={primaryImageUrl}
+                                alt={product.name_es}
+                                className="w-full h-full object-cover transition-opacity duration-300"
+                            />
+                        </div>
+                        <div className="text-center">
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="text-sm text-nav-blue font-medium hover:underline"
+                            >
+                                Click to see full view
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -250,6 +280,73 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                     </div>
                 </div>
             </div>
+
+            {/* FULL VIEW MODAL */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 bg-white md:bg-black/40 flex items-center justify-center animate-fade-in backdrop-blur-sm">
+                    <div className="bg-white w-full h-[100dvh] md:w-[90vw] md:h-[90vh] md:rounded-lg shadow-2xl flex flex-col md:flex-row overflow-hidden relative">
+                        {/* Close Button Header (Mobile) & Floating Close (Desktop) */}
+                        <div className="absolute top-4 right-4 z-50 flex gap-4">
+                            <button
+                                onClick={() => setIsZoomed(!isZoomed)}
+                                className="bg-white/80 p-2 rounded-full shadow-sm hover:bg-white text-ms-stone hover:text-ms-black transition-colors"
+                                title="Zoom"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setIsModalOpen(false);
+                                    setIsZoomed(false);
+                                }}
+                                className="bg-white/80 p-2 rounded-full shadow-sm hover:bg-white text-ms-stone hover:text-ms-black transition-colors"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+
+                        {/* Modal Main Stage */}
+                        <div className="flex-1 bg-ms-pearl relative overflow-hidden flex items-center justify-center cursor-crosshair h-full" onClick={() => setIsZoomed(!isZoomed)}>
+                            <img
+                                src={primaryImageUrl}
+                                alt={product.name_es}
+                                className={cn(
+                                    "transition-transform duration-500 ease-in-out",
+                                    isZoomed ? "scale-150 cursor-zoom-out h-full w-auto max-w-none object-contain" : "scale-100 cursor-zoom-in w-full h-full object-contain"
+                                )}
+                            />
+                        </div>
+
+                        {/* Modal Right Column (Thumbnails & Summary) */}
+                        <div className="w-full md:w-80 bg-white p-6 md:p-8 flex flex-col border-l border-ms-fog z-10 overflow-y-auto">
+                            <h2 className="text-xl font-medium mb-1 pr-12">{product.name_es}</h2>
+                            <p className="text-sm text-ms-stone mb-6">S/. {displayPrice.toFixed(2)}</p>
+
+                            <p className="text-xs font-medium text-ms-stone mb-3 uppercase tracking-wider">
+                                Color: <span className="text-ms-black">{selectedColor || 'All'}</span>
+                            </p>
+
+                            <div className="grid grid-cols-4 gap-3">
+                                {effectiveImages.map((img) => (
+                                    <button
+                                        key={`modal-thumb-${img.id}`}
+                                        onClick={() => {
+                                            setSelectedImageId(img.id);
+                                            setIsZoomed(false);
+                                        }}
+                                        className={cn(
+                                            "aspect-[3/4] bg-ms-ivory border transition-all overflow-hidden rounded-md",
+                                            selectedImageId === img.id ? "border-nav-blue object-cover" : "border-ms-fog hover:border-ms-stone"
+                                        )}
+                                    >
+                                        <img src={img.image_url} alt={product.name_es} className="w-full h-full object-cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

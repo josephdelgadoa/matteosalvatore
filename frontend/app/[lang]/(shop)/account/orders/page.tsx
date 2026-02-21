@@ -8,7 +8,10 @@ import { ChevronRight, PackageX } from 'lucide-react';
 import { Spinner } from '@/components/ui/Spinner';
 import axios from 'axios';
 
-export default function OrderHistoryPage() {
+// @ts-ignore
+import { Locale } from '@/i18n-config';
+
+export default function OrderHistoryPage({ params: { lang } }: { params: { lang: Locale } }) {
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState<any[]>([]);
     const supabase = createClientComponentClient();
@@ -43,7 +46,7 @@ export default function OrderHistoryPage() {
                 </div>
                 <h3 className="text-lg font-medium mb-2">No orders yet</h3>
                 <p className="text-ms-stone mb-6">You haven't placed any orders yet.</p>
-                <Link href="/products">
+                <Link href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}`}>
                     <button className="bg-ms-black text-ms-white px-6 py-2 rounded-md hover:bg-ms-charcoal transition-colors">
                         Start Shopping
                     </button>

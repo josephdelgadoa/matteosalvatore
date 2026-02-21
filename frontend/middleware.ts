@@ -5,14 +5,17 @@ import { match as matchLocale } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 
 function getLocale(request: NextRequest): string {
-    // Negotiator expects plain object so we need to transform headers
+    // 1. Check if user has explicitly set a language preference
+    const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
+    if (cookieLocale && i18n.locales.includes(cookieLocale as any)) {
+        return cookieLocale;
+    }
+
+    // 2. Otherwise use Negotiator + intl-localematcher
     const negotiatorHeaders: Record<string, string> = {};
     request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
-    // @ts-ignore locales are readonly
-    const locales: string[] = i18n.locales;
-
-    // Use negotiator and intl-localematcher to get best locale
+    const locales: string[] = i18n.locales as unknown as string[];
     let languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
 
     try {
@@ -45,13 +48,24 @@ export async function middleware(request: NextRequest) {
         );
     }
 
+    // --- Path Localization Rewrites ---
+    // Rewrite Spanish frontend URLs to the English internal routing
+    let response: NextResponse;
+
+    if (pathname.startsWith('/es/productos')) {
+        response = NextResponse.rewrite(new URL(pathname.replace('/es/productos', '/es/products'), request.url));
+    } else if (pathname.startsWith('/es/categoria')) {
+        response = NextResponse.rewrite(new URL(pathname.replace('/es/categoria', '/es/category'), request.url));
+    } else {
+        response = NextResponse.next({
+            request: {
+                headers: request.headers,
+            },
+        });
+    }
+
     // --- Supabase Auth Middleware Logic (Preserved) ---
     // Note: We might need to adjust this if auth routes move under [lang]
-    let response = NextResponse.next({
-        request: {
-            headers: request.headers,
-        },
-    });
 
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,

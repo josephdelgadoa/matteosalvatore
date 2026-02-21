@@ -5,8 +5,10 @@ export interface ProductCategory {
     id: string;
     name_es: string;
     name_en: string; // Added English Name
-    slug: string;
-    description: string;
+    slug_es: string;
+    slug_en: string;
+    description_es: string;
+    description_en: string;
     image_url?: string;
     parent_id?: string;
     display_order?: number;

@@ -6,12 +6,14 @@ import { useRouter, usePathname } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { LogOut, User, Globe, Menu } from 'lucide-react';
 import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
 interface AdminHeaderProps {
     lang: Locale;
 }
 
 export const AdminHeader = ({ lang }: AdminHeaderProps) => {
+    const dict = useAdminDictionary();
     const router = useRouter();
     const pathname = usePathname();
     const [headerName, setHeaderName] = useState<string>('Administrator');
@@ -106,6 +108,7 @@ export const AdminHeader = ({ lang }: AdminHeaderProps) => {
 
     const toggleLanguage = () => {
         const newLang = lang === 'es' ? 'en' : 'es';
+        document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
         const newPath = pathname.replace(`/${lang}`, `/${newLang}`);
         router.push(newPath);
     };
@@ -123,7 +126,7 @@ export const AdminHeader = ({ lang }: AdminHeaderProps) => {
 
                 <div className="flex items-center gap-3 pl-6 border-l border-ms-fog">
                     <div className="flex flex-col items-end">
-                        <span className="text-sm font-medium text-ms-black">Hola, {headerName}</span>
+                        <span className="text-sm font-medium text-ms-black">{dict.header.greeting} {headerName}</span>
                         <span className="text-xs text-ms-stone">{headerRole}</span>
                     </div>
 

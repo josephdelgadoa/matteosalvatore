@@ -7,8 +7,11 @@ import { Plus, Trash2, Edit } from 'lucide-react';
 import { User, usersApi } from '@/lib/api/users';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
+import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
-export default function AdminUsersPage() {
+export default function AdminUsersPage({ params }: { params: { lang: Locale } }) {
+    const dict = useAdminDictionary();
     const { addToast } = useToast();
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -20,7 +23,7 @@ export default function AdminUsersPage() {
             setUsers(data || []);
         } catch (error) {
             console.error('Failed to load users:', error);
-            addToast('Failed to load users', 'error');
+            addToast(dict.usersList.loadError, 'error');
         } finally {
             setLoading(false);
         }
@@ -31,15 +34,15 @@ export default function AdminUsersPage() {
     }, []);
 
     const handleDelete = async (id: string) => {
-        if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+        if (!window.confirm(dict.usersList.deleteConfirm)) return;
 
         try {
             await usersApi.delete(id);
-            addToast('User deleted successfully', 'success');
+            addToast(dict.usersList.deleteSuccess, 'success');
             loadUsers();
         } catch (error) {
             console.error('Failed to delete user:', error);
-            addToast('Failed to delete user', 'error');
+            addToast(dict.usersList.deleteError, 'error');
         }
     };
 
@@ -56,13 +59,13 @@ export default function AdminUsersPage() {
             <ToastContainer />
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="ms-heading-2">Users</h1>
-                    <p className="text-ms-stone mt-1">Manage admin users and staff.</p>
+                    <h1 className="ms-heading-2">{dict.usersList.title}</h1>
+                    <p className="text-ms-stone mt-1">{dict.usersList.subtitle}</p>
                 </div>
-                <Link href="/admin/users/new">
+                <Link href={`/${params.lang}/admin/users/new`}>
                     <Button>
                         <Plus className="w-4 h-4 mr-2" />
-                        Add New User
+                        {dict.usersList.add}
                     </Button>
                 </Link>
             </div>
@@ -71,17 +74,17 @@ export default function AdminUsersPage() {
                 <table className="w-full text-left text-sm">
                     <thead>
                         <tr className="bg-ms-ivory border-b border-ms-fog">
-                            <th className="px-6 py-4 font-medium text-ms-stone">User</th>
-                            <th className="px-6 py-4 font-medium text-ms-stone">Role</th>
-                            <th className="px-6 py-4 font-medium text-ms-stone">Created</th>
-                            <th className="px-6 py-4 font-medium text-ms-stone text-right">Actions</th>
+                            <th className="px-6 py-4 font-medium text-ms-stone">{dict.usersList.tableUser}</th>
+                            <th className="px-6 py-4 font-medium text-ms-stone">{dict.usersList.tableRole}</th>
+                            <th className="px-6 py-4 font-medium text-ms-stone">{dict.usersList.tableCreated}</th>
+                            <th className="px-6 py-4 font-medium text-ms-stone text-right">{dict.usersList.tableActions}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-ms-fog">
                         {users.length === 0 ? (
                             <tr>
                                 <td colSpan={4} className="px-6 py-8 text-center text-ms-stone">
-                                    No users found.
+                                    {dict.usersList.noUsers}
                                 </td>
                             </tr>
                         ) : (
@@ -120,7 +123,7 @@ export default function AdminUsersPage() {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <Link href={`/admin/users/${user.id}`}>
+                                            <Link href={`/${params.lang}/admin/users/${user.id}`}>
                                                 <button className="p-2 text-ms-stone hover:text-ms-black hover:bg-ms-fog/20 rounded-md transition-colors">
                                                     <Edit className="w-4 h-4" />
                                                 </button>

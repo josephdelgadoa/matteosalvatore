@@ -8,8 +8,11 @@ import { productCategoriesApi, ProductCategory } from '@/lib/api/productCategori
 import { Plus, Edit, Trash, GripVertical, CornerDownRight } from 'lucide-react';
 import { Spinner } from '@/components/ui/Spinner';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
+import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
-export default function ProductCategoriesPage() {
+export default function ProductCategoriesPage({ params }: { params: { lang: Locale } }) {
+    const dict = useAdminDictionary();
     const [categories, setCategories] = useState<ProductCategory[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { addToast } = useToast();
@@ -27,7 +30,7 @@ export default function ProductCategoriesPage() {
             setCategories(data);
         } catch (error: any) {
             console.error('Failed to load product categories', error);
-            const msg = error.response?.data?.error || error.message || 'Failed to load categories';
+            const msg = error.response?.data?.error || error.message || dict.categoriesList.loadError;
             addToast(`Error: ${msg}`, 'error');
         } finally {
             setIsLoading(false);
@@ -35,16 +38,16 @@ export default function ProductCategoriesPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this category?')) return;
+        if (!confirm(dict.categoriesList.deleteConfirm)) return;
 
         try {
             await productCategoriesApi.delete(id);
-            addToast('Category deleted', 'success');
+            addToast(dict.categoriesList.deleteSuccess, 'success');
             loadCategories();
         } catch (error: any) {
             console.error('Failed to delete category', error);
             const msg = error.response?.data?.error || error.message;
-            addToast(`Failed to delete: ${msg}`, 'error');
+            addToast(`${dict.categoriesList.deleteError}: ${msg}`, 'error');
         }
     };
 
@@ -134,7 +137,7 @@ export default function ProductCategoriesPage() {
         if (draggedId === targetId) return;
 
         if (isDescendant(draggedId, targetId)) {
-            addToast('Cannot move a parent into its own child', 'error');
+            addToast(dict.categoriesList.moveError, 'error');
             setDropTarget(null);
             setDraggedId(null);
             return;
@@ -198,12 +201,12 @@ export default function ProductCategoriesPage() {
 
             // API Call
             await productCategoriesApi.reorder(updates);
-            addToast('Categories reordered', 'success');
+            addToast(dict.categoriesList.reorderSuccess, 'success');
 
         } catch (error: any) {
             console.error(error);
             const msg = error.response?.data?.error || error.message || 'Unknown error';
-            addToast(`Failed to reorder: ${msg}`, 'error');
+            addToast(`${dict.categoriesList.reorderError} ${msg}`, 'error');
             loadCategories(); // Revert
         } finally {
             setDropTarget(null);
@@ -226,13 +229,13 @@ export default function ProductCategoriesPage() {
             <ToastContainer />
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="ms-heading-2">Product Categories</h1>
-                    <p className="text-ms-stone mt-1">Manage product taxonomy hierarchy.</p>
+                    <h1 className="ms-heading-2">{dict.categoriesList.title}</h1>
+                    <p className="text-ms-stone mt-1">{dict.categoriesList.subtitle}</p>
                 </div>
-                <Link href="/admin/categories/new">
+                <Link href={`/${params.lang}/admin/categories/new`}>
                     <Button>
                         <Plus size={20} className="mr-2" />
-                        Add Root Category
+                        {dict.categoriesList.addRoot}
                     </Button>
                 </Link>
             </div>
@@ -242,7 +245,7 @@ export default function ProductCategoriesPage() {
                     <div className="flex justify-center p-12"><Spinner /></div>
                 ) : (
                     <>
-                        {categories.length === 0 && <div className="p-8 text-center text-ms-stone">No categories. Add one!</div>}
+                        {categories.length === 0 && <div className="p-8 text-center text-ms-stone">{dict.categoriesList.noCategories}</div>}
                         <CategoryList
                             items={treeData}
                             onDragStart={handleDragStart}
@@ -250,6 +253,8 @@ export default function ProductCategoriesPage() {
                             onDrop={handleDrop}
                             dropTarget={dropTarget}
                             onDelete={handleDelete}
+                            dict={dict}
+                            lang={params.lang}
                         />
                     </>
                 )}
@@ -258,7 +263,7 @@ export default function ProductCategoriesPage() {
     );
 }
 
-function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDelete }: any) {
+export function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDelete, dict, lang }: any) {
     if (!items || items.length === 0) return null;
 
     return (
@@ -286,21 +291,21 @@ function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDe
                             <div className="flex items-center gap-3">
                                 <span className="text-ms-stone opacity-50"><GripVertical size={16} /></span>
                                 <div className={`w-2 h-2 rounded-full ${item.is_active ? 'bg-green-500' : 'bg-gray-300'}`} />
-                                <span className="font-medium">{item.name_es}</span>
-                                <span className="text-sm text-ms-stone">/ {item.name_en}</span>
+                                <span className="font-medium">{item.name_es} / {item.name_en}</span>
+                                <span className="text-xs text-ms-stone block">({item.slug_es} / {item.slug_en})</span>
                             </div>
                             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Link href={`/admin/categories/new?parentId=${item.id}`}>
-                                    <button className="p-1.5 text-ms-stone hover:text-blue-600 rounded" title="Add Subcategory">
+                                <Link href={`/${lang}/admin/categories/new?parentId=${item.id}`}>
+                                    <button className="p-1.5 text-ms-stone hover:text-blue-600 rounded" title={dict.categoriesList.addSubcategory}>
                                         <Plus size={16} />
                                     </button>
                                 </Link>
-                                <Link href={`/admin/categories/${item.id}`}>
-                                    <button className="p-1.5 text-ms-stone hover:text-ms-black rounded" title="Edit">
+                                <Link href={`/${lang}/admin/categories/${item.id}`}>
+                                    <button className="p-1.5 text-ms-stone hover:text-ms-black rounded" title={dict.categoriesList.edit}>
                                         <Edit size={16} />
                                     </button>
                                 </Link>
-                                <button onClick={() => onDelete(item.id)} className="p-1.5 text-ms-stone hover:text-red-600 rounded" title="Delete">
+                                <button onClick={() => onDelete(item.id)} className="p-1.5 text-ms-stone hover:text-red-600 rounded" title={dict.categoriesList.delete}>
                                     <Trash size={16} />
                                 </button>
                             </div>
@@ -316,6 +321,8 @@ function CategoryList({ items, onDragStart, onDragOver, onDrop, dropTarget, onDe
                                     onDrop={onDrop}
                                     dropTarget={dropTarget}
                                     onDelete={onDelete}
+                                    dict={dict}
+                                    lang={lang}
                                 />
                             </div>
                         )}

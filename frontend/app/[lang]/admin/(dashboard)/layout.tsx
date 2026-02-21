@@ -4,6 +4,8 @@ import { Locale } from '@/i18n-config';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getDictionary } from '@/get-dictionary';
+import { AdminDictionaryProvider } from '@/providers/AdminDictionaryProvider';
 
 export default async function AdminLayout({
     children,
@@ -54,17 +56,21 @@ export default async function AdminLayout({
         redirect(`/${params.lang}/account`);
     }
 
+    const dict = await getDictionary(params.lang);
+
     return (
-        <div className="h-screen bg-ms-ivory flex">
-            <AdminSidebar />
-            <div className="flex-1 flex flex-col ml-64 h-full">
-                <AdminHeader lang={params.lang} />
-                <main className="flex-1 p-8 overflow-y-auto">
-                    <div className="max-w-6xl mx-auto animate-fade-in">
-                        {children}
-                    </div>
-                </main>
+        <AdminDictionaryProvider dictionary={dict.admin}>
+            <div className="h-screen bg-ms-ivory flex">
+                <AdminSidebar lang={params.lang} />
+                <div className="flex-1 flex flex-col ml-64 h-full">
+                    <AdminHeader lang={params.lang} />
+                    <main className="flex-1 p-8 overflow-y-auto">
+                        <div className="max-w-6xl mx-auto animate-fade-in">
+                            {children}
+                        </div>
+                    </main>
+                </div>
             </div>
-        </div>
+        </AdminDictionaryProvider>
     );
 }

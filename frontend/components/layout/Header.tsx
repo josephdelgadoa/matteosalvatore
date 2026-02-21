@@ -158,6 +158,7 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
                             <div className="hidden md:flex items-center gap-1 text-sm font-medium">
                                 <button
                                     onClick={() => {
+                                        document.cookie = `NEXT_LOCALE=es; path=/; max-age=31536000; SameSite=Lax`;
                                         const newPath = window.location.pathname.replace(`/${lang}`, '/es');
                                         router.push(newPath);
                                     }}
@@ -168,6 +169,7 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
                                 <span className="text-ms-stone">|</span>
                                 <button
                                     onClick={() => {
+                                        document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
                                         const newPath = window.location.pathname.replace(`/${lang}`, '/en');
                                         router.push(newPath);
                                     }}

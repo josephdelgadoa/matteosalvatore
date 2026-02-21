@@ -32,7 +32,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
 
     // Fallback to dictionary if empty (or if migration not run yet)
     if (!heroSlides || heroSlides.length === 0) {
-        heroSlides = dict.hero.slides.map((s, i) => ({ ...s, id: i + 1, link: s.link || '/products' }));
+        heroSlides = dict.hero.slides.map((s, i) => ({ ...s, id: i + 1, link: s.link || `/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}` }));
     }
 
     // 0.1 Featured Categories (Dynamic)
@@ -120,7 +120,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 title={dict.home.trending}
                 products={trendingProducts}
                 lang={params.lang}
-                viewAllLink={`/${params.lang}/products`}
+                viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}`}
             />
 
             {/* Best Sellers */}
@@ -128,7 +128,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 title={dict.home.bestSellers}
                 products={bestSellingProducts}
                 lang={params.lang}
-                viewAllLink={`/${params.lang}/products`}
+                viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}`}
             />
 
             {/* Featured Categories (Custom 5-Item Grid) */}
@@ -195,7 +195,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 title={dict.home.finishingTouches}
                 products={finishingProducts}
                 lang={params.lang}
-                viewAllLink={`/${params.lang}/category/accessories`}
+                viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'categoria' : 'category'}/accessories`}
             />
 
             {/* Testimonials */}
@@ -272,9 +272,9 @@ function formatCategoryLink(link: string | null, lang: string): string {
         .replace(/-+/g, '-');     // Collaborative dashes
 
     // Fallback if slug is empty
-    if (!slug) return `/${lang}/products`;
+    if (!slug) return `/${lang}/${lang === 'es' ? 'productos' : 'products'}`;
 
-    return `/${lang}/category/${slug}`;
+    return `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${slug}`;
 }
 
 // Helper component for content to reduce duplication

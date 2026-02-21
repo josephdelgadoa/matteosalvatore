@@ -47,15 +47,17 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
                                             category = childOrId; // It's a menu item object
                                         }
 
-                                        if (!category) return null;
+                                        // Generate slug from label if no link_url is provided
+                                        const labelText = lang === 'es' ? (category.label_es || category.label?.es || category.name_es) : (category.label_en || category.label?.en || category.name_en);
+                                        const slug = category.slug || labelText?.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 
                                         return (
                                             <div key={category.id} className="space-y-2">
                                                 <Link
-                                                    href={category.link_url || `/${lang}/category/${category.id}`}
+                                                    href={category.link_url || `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${slug}`}
                                                     className="font-medium text-ms-black hover:text-ms-gold transition-colors block"
                                                 >
-                                                    {lang === 'es' ? (category.label_es || category.label?.es) : (category.label_en || category.label?.en)}
+                                                    {labelText}
                                                 </Link>
 
                                                 {/* Subcategories (Only for Legacy structure or deep nesting if needed) */}

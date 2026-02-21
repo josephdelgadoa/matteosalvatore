@@ -8,8 +8,11 @@ import { menuApi, MenuItem } from '@/lib/api/menu';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { ChevronRight, ChevronDown, Plus, Trash2, GripVertical, Save, X } from 'lucide-react';
+import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
 export default function MenuSettingsPage() {
+    const dict = useAdminDictionary();
     const { addToast } = useToast();
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +34,7 @@ export default function MenuSettingsPage() {
             setMenuItems(data);
         } catch (error) {
             console.error(error);
-            addToast('Failed to load menu', 'error');
+            addToast(dict.menuSettings.loadError, 'error');
         } finally {
             setIsLoading(false);
         }
@@ -76,13 +79,13 @@ export default function MenuSettingsPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure? This will delete all sub-items as well.')) return;
+        if (!confirm(dict.menuSettings.deleteConfirm)) return;
         try {
             await menuApi.delete(id);
-            addToast('Menu item deleted', 'success');
+            addToast(dict.menuSettings.deleteSuccess, 'success');
             loadMenu();
         } catch (error) {
-            addToast('Failed to delete item', 'error');
+            addToast(dict.menuSettings.deleteError, 'error');
         }
     };
 
@@ -107,12 +110,12 @@ export default function MenuSettingsPage() {
             } else {
                 await menuApi.create(payload);
             }
-            addToast('Menu saved successfully', 'success');
+            addToast(dict.menuSettings.saveSuccess, 'success');
             setIsEditModalOpen(false);
             loadMenu();
         } catch (error: any) {
             console.error(error);
-            const msg = error.response?.data?.error || error.message || 'Failed to save menu item';
+            const msg = error.response?.data?.error || error.message || dict.menuSettings.saveErrorDefault;
             addToast(msg, 'error');
         } finally {
             setIsSaving(false);
@@ -138,11 +141,11 @@ export default function MenuSettingsPage() {
             <ToastContainer />
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="ms-heading-2">Menu Bar</h1>
-                    <p className="text-ms-stone mt-1">Manage the main navigation menu structure.</p>
+                    <h1 className="ms-heading-2">{dict.menuSettings.title}</h1>
+                    <p className="text-ms-stone mt-1">{dict.menuSettings.subtitle}</p>
                 </div>
                 <Button onClick={handleCreateRoot}>
-                    <Plus className="w-4 h-4 mr-2" /> Add Main Item
+                    <Plus className="w-4 h-4 mr-2" /> {dict.menuSettings.addMain}
                 </Button>
             </div>
 
@@ -155,7 +158,7 @@ export default function MenuSettingsPage() {
                 />
                 {menuItems.length === 0 && (
                     <div className="p-12 text-center text-ms-stone">
-                        No menu items yet. Click "Add Main Item" to start.
+                        {dict.menuSettings.noItems}
                     </div>
                 )}
             </div>
@@ -166,7 +169,7 @@ export default function MenuSettingsPage() {
                     <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-medium">
-                                {editingItem.id ? 'Edit Item' : 'New Item'}
+                                {editingItem.id ? dict.menuSettings.editItem : dict.menuSettings.newItem}
                             </h3>
                             <button onClick={() => setIsEditModalOpen(false)}><X className="w-5 h-5" /></button>
                         </div>
@@ -174,7 +177,7 @@ export default function MenuSettingsPage() {
                         <form onSubmit={handleSave} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-ms-stone mb-1">Label (ES)</label>
+                                    <label className="block text-xs font-medium text-ms-stone mb-1">{dict.menuSettings.labelEs}</label>
                                     <Input
                                         value={editingItem.label_es || ''}
                                         onChange={e => setEditingItem({ ...editingItem, label_es: e.target.value })}
@@ -183,7 +186,7 @@ export default function MenuSettingsPage() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-ms-stone mb-1">Label (EN)</label>
+                                    <label className="block text-xs font-medium text-ms-stone mb-1">{dict.menuSettings.labelEn}</label>
                                     <Input
                                         value={editingItem.label_en || ''}
                                         onChange={e => setEditingItem({ ...editingItem, label_en: e.target.value })}
@@ -194,20 +197,20 @@ export default function MenuSettingsPage() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-medium text-ms-stone mb-1">Type</label>
+                                <label className="block text-xs font-medium text-ms-stone mb-1">{dict.menuSettings.type}</label>
                                 <select
                                     className="ms-input w-full"
                                     value={editingItem.type}
                                     onChange={e => setEditingItem({ ...editingItem, type: e.target.value as any })}
                                 >
-                                    <option value="link">Link</option>
-                                    <option value="dropdown">Dropdown</option>
+                                    <option value="link">{dict.menuSettings.typeLink}</option>
+                                    <option value="dropdown">{dict.menuSettings.typeDropdown}</option>
                                 </select>
                             </div>
 
                             {editingItem.type === 'link' && (
                                 <div>
-                                    <label className="block text-xs font-medium text-ms-stone mb-1">Link URL</label>
+                                    <label className="block text-xs font-medium text-ms-stone mb-1">{dict.menuSettings.linkUrl}</label>
                                     <Input
                                         value={editingItem.link_url || ''}
                                         onChange={e => setEditingItem({ ...editingItem, link_url: e.target.value })}
@@ -217,8 +220,8 @@ export default function MenuSettingsPage() {
                             )}
 
                             <div className="flex justify-end gap-3 pt-4">
-                                <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-                                <Button type="submit" isLoading={isSaving}>Save</Button>
+                                <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>{dict.menuSettings.cancel}</Button>
+                                <Button type="submit" isLoading={isSaving}>{dict.menuSettings.save}</Button>
                             </div>
                         </form>
                     </div>

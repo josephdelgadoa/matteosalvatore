@@ -8,8 +8,11 @@ import { DataTable } from '@/components/admin/DataTable';
 import { productsApi, Product } from '@/lib/api/products';
 import { Spinner } from '@/components/ui/Spinner';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
+import { Locale } from '@/i18n-config';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
-export default function AdminProductsPage() {
+export default function AdminProductsPage({ params }: { params: { lang: Locale } }) {
+    const dict = useAdminDictionary();
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { addToast } = useToast();
@@ -20,7 +23,7 @@ export default function AdminProductsPage() {
             setProducts(data);
         } catch (err: any) {
             console.error('Error loading products:', err);
-            addToast(`Failed to load products: ${err.message || 'Unknown error'}`, 'error');
+            addToast(`${dict.products.loadError}: ${err.message || 'Unknown error'}`, 'error');
         } finally {
             setIsLoading(false);
         }
@@ -31,22 +34,22 @@ export default function AdminProductsPage() {
     }, []);
 
     const handleDelete = async (item: Product) => {
-        if (!confirm(`Are you sure you want to delete ${item.name_es}?`)) return;
+        if (!confirm(`${dict.products.confirmDelete} ${item.name_es}?`)) return;
 
         try {
             await productsApi.delete(item.id);
-            addToast('Product deleted successfully', 'success');
+            addToast(dict.products.deleteSuccess, 'success');
             // Refresh
             fetchProducts();
         } catch (err) {
             console.error('Error deleting product:', err);
-            addToast('Failed to delete product', 'error');
+            addToast(dict.products.deleteError, 'error');
         }
     };
 
     const columns = [
         {
-            header: 'Product',
+            header: dict.products.tableProduct,
             accessorKey: (item: Product) => (
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-ms-pearl flex-shrink-0">
@@ -60,28 +63,28 @@ export default function AdminProductsPage() {
                     </div>
                     <div>
                         <span className="font-medium block">{item.name_es}</span>
-                        <span className="text-xs text-ms-stone block">{item.slug}</span>
+                        <span className="text-xs text-ms-stone block">{item.slug_es} / {item.slug_en}</span>
                     </div>
                 </div>
             )
         },
         {
-            header: 'Category',
+            header: dict.products.tableCategory,
             accessorKey: (item: Product) => (
                 <span className="capitalize">{item.category}</span>
             )
         },
         {
-            header: 'Price',
+            header: dict.products.tablePrice,
             accessorKey: (item: Product) => `S/. ${item.base_price.toFixed(2)}`
         },
         {
-            header: 'Stock',
+            header: dict.products.tableStock,
             accessorKey: (item: Product) => {
                 const totalStock = item.product_variants?.reduce((acc, v) => acc + v.stock_quantity, 0) || 0;
                 return (
                     <span className={totalStock < 10 ? 'text-ms-error' : 'text-ms-success'}>
-                        {totalStock} items
+                        {totalStock} {dict.products.items}
                     </span>
                 );
             }
@@ -95,13 +98,13 @@ export default function AdminProductsPage() {
             <ToastContainer />
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="ms-heading-2 mb-2">Products</h1>
-                    <p className="text-ms-stone">Manage your catalog, inventory, and variants.</p>
+                    <h1 className="ms-heading-2 mb-2">{dict.products.title}</h1>
+                    <p className="text-ms-stone">{dict.products.subtitle}</p>
                 </div>
-                <Link href="/admin/products/new">
+                <Link href={`/${params.lang}/admin/products/new`}>
                     <Button className="gap-2">
                         <Plus className="w-4 h-4" />
-                        Add Product
+                        {dict.products.add}
                     </Button>
                 </Link>
             </div>
@@ -109,7 +112,7 @@ export default function AdminProductsPage() {
             <DataTable
                 data={products}
                 columns={columns}
-                editPath={(item) => `/admin/products/${item.slug}`}
+                editPath={(item) => `/admin/products/${item.slug_es || item.slug_en}`}
                 onDelete={handleDelete}
             />
         </div>

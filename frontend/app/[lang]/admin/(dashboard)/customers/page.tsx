@@ -5,8 +5,10 @@ import { DataTable } from '@/components/admin/DataTable';
 import { customersApi, Customer } from '@/lib/api/customers';
 import { Spinner } from '@/components/ui/Spinner';
 import { Mail, User } from 'lucide-react';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
 export default function AdminCustomersPage() {
+    const dict = useAdminDictionary();
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +28,7 @@ export default function AdminCustomersPage() {
 
     const columns: any[] = [
         {
-            header: 'Customer',
+            header: dict.customersList.tableCustomer,
             accessorKey: (item: Customer) => (
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-ms-pearl rounded-full flex items-center justify-center text-ms-stone">
@@ -37,14 +39,14 @@ export default function AdminCustomersPage() {
                             {item.first_name} {item.last_name}
                         </span>
                         <span className="text-xs text-ms-stone block">
-                            Joined {new Date(item.created_at).toLocaleDateString()}
+                            {dict.customersList.joined} {new Date(item.created_at).toLocaleDateString()}
                         </span>
                     </div>
                 </div>
             )
         },
         {
-            header: 'Email',
+            header: dict.customersList.tableEmail,
             accessorKey: (item: Customer) => (
                 <div className="flex items-center gap-2 text-sm">
                     <Mail className="w-3 h-3 text-ms-stone" />
@@ -53,7 +55,7 @@ export default function AdminCustomersPage() {
             )
         },
         {
-            header: 'Role',
+            header: dict.customersList.tableRole,
             accessorKey: (item: Customer) => (
                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium uppercase
                     ${item.role === 'admin' || item.role === 'super_admin'
@@ -72,8 +74,8 @@ export default function AdminCustomersPage() {
         <div>
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="ms-heading-2 mb-2">Customers</h1>
-                    <p className="text-ms-stone">Manage your registered users and profiles.</p>
+                    <h1 className="ms-heading-2 mb-2">{dict.customersList.title}</h1>
+                    <p className="text-ms-stone">{dict.customersList.subtitle}</p>
                 </div>
             </div>
 

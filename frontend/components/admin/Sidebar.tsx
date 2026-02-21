@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { cn } from '@/lib/utils';
+import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
+import { Locale } from '@/i18n-config';
 import {
     LayoutDashboard,
     ShoppingBag,
@@ -15,21 +17,22 @@ import {
     Menu
 } from 'lucide-react';
 
-const menuItems = [
-    { href: '/admin', label: 'Overview', icon: LayoutDashboard },
-    { href: '/admin/products', label: 'Products', icon: ShoppingBag },
-    { href: '/admin/categories', label: 'Product Categories', icon: LayoutDashboard }, // Renamed
-    { href: '/admin/settings/categories-images', label: 'Categories Images', icon: LayoutDashboard },
-    { href: '/admin/orders', label: 'Orders', icon: Package },
-    { href: '/admin/customers', label: 'Customers', icon: Users },
-    { href: '/admin/users', label: 'Users', icon: Users },
-    { href: '/admin/settings/menu', label: 'Menu Bar', icon: Menu },
-    { href: '/admin/settings', label: 'Settings', icon: Settings },
-];
-
-export const AdminSidebar = () => {
+export const AdminSidebar = ({ lang }: { lang: Locale }) => {
+    const dict = useAdminDictionary();
     const pathname = usePathname();
     const router = useRouter();
+
+    const menuItems = [
+        { href: `/${lang}/admin`, label: dict.sidebar.overview, icon: LayoutDashboard },
+        { href: `/${lang}/admin/products`, label: dict.sidebar.products, icon: ShoppingBag },
+        { href: `/${lang}/admin/categories`, label: dict.sidebar.categories, icon: LayoutDashboard },
+        { href: `/${lang}/admin/settings/categories-images`, label: dict.sidebar.categoriesImages, icon: LayoutDashboard },
+        { href: `/${lang}/admin/orders`, label: dict.sidebar.orders, icon: Package },
+        { href: `/${lang}/admin/customers`, label: dict.sidebar.customers, icon: Users },
+        { href: `/${lang}/admin/users`, label: dict.sidebar.users, icon: Users },
+        { href: `/${lang}/admin/settings/menu`, label: dict.sidebar.menuBar, icon: Menu },
+        { href: `/${lang}/admin/settings`, label: dict.sidebar.settings, icon: Settings },
+    ];
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -47,7 +50,7 @@ export const AdminSidebar = () => {
                 <Link href="/" className="font-serif text-xl font-medium tracking-tight">
                     Matteo Salvatore
                 </Link>
-                <p className="text-xs text-ms-stone mt-1 uppercase tracking-wider">Admin Panel</p>
+                <p className="text-xs text-ms-stone mt-1 uppercase tracking-wider">{dict.sidebar.title}</p>
             </div>
 
             <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
@@ -79,7 +82,7 @@ export const AdminSidebar = () => {
                     className="flex items-center gap-3 px-3 py-2.5 w-full text-left text-sm font-medium text-ms-error hover:bg-ms-error/5 rounded-md transition-colors"
                 >
                     <LogOut className="w-5 h-5" strokeWidth={1.5} />
-                    Sign Out
+                    {dict.sidebar.signOut}
                 </button>
             </div>
         </aside>
