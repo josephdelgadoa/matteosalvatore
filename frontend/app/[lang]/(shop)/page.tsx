@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { HeroSlider } from '@/components/ui/HeroSlider';
 import { Mountain, Clock, Leaf } from 'lucide-react';
 import { Testimonials } from '@/components/sections/Testimonials';
+import { FaqSection } from '@/components/sections/FaqSection';
 import { ProductGrid } from '@/components/ui/ProductGrid';
 import { NewsletterPopup } from '@/components/ui/NewsletterPopup';
 import { productsApi } from '@/lib/api/products';
@@ -197,6 +198,9 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 lang={params.lang}
                 viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'categoria' : 'category'}/accessories`}
             />
+
+            {/* FAQ Section */}
+            <FaqSection dict={dict.home.faq} />
 
             {/* Testimonials */}
             {/* @ts-ignore */}

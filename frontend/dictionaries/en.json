@@ -81,6 +81,31 @@
                 "title": "Sustainable",
                 "text": "Committed to ethical production practices and minimizing our environmental footprint."
             }
+        },
+        "faq": {
+            "title": "Frequently Asked Questions",
+            "items": [
+                {
+                    "q": "What makes Matteo Salvatore different?",
+                    "a": "Premium minimalist urban menswear with modern fits and superior materials like Peruvian cotton."
+                },
+                {
+                    "q": "Is the fit slim or regular?",
+                    "a": "Most items follow a modern slim-regular fit. Check the size guide on each product page."
+                },
+                {
+                    "q": "Do you ship across Peru?",
+                    "a": "Yes—shipping is available for Lima and provinces with options based on location."
+                },
+                {
+                    "q": "Which payment methods do you accept?",
+                    "a": "Secure checkout with cards and available local payment methods."
+                },
+                {
+                    "q": "Can I exchange or return items?",
+                    "a": "Yes—see our return and exchange policy for details and timelines."
+                }
+            ]
         }
     },
     "footer": {

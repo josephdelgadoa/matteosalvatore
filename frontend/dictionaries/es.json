@@ -81,6 +81,31 @@
                 "title": "Sostenible",
                 "text": "Comprometidos con prácticas de producción éticas y minimizando nuestra huella ambiental."
             }
+        },
+        "faq": {
+            "title": "Preguntas Frecuentes",
+            "items": [
+                {
+                    "q": "¿Qué diferencia a Matteo Salvatore de otras marcas?",
+                    "a": "Somos moda urbana premium con enfoque minimalista, fit moderno y materiales superiores como algodón peruano."
+                },
+                {
+                    "q": "¿El fit es slim o regular?",
+                    "a": "La mayoría de prendas siguen un fit moderno (slim regular). Revisa la guía de tallas en cada producto."
+                },
+                {
+                    "q": "¿Hacen envíos a todo Perú?",
+                    "a": "Sí, realizamos envíos a Lima y provincias con opciones según tu ubicación."
+                },
+                {
+                    "q": "¿Qué métodos de pago aceptan?",
+                    "a": "Aceptamos pago seguro con tarjetas y métodos locales disponibles al finalizar compra."
+                },
+                {
+                    "q": "¿Puedo cambiar o devolver un producto?",
+                    "a": "Sí, revisa nuestra política de cambios y devoluciones para conocer condiciones y plazos."
+                }
+            ]
         }
     },
     "footer": {
