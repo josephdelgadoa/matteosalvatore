@@ -200,9 +200,6 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'categoria' : 'category'}/accessories`}
             />
 
-            {/* Trust Section */}
-            <TrustSection dict={dict.home.trust} />
-
             {/* FAQ Section */}
             <FaqSection dict={dict.home.faq} />
 
@@ -260,6 +257,9 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                     </div>
                 </div>
             </section>
+
+            {/* Trust Section */}
+            <TrustSection dict={dict.home.trust} />
         </div>
     );
 }
