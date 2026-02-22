@@ -106,6 +106,27 @@
                     "a": "Sí, revisa nuestra política de cambios y devoluciones para conocer condiciones y plazos."
                 }
             ]
+        },
+        "trust": {
+            "title": "Compra con Confianza",
+            "features": [
+                {
+                    "title": "Envíos a todo Perú",
+                    "icon": "/images/trust-shipping.png"
+                },
+                {
+                    "title": "Pago 100% seguro",
+                    "icon": "/images/trust-secure.png"
+                },
+                {
+                    "title": "Calidad premium garantizada",
+                    "icon": "/images/trust-quality.png"
+                },
+                {
+                    "title": "Cambios y devoluciones simples",
+                    "icon": "/images/trust-returns.png"
+                }
+            ]
         }
     },
     "footer": {

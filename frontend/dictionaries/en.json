@@ -106,6 +106,27 @@
                     "a": "Yes—see our return and exchange policy for details and timelines."
                 }
             ]
+        },
+        "trust": {
+            "title": "Shop with Confidence",
+            "features": [
+                {
+                    "title": "Shipping across Peru",
+                    "icon": "/images/trust-shipping.png"
+                },
+                {
+                    "title": "100% secure checkout",
+                    "icon": "/images/trust-secure.png"
+                },
+                {
+                    "title": "Premium quality guarantee",
+                    "icon": "/images/trust-quality.png"
+                },
+                {
+                    "title": "Easy exchanges & returns",
+                    "icon": "/images/trust-returns.png"
+                }
+            ]
         }
     },
     "footer": {
