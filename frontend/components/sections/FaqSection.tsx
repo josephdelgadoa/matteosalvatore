@@ -24,17 +24,17 @@ export const FaqSection = ({ dict }: FaqSectionProps) => {
     };
 
     return (
-        <section className="bg-ms-white py-24 border-t border-ms-fog">
+        <section className="bg-ms-white py-16 border-t border-ms-fog">
             <div className="ms-container max-w-4xl mx-auto">
-                <h2 className="ms-heading-2 mb-12 text-center text-ms-black">{dict.title}</h2>
-                <div className="space-y-4">
+                <h2 className="ms-heading-2 mb-8 text-center text-ms-black">{dict.title}</h2>
+                <div>
                     {dict.items.map((item, index) => {
                         const isOpen = openIndex === index;
                         return (
                             <div key={index} className="border-b border-ms-fog">
                                 <button
                                     onClick={() => toggleAccordion(index)}
-                                    className="w-full flex justify-between items-center py-6 text-left group transition-colors"
+                                    className="w-full flex justify-between items-center py-4 text-left group transition-colors"
                                 >
                                     <span className={`font-serif text-lg md:text-xl transition-colors pr-8 ${isOpen ? 'text-ms-stone' : 'text-ms-black group-hover:text-ms-stone'}`}>
                                         {item.q}
@@ -52,7 +52,7 @@ export const FaqSection = ({ dict }: FaqSectionProps) => {
                                             transition={{ duration: 0.3, ease: "easeInOut" }}
                                             className="overflow-hidden"
                                         >
-                                            <p className="text-ms-stone leading-relaxed pb-6 text-base pr-8">
+                                            <p className="text-ms-stone leading-relaxed pb-4 text-base pr-8">
                                                 {item.a}
                                             </p>
                                         </motion.div>
