@@ -108,23 +108,37 @@
             ]
         },
         "trust": {
-            "title": "Shop with Confidence",
+            "title": "Shipping to all of Peru",
             "features": [
                 {
-                    "title": "Shipping across Peru",
-                    "icon": "/images/trust-shipping.png"
+                    "title": "Secure National Delivery",
+                    "description": "Reliable and tracked shipping to any destination in the country, ensuring the integrity of your luxury garments.",
+                    "icon": "/images/trust-shipping-realistic.png"
                 },
                 {
-                    "title": "100% secure checkout",
-                    "icon": "/images/trust-secure.png"
+                    "title": "Premium Protection",
+                    "description": "Your purchase is insured with high-quality packaging and advanced security measures during transit.",
+                    "icon": "/images/trust-protection-realistic.png"
                 },
                 {
-                    "title": "Premium quality guarantee",
-                    "icon": "/images/trust-quality.png"
+                    "title": "Fast Dispatch",
+                    "description": "Express processing and shipping so you can enjoy your purchase in the shortest time possible.",
+                    "icon": "/images/trust-dispatch-realistic.png"
                 },
                 {
-                    "title": "Easy exchanges & returns",
-                    "icon": "/images/trust-returns.png"
+                    "title": "Exclusive Reach",
+                    "description": "We reach every corner of the coast, mountains, and jungle with the same top-tier quality and service.",
+                    "icon": "/images/trust-reach-realistic.png"
+                },
+                {
+                    "title": "Personalized Service",
+                    "description": "Dedicated customer support to resolve any inquiries regarding your shipment status.",
+                    "icon": "/images/trust-service-realistic.png"
+                },
+                {
+                    "title": "Guaranteed Satisfaction",
+                    "description": "The luxury shopping experience extends from our online store to your doorstep.",
+                    "icon": "/images/trust-satisfaction-realistic.png"
                 }
             ]
         }

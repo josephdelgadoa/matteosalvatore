@@ -108,23 +108,37 @@
             ]
         },
         "trust": {
-            "title": "Compra con Confianza",
+            "title": "Envios a todo el Perú",
             "features": [
                 {
-                    "title": "Envíos a todo Perú",
-                    "icon": "/images/trust-shipping.png"
+                    "title": "Entrega Nacional Segura",
+                    "description": "Envíos confiables y monitoreados a cualquier destino del país, garantizando la integridad de tus prendas de lujo.",
+                    "icon": "/images/trust-shipping-realistic.png"
                 },
                 {
-                    "title": "Pago 100% seguro",
-                    "icon": "/images/trust-secure.png"
+                    "title": "Protección Premium",
+                    "description": "Tu compra está asegurada con un embalaje de alta calidad y medidas de seguridad avanzadas durante el tránsito.",
+                    "icon": "/images/trust-protection-realistic.png"
                 },
                 {
-                    "title": "Calidad premium garantizada",
-                    "icon": "/images/trust-quality.png"
+                    "title": "Despacho Rápido",
+                    "description": "Procesamiento y envío express para que disfrutes de tu adquisición en el menor tiempo posible.",
+                    "icon": "/images/trust-dispatch-realistic.png"
                 },
                 {
-                    "title": "Cambios y devoluciones simples",
-                    "icon": "/images/trust-returns.png"
+                    "title": "Alcance Exclusivo",
+                    "description": "Llegamos a cada rincón de la costa, sierra y selva con la misma calidad y servicio de primer nivel.",
+                    "icon": "/images/trust-reach-realistic.png"
+                },
+                {
+                    "title": "Servicio Personalizado",
+                    "description": "Atención al cliente dedicada para resolver cualquier consulta sobre el estado de tu envío.",
+                    "icon": "/images/trust-service-realistic.png"
+                },
+                {
+                    "title": "Satisfacción Garantizada",
+                    "description": "La experiencia de compra de lujo se extiende desde nuestra tienda online hasta la puerta de tu hogar.",
+                    "icon": "/images/trust-satisfaction-realistic.png"
                 }
             ]
         }
