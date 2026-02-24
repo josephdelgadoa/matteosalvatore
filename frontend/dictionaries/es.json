@@ -55,6 +55,15 @@
         "trending": "Tendencia Ahora",
         "bestSellers": "Los más Vendidos",
         "featuredCategories": "Categorías Destacadas",
+        "aboutBrand": {
+            "title": "¿Qué es Matteo Salvatore?",
+            "text": "Matteo Salvatore es una marca peruana de moda urbana premium para hombres modernos que buscan estilo minimalista, cortes slim y materiales de alta calidad. Nuestra propuesta combina diseño contemporáneo con una estética limpia y sofisticada, pensada para acompañarte en el día a día con presencia y comodidad. Desde polos premium en algodón peruano hasta pantalones cargo urbanos y conjuntos modernos, cada prenda está creada para elevar tu outfit con estructura, durabilidad y detalles que se sienten premium.\n\nDiseñamos para hombres entre 18 y 60 años que valoran una imagen moderna, segura y auténtica.",
+            "bullets": [
+                "Materiales premium (algodón peruano / telas técnicas)",
+                "Diseño urbano minimalista con corte moderno",
+                "Ediciones limitadas y calidad superior"
+            ]
+        },
         "categories": {
             "poloBasico": "Polo Básico",
             "setTulum": "Set Tulum",

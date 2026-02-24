@@ -7,6 +7,7 @@ import { Mountain, Clock, Leaf } from 'lucide-react';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { FaqSection } from '@/components/sections/FaqSection';
 import { TrustSection } from '@/components/sections/TrustSection';
+import { AboutBrandSection } from '@/components/sections/AboutBrandSection';
 import { ProductGrid } from '@/components/ui/ProductGrid';
 import { NewsletterPopup } from '@/components/ui/NewsletterPopup';
 import { productsApi } from '@/lib/api/products';
@@ -191,6 +192,9 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                     </div>
                 </div>
             </section>
+
+            {/* About Brand ("Qué es Matteo Salvatore") */}
+            <AboutBrandSection dict={dict.home.aboutBrand} />
 
             {/* Finishing Touches */}
             <ProductGrid

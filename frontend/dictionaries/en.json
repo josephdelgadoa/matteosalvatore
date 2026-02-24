@@ -55,6 +55,15 @@
         "trending": "Trending Now",
         "bestSellers": "Best Sellers",
         "featuredCategories": "Featured Categories",
+        "aboutBrand": {
+            "title": "What is Matteo Salvatore?",
+            "text": "Matteo Salvatore is a premium urban menswear brand designed for modern men who value minimalist elegance, slim contemporary fits, and superior materials. Our collections blend clean design with refined streetwear aesthetics—built for confident everyday style. From premium polos crafted with high-quality Peruvian cotton to slim urban cargo pants and modern sets, each piece is designed to deliver structure, durability, and a truly premium feel.\n\nBuilt for men aged 18–60 who want modern, effortless presence.",
+            "bullets": [
+                "Premium materials (Peruvian cotton / technical fabrics)",
+                "Minimalist urban design with modern fit",
+                "Limited runs, superior quality"
+            ]
+        },
         "categories": {
             "poloBasico": "Basic Polo",
             "setTulum": "Tulum Set",
