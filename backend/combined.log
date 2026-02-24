@@ -420,3 +420,9 @@
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-23T06:01:58.849Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-23T06:02:13.196Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-23T06:02:13.589Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-23T10:00:14.960Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-23T10:00:29.446Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-23T10:00:29.515Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-24T04:32:44.306Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:32:58.551Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:32:58.675Z"}
