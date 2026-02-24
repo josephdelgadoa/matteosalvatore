@@ -454,3 +454,6 @@
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:55:44.837Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:56:03.922Z"}
 {"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:56:04.001Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-24T04:57:56.316Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:58:13.282Z"}
+{"code":"42703","details":null,"hint":"Perhaps you meant to reference the column \"products_2.sku\".","level":"error","message":"ERROR 💥: column products_2.slug does not exist","service":"user-service","timestamp":"2026-02-24T04:58:13.354Z"}
