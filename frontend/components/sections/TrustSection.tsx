@@ -31,7 +31,7 @@ const getIconForFeature = (iconString: string) => {
 
 export const TrustSection = ({ dict }: TrustSectionProps) => {
     return (
-        <section className="relative py-28 overflow-hidden bg-ms-pearl">
+        <section className="relative pb-28 pt-8 overflow-hidden bg-ms-pearl">
             {/* Full-width bright premium background image */}
             <Image
                 src="/images/trust-bg.png"

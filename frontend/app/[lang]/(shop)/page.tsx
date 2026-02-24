@@ -208,7 +208,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             <Testimonials dict={dict.testimonials} />
 
             {/* Brand Values */}
-            <section className="bg-ms-white py-24 border-b border-ms-fog !mt-0">
+            <section className="bg-ms-white pt-24 pb-0 !mt-0">
                 <div className="ms-container text-center">
                     <h2 className="ms-heading-2 mb-8 block text-ms-black">{dict.home.philosophy.title}</h2>
                     <p className="font-serif text-xl md:text-2xl leading-relaxed text-ms-black/80 max-w-2xl mx-auto mb-16">
