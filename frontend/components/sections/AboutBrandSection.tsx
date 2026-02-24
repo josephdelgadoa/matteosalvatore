@@ -15,7 +15,7 @@ export const AboutBrandSection = ({ dict }: AboutBrandProps) => {
     const paragraphs = dict.text.split('\n').filter(p => p.trim() !== '');
 
     return (
-        <section className="bg-ms-pearl py-24 relative overflow-hidden">
+        <section className="bg-ms-pearl pt-24 pb-8 relative overflow-hidden">
             <div className="ms-container">
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 

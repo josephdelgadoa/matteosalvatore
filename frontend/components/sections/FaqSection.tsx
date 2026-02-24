@@ -24,7 +24,7 @@ export const FaqSection = ({ dict }: FaqSectionProps) => {
     };
 
     return (
-        <section className="bg-ms-white py-16 border-t border-ms-fog">
+        <section className="bg-ms-white pt-8 pb-16 border-t border-ms-fog">
             <div className="ms-container max-w-4xl mx-auto">
                 <h2 className="ms-heading-2 mb-8 text-center text-ms-black">{dict.title}</h2>
                 <div>
