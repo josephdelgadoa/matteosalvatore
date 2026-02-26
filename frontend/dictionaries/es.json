@@ -171,8 +171,16 @@
         "join": "Unirse",
         "rights": "Todos los derechos reservados.",
         "privacy": "Política de Privacidad",
+        "cookiePolicy": "Política de Cookies",
         "terms": "Términos de Servicio",
-        "designedBy": "Diseñado e implementado por"
+        "designedBy": "Diseñado e implementado por",
+        "ourStores": "Nuestras Tiendas",
+        "storeSanBorja": "Tienda de San Borja",
+        "addressSanBorja1": "Av. Aviación Nº 2410 San Borja",
+        "addressSanBorja2": "Galería La Ganadora Stand 81",
+        "storeGamarra": "Tienda de Gamarra",
+        "addressGamarra1": "Jr. Agustín Gamarra N°860 La Victoria",
+        "addressGamarra2": "Local Comercial Stand N° 129 de la Galería Azul"
     },
     "about": {
         "title": "Nuestra Historia",
@@ -432,5 +440,24 @@
             "titleEn": "Título (EN)",
             "linkUrl": "URL del Enlace"
         }
+    },
+    "cookies": {
+        "title": "Privacidad y Cookies",
+        "message": "En Matteo Salvatore utilizamos cookies propias y de terceros para brindarte la experiencia de lujo que mereces, entender cómo interactúas con nuestro sitio web y mostrarte anuncios personalizados. Al hacer clic en \"Aceptar\", aceptas el uso de cookies.",
+        "accept": "Aceptar todo",
+        "decline": "Rechazar no esenciales",
+        "preferences": "Preferencias de cookies",
+        "learnMore": "Leer Política de Cookies"
+    },
+    "newsletter": {
+        "title": "DESBLOQUEA 15% DE DESCUENTO",
+        "subtitle": "Al suscribirte a nuestro boletín",
+        "description": "Únete a nuestra lista exclusiva para recibir acceso anticipado a nuevas colecciones, eventos y consejos de estilo.",
+        "placeholder": "Ingresa tu correo electrónico",
+        "buttonText": "DESBLOQUEAR ACCESO",
+        "disclaimer": "Al registrarte, aceptas recibir correos electrónicos de marketing. Puedes darte de baja en cualquier momento.",
+        "successTitle": "BIENVENIDO AL CLUB",
+        "successSubtitle": "Aquí tienes tu código exclusivo:",
+        "shopNow": "EMPEZAR A COMPRAR"
     }
 }

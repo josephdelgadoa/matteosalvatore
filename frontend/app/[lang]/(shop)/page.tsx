@@ -113,7 +113,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
 
     return (
         <div className="space-y-16 pb-0">
-            <NewsletterPopup />
+            <NewsletterPopup dict={dict.newsletter} />
 
             {/* Hero Section */}
             <HeroSlider slides={heroSlides} lang={params.lang} />

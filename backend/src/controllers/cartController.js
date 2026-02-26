@@ -19,7 +19,7 @@ exports.getCart = async (req, res, next) => {
         *,
         product_variants (
             *,
-            products (name_es, name_en, slug, base_price, product_images(image_url))
+            products (name_es, name_en, slug_es, slug_en, base_price, product_images(image_url))
         )
       `);
 
@@ -47,7 +47,8 @@ exports.getCart = async (req, res, next) => {
                 product_id: variant.product_id,
                 variant_id: item.variant_id,
                 name: product.name_es, // Default to ES for logic
-                slug: product.slug,
+                slug_es: product.slug_es,
+                slug_en: product.slug_en,
                 image: product.product_images?.[0]?.image_url,
                 size: variant.size,
                 color: variant.color,

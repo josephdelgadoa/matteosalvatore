@@ -6,7 +6,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
-export const NewsletterPopup = () => {
+interface NewsletterPopupProps {
+    dict: {
+        title: string;
+        subtitle: string;
+        description: string;
+        placeholder: string;
+        buttonText: string;
+        disclaimer: string;
+        successTitle: string;
+        successSubtitle: string;
+        shopNow: string;
+    };
+}
+
+export const NewsletterPopup = ({ dict }: NewsletterPopupProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -70,42 +84,42 @@ export const NewsletterPopup = () => {
                         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center text-center">
                             {!isSubmitted ? (
                                 <>
-                                    <h2 className="font-serif text-3xl font-bold mb-2 tracking-tight">UNLOCK 15% OFF</h2>
-                                    <p className="text-ms-stone mb-8 text-sm uppercase tracking-wider font-medium">When you sign up for our newsletter</p>
+                                    <h2 className="font-serif text-3xl font-bold mb-2 tracking-tight">{dict.title}</h2>
+                                    <p className="text-ms-stone mb-8 text-sm uppercase tracking-wider font-medium">{dict.subtitle}</p>
 
                                     <p className="text-ms-stone mb-6 text-sm">
-                                        Join our exclusive list to receive early access to new collections, events, and styling tips.
+                                        {dict.description}
                                     </p>
 
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <Input
                                             type="email"
-                                            placeholder="Enter your email"
+                                            placeholder={dict.placeholder}
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required
                                             className="text-center"
                                         />
                                         <Button type="submit" className="w-full bg-ms-brand-primary text-white hover:bg-ms-brand-secondary py-6">
-                                            UNLOCK ACCESS
+                                            {dict.buttonText}
                                         </Button>
                                     </form>
 
                                     <p className="text-[10px] text-ms-stone mt-4">
-                                        By signing up, you agree to receive marketing emails. You can unsubscribe at any time.
+                                        {dict.disclaimer}
                                     </p>
                                 </>
                             ) : (
                                 <div className="animate-fade-in">
-                                    <h3 className="font-serif text-3xl font-bold mb-4">WELCOME TO THE CLUB</h3>
-                                    <p className="text-ms-stone mb-6">Here is your exclusive code:</p>
+                                    <h3 className="font-serif text-3xl font-bold mb-4">{dict.successTitle}</h3>
+                                    <p className="text-ms-stone mb-6">{dict.successSubtitle}</p>
 
                                     <div className="bg-ms-ivory border border-ms-fog p-4 mb-6 select-all cursor-pointer hover:bg-ms-ivory/80 transition-colors" onClick={() => navigator.clipboard.writeText('MATTEO15')}>
                                         <span className="font-mono text-xl font-bold tracking-widest text-ms-black">MATTEO15</span>
                                     </div>
 
                                     <Button onClick={handleClose} variant="outline" className="w-full">
-                                        START SHOPPING
+                                        {dict.shopNow}
                                     </Button>
                                 </div>
                             )}

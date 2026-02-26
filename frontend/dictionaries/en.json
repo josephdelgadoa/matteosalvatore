@@ -171,8 +171,16 @@
         "join": "Join",
         "rights": "All rights reserved.",
         "privacy": "Privacy Policy",
+        "cookiePolicy": "Cookie Policy",
         "terms": "Terms of Service",
-        "designedBy": "Designed and implemented by"
+        "designedBy": "Designed and implemented by",
+        "ourStores": "Our Stores",
+        "storeSanBorja": "San Borja Store",
+        "addressSanBorja1": "Av. Aviacion Nº 2410 San Borja",
+        "addressSanBorja2": "Galeria La Ganadora Stand 81",
+        "storeGamarra": "Gamarra Store",
+        "addressGamarra1": "Jr. Agustin Gamarra N°860 La Victoria",
+        "addressGamarra2": "Galeria Azul Stand N° 129"
     },
     "about": {
         "title": "Our Story",
@@ -432,5 +440,24 @@
             "titleEn": "Title (EN)",
             "linkUrl": "Link URL"
         }
+    },
+    "cookies": {
+        "title": "Privacy & Cookies",
+        "message": "At Matteo Salvatore, we use essential and third-party cookies to provide you with the luxury experience you deserve, understand how you interact with our website, and show you personalized ads. By clicking \"Accept All\", you consent to our use of cookies.",
+        "accept": "Accept All",
+        "decline": "Decline Non-Essential",
+        "preferences": "Cookie Preferences",
+        "learnMore": "Read Cookie Policy"
+    },
+    "newsletter": {
+        "title": "UNLOCK 15% OFF",
+        "subtitle": "When you sign up for our newsletter",
+        "description": "Join our exclusive list to receive early access to new collections, events, and styling tips.",
+        "placeholder": "Enter your email",
+        "buttonText": "UNLOCK ACCESS",
+        "disclaimer": "By signing up, you agree to receive marketing emails. You can unsubscribe at any time.",
+        "successTitle": "WELCOME TO THE CLUB",
+        "successSubtitle": "Here is your exclusive code:",
+        "shopNow": "START SHOPPING"
     }
 }
