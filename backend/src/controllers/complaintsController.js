@@ -2,7 +2,9 @@ const supabase = require('../config/database');
 const { logger } = require('../utils/logger');
 const { Resend } = require('resend');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_xxxxx'
+    ? new Resend(process.env.RESEND_API_KEY)
+    : null;
 
 // Helper function to generate the 000000001-2026 format ID
 async function generateComplaintNumber() {
@@ -67,35 +69,38 @@ exports.createComplaint = async (req, res, next) => {
             throw insertError;
         }
 
-        // 3. Send email to Admins (do it asynchronously without awaiting if possible to not block, but for safer error handling let's await)
-        try {
-            await resend.emails.send({
-                from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
-                to: ['gloriaquispe@matteosalvatore.pe'],
-                subject: `Nuevo ${payload.complaint_type} - ${complaintNumber}`,
-                html: `
-                    <h2>Nueva presentación en el Libro de Reclamaciones</h2>
-                    <p><strong>Nro:</strong> ${complaintNumber}</p>
-                    <p><strong>Tipo:</strong> ${payload.complaint_type}</p>
-                    <p><strong>Cliente:</strong> ${payload.consumer_name}</p>
-                    <p><strong>DNI/CE:</strong> ${payload.consumer_id_number}</p>
-                    <p><strong>Email:</strong> ${payload.consumer_email}</p>
-                    <p><strong>Teléfono:</strong> ${payload.consumer_phone}</p>
-                    <hr/>
-                    <p><strong>Bien contratado:</strong> ${payload.product_type}</p>
-                    <p><strong>Descripción:</strong> ${payload.product_description}</p>
-                    <hr/>
-                    <p><strong>Detalle:</strong></p>
-                    <p>${payload.complaint_details}</p>
-                    <hr/>
-                    <p><strong>Propuesta de solución:</strong></p>
-                    <p>${payload.proposed_solution || 'Ninguna'}</p>
-                `
-            });
-            logger.info(`Complaint email sent successfully for ${complaintNumber}`);
-        } catch (emailError) {
-            logger.error('Error sending complaint email notifications:', emailError);
-            // We don't fail the request if the email fails, we just log it.
+        // 3. Send email to Admins
+        if (resend) {
+            try {
+                await resend.emails.send({
+                    from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
+                    to: ['gloriaquispe@matteosalvatore.pe'],
+                    subject: `Nuevo ${payload.complaint_type} - ${complaintNumber}`,
+                    html: `
+                        <h2>Nueva presentación en el Libro de Reclamaciones</h2>
+                        <p><strong>Nro:</strong> ${complaintNumber}</p>
+                        <p><strong>Tipo:</strong> ${payload.complaint_type}</p>
+                        <p><strong>Cliente:</strong> ${payload.consumer_name}</p>
+                        <p><strong>DNI/CE:</strong> ${payload.consumer_id_number}</p>
+                        <p><strong>Email:</strong> ${payload.consumer_email}</p>
+                        <p><strong>Teléfono:</strong> ${payload.consumer_phone}</p>
+                        <hr/>
+                        <p><strong>Bien contratado:</strong> ${payload.product_type}</p>
+                        <p><strong>Descripción:</strong> ${payload.product_description}</p>
+                        <hr/>
+                        <p><strong>Detalle:</strong></p>
+                        <p>${payload.complaint_details}</p>
+                        <hr/>
+                        <p><strong>Propuesta de solución:</strong></p>
+                        <p>${payload.proposed_solution || 'Ninguna'}</p>
+                    `
+                });
+                logger.info(`Complaint email sent successfully for ${complaintNumber}`);
+            } catch (emailError) {
+                logger.error('Error sending complaint email notifications:', emailError);
+            }
+        } else {
+            logger.warn('Resend API key missing or placeholder used, skipping email notification');
         }
 
         res.status(201).json({
