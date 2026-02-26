@@ -42,6 +42,7 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                             <li><Link href={`/${lang}/help/size-guide`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.sizeGuide}</Link></li>
                             <li><Link href={`/${lang}/help/faq`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.faq}</Link></li>
                             <li><Link href={`/${lang}/contact`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.contact}</Link></li>
+                            <li><Link href={`/${lang}/libro-de-reclamaciones`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.complaintsBook || 'Libro de Reclamaciones'}</Link></li>
                         </ul>
                     </div>
 

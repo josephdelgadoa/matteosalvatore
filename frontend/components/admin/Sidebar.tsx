@@ -30,6 +30,7 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
         { href: `/${lang}/admin/orders`, label: dict.sidebar.orders, icon: Package },
         { href: `/${lang}/admin/customers`, label: dict.sidebar.customers, icon: Users },
         { href: `/${lang}/admin/users`, label: dict.sidebar.users, icon: Users },
+        { href: `/${lang}/admin/complaints`, label: dict.sidebar.complaints || 'Reclamaciones', icon: LayoutDashboard },
         { href: `/${lang}/admin/settings/menu`, label: dict.sidebar.menuBar, icon: Menu },
         { href: `/${lang}/admin/settings`, label: dict.sidebar.settings, icon: Settings },
     ];

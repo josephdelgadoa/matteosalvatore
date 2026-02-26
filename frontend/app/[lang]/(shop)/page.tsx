@@ -25,6 +25,8 @@ const supabase = createClient(
 );
 
 export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 export default async function Home({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
