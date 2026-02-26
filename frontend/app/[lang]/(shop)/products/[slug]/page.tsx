@@ -11,9 +11,23 @@ import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Locale } from '@/i18n-config';
 import { cn } from '@/lib/utils';
 
+const textDict = {
+    en: {
+        addToCart: "Add to Cart",
+        adding: "Adding...",
+        freeShipping: "Free shipping on orders over S/. 100"
+    },
+    es: {
+        addToCart: "Añadir al Carrito",
+        adding: "Añadiendo...",
+        freeShipping: "Envío gratis en compras mayores a S/. 100"
+    }
+};
+
 export default function ProductDetailPage({ params }: { params: { slug: string; lang: Locale } }) {
     const [product, setProduct] = useState<Product | null>(null);
     const [variants, setVariants] = useState<ProductVariant[]>([]);
+    const t = textDict[params.lang as keyof typeof textDict] || textDict.en;
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -267,16 +281,34 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                         </div>
                     </div>
 
-                    <div className="pt-8 space-y-4">
+                    <div className="pt-8 space-y-4 overflow-hidden">
                         <Button
                             size="lg"
                             className="w-full"
                             onClick={handleAddToCart}
                             isLoading={isAddingToCart}
                         >
-                            Add to Cart
+                            {isAddingToCart ? t.adding : t.addToCart}
                         </Button>
-                        <p className="text-xs text-center text-ms-stone">Free shipping on orders over S/. 300</p>
+
+                        <div className="w-full relative flex items-center overflow-hidden py-1">
+                            <style dangerouslySetInnerHTML={{__html: `
+                                @keyframes marqueeSmooth {
+                                    0% { transform: translateX(0); }
+                                    100% { transform: translateX(-50%); }
+                                }
+                                .animate-marquee-smooth {
+                                    animation: marqueeSmooth 15s linear infinite;
+                                }
+                            `}} />
+                            <div className="whitespace-nowrap flex will-change-transform animate-marquee-smooth">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <span key={i} className="inline-flex items-center text-[15px] font-medium text-ms-stone px-6">
+                                        {t.freeShipping} <span className="mx-6 text-ms-fog text-xs">&bull;</span>
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

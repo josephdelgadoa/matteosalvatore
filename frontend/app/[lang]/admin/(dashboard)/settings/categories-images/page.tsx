@@ -113,25 +113,44 @@ export default function CategoriesImagesPage() {
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            // Save each slot
+            // 1. Get current categories from DB to identify "stray" ones later
+            const currentDb = await categoriesApi.getAll();
+            const savedIds: string[] = [];
+
+            // 2. Save each of the 5 slots
             for (let i = 0; i < categories.length; i++) {
                 const category = categories[i];
                 // Ensure correct order before saving
-                const payload = { ...category, display_order: i };
+                const payload = { ...category, display_order: i, is_active: true };
 
-                // Skip completely empty ones if they don't have an ID
+                // Skip completely empty new ones
                 if (!payload.id && !payload.image_url && !payload.title_es) continue;
 
                 if (payload.id) {
-                    await categoriesApi.update(payload.id, payload);
+                    const updated = await categoriesApi.update(payload.id, payload);
+                    savedIds.push(payload.id);
                 } else {
-                    await categoriesApi.create(payload);
+                    const created = await categoriesApi.create(payload);
+                    if (created?.id) savedIds.push(created.id);
                 }
             }
+
+            // 3. Deactivate any categories that are NOT in the 5 slots we just saved
+            // This prevents duplicates on the frontend
+            const strayCategories = currentDb.filter((dbCat: any) => !savedIds.includes(dbCat.id));
+
+            for (const stray of strayCategories) {
+                if (stray.is_active) {
+                    await categoriesApi.update(stray.id, { is_active: false });
+                }
+            }
+
             addToast(dict.categoriesImages.saveSuccess, 'success');
-            // Reload to get IDs
-            loadCategories();
+            // Reload to get latest state
+            await loadCategories();
+            router.refresh(); // Invalidate Next.js cache to reflect changes on homepage
         } catch (error) {
+
             console.error(error);
             addToast(dict.categoriesImages.saveError, 'error');
         } finally {

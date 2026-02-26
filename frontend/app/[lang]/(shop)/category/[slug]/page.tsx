@@ -21,15 +21,22 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                // Fetch all categories to find the matching one by slug
+                // 1. Fetch all categories to find the matching one by slug
                 const categories = await productCategoriesApi.getAll();
                 const matchedCategory = categories.find((c: ProductCategory) => c.slug_es === params.slug || c.slug_en === params.slug);
+
+                let filter: any = { category: params.slug };
+
                 if (matchedCategory) {
                     setCategory(matchedCategory);
+                    // 2. If it has a parent_id, it's a subcategory
+                    if (matchedCategory.parent_id) {
+                        filter = { subcategory: params.slug };
+                    }
                 }
 
-                // Fetch products filtered by category
-                const data = await productsApi.getAll({ category: params.slug });
+                // 3. Fetch products filtered by the determined field
+                const data = await productsApi.getAll(filter);
                 setProducts(data);
             } catch (err) {
                 setError('Failed to load products. Please try again later.');

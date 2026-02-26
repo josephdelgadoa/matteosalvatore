@@ -57,15 +57,23 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
             // Initialize array with nulls
             const slots = Array(5).fill(null);
 
-            rawData.forEach(c => {
+            // Sort rawData by updated_at desc to pick newest in case of overlap
+            const sortedData = [...rawData].sort((a, b) =>
+                new Date(b.updated_at || b.created_at || 0).getTime() - new Date(a.updated_at || a.created_at || 0).getTime()
+            );
+
+            sortedData.forEach(c => {
                 if (c.display_order >= 0 && c.display_order < 5) {
-                    slots[c.display_order] = {
-                        key: c.id,
-                        img: c.image_url,
-                        // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
-                        title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es),
-                        link: c.link_url || '#' // Fallback to avoid null pointer
-                    };
+                    // Only fill slot if not already filled by a newer entry
+                    if (!slots[c.display_order]) {
+                        slots[c.display_order] = {
+                            key: c.id,
+                            image_url: c.image_url,
+                            // Fallback to Spanish title if English is missing (or vice-versa depending on lang)
+                            title: params.lang === 'es' ? (c.title_es || c.title_en) : (c.title_en || c.title_es),
+                            link: c.link_url || '#' // Fallback to avoid null pointer
+                        };
+                    }
                 }
             });
             categories = slots;

@@ -510,3 +510,30 @@
 {"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-02-26T08:00:52.663Z"}
 {"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-02-26T08:01:06.111Z"}
 {"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-02-26T08:01:06.175Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:28:11.023Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:28:22.949Z"}
+{"level":"info","message":"Inserting 3 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:34:34.111Z"}
+{"level":"info","message":"Inserting 3 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:35:00.113Z"}
+{"level":"info","message":"Inserting 30 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:35:23.246Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:35:46.563Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:37:36.245Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:40:33.002Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:41:12.217Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:41:25.614Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:41:39.868Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T09:41:48.972Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-26T16:03:20.044Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-26T16:40:02.227Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-26T16:49:19.538Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-02-26T16:59:20.786Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:15:06.861Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:15:29.504Z"}
+{"level":"info","message":"Inserting 30 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:15:41.180Z"}
+{"level":"info","message":"Inserting 30 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:15:53.169Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:16:03.212Z"}
+{"level":"info","message":"Inserting 3 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:16:20.643Z"}
+{"level":"info","message":"Inserting 24 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:16:31.936Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:16:46.529Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:17:04.976Z"}
+{"level":"info","message":"Inserting 7 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:18:03.524Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-02-26T17:18:26.293Z"}
