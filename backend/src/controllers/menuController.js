@@ -56,17 +56,24 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const { id } = req.params;
-        const { id: _, created_at, updated_at, children, ...updates } = req.body;
+        const { id: _, created_at, updated_at, children, subcategories, ...updates } = req.body;
+
+        // Ensure we are not sending empty strings for link_url if it's supposed to be null
+        if (updates.link_url === '') updates.link_url = null;
 
         const { data, error } = await supabase
             .from(TABLE)
             .update({ ...updates, updated_at: new Date().toISOString() })
             .eq('id', id)
-            .select()
-            .single();
+            .select();
 
         if (error) throw error;
-        res.status(200).json(data);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: 'Menu item not found or no changes made' });
+        }
+
+        res.status(200).json(data[0]);
     } catch (err) {
         console.error('Error updating menu item:', err);
         res.status(500).json({ error: err.message || 'Failed to update menu item' });

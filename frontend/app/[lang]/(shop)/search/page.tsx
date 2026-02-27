@@ -1,5 +1,6 @@
 'use client';
 
+import { getLocalizedPath } from '@/lib/routes';
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -64,7 +65,7 @@ function SearchContent({ lang }: { lang: Locale }) {
                     {results.map((product) => {
                         const productSlug = lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
                         return (
-                            <Link key={product.id} href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}/${productSlug}`} className="group block">
+                            <Link href={getLocalizedPath(`/products/${productSlug}`, lang)} key={product.id} className="group cursor-pointer">
                                 <div className="relative aspect-[3/4] mb-4 bg-ms-ivory overflow-hidden">
                                     {product.images && product.images[0] ? (
                                         <Image

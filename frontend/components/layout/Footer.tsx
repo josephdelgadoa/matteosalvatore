@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Facebook, Instagram, Youtube } from 'lucide-react';
 import { Locale } from '../../i18n-config';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface FooterProps {
     lang: Locale;
@@ -28,21 +29,21 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                     <div className="lg:col-span-2">
                         <h4 className="font-serif text-lg mb-6">{dict.shop}</h4>
                         <ul className="space-y-4">
-                            <li><Link href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}/clothing`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.clothing}</Link></li>
-                            <li><Link href={`/${lang}/${lang === 'es' ? 'productos' : 'products'}/footwear`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footwear}</Link></li>
-                            <li><Link href={`/${lang}/collections/new`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.newArrivals}</Link></li>
-                            <li><Link href={`/${lang}/collections/best-sellers`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.bestSellers}</Link></li>
+                            <li><Link href={getLocalizedPath('/products/clothing', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.clothing}</Link></li>
+                            <li><Link href={getLocalizedPath('/products/footwear', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footwear}</Link></li>
+                            <li><Link href={getLocalizedPath('/collections/new', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.newArrivals}</Link></li>
+                            <li><Link href={getLocalizedPath('/collections/best-sellers', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.bestSellers}</Link></li>
                         </ul>
                     </div>
 
                     <div className="lg:col-span-2">
                         <h4 className="font-serif text-lg mb-6">{dict.support}</h4>
                         <ul className="space-y-4">
-                            <li><Link href={`/${lang}/help/shipping`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.shipping}</Link></li>
-                            <li><Link href={`/${lang}/help/size-guide`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.sizeGuide}</Link></li>
-                            <li><Link href={`/${lang}/help/faq`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.faq}</Link></li>
-                            <li><Link href={`/${lang}/contact`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.contact}</Link></li>
-                            <li><Link href={`/${lang}/libro-de-reclamaciones`} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.complaintsBook || 'Libro de Reclamaciones'}</Link></li>
+                            <li><Link href={getLocalizedPath('/help/shipping', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.shipping}</Link></li>
+                            <li><Link href={getLocalizedPath('/help/size-guide', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.sizeGuide}</Link></li>
+                            <li><Link href={getLocalizedPath('/help/faq', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.faq}</Link></li>
+                            <li><Link href={getLocalizedPath('/contact', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.contact}</Link></li>
+                            <li><Link href={getLocalizedPath('/libro-de-reclamaciones', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.complaintsBook || 'Libro de Reclamaciones'}</Link></li>
                         </ul>
                     </div>
 
@@ -110,9 +111,9 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                         <p>Powered by <a href="https://nexa-sphere.com" target="_blank" rel="noopener noreferrer" className="hover:text-ms-stone transition-colors">Nexa-Sphere</a></p>
                     </div>
                     <div className="flex gap-6 flex-wrap justify-center md:justify-end">
-                        <Link href={`/${lang}/policy/privacy`} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.privacy}</Link>
-                        <Link href={`/${lang}/policy/cookies`} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.cookiePolicy}</Link>
-                        <Link href={`/${lang}/policy/terms`} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.terms}</Link>
+                        <Link href={getLocalizedPath('/policy/privacy', lang)} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.privacy}</Link>
+                        <Link href={getLocalizedPath('/policy/cookies', lang)} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.cookiePolicy}</Link>
+                        <Link href={getLocalizedPath('/policy/terms', lang)} className="text-xs text-ms-silver hover:text-ms-stone transition-colors">{dict.terms}</Link>
                     </div>
                 </div>
             </div>

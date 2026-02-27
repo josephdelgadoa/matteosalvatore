@@ -9,6 +9,7 @@ import { Navigation } from './Navigation';
 import { MobileMenu } from './MobileMenu';
 import { useCart } from '@/store/useCart';
 import { Locale } from '../../i18n-config';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface HeaderProps {
     lang: Locale;
@@ -44,7 +45,7 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            router.push(`/${lang}/search?q=${encodeURIComponent(searchQuery)}`);
+            router.push(getLocalizedPath(`/search?q=${encodeURIComponent(searchQuery)}`, lang));
             setIsSearchOpen(false);
         }
     };
@@ -141,11 +142,11 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
                                 <Search className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                             </button>
 
-                            <Link href={`/${lang}/account`} className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
+                            <Link href={getLocalizedPath('/account', lang)} className="hidden md:block text-ms-stone hover:text-ms-black transition-colors">
                                 <User className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                             </Link>
 
-                            <Link href={`/${lang}/cart`} className="text-ms-stone hover:text-ms-black transition-colors relative">
+                            <Link href={getLocalizedPath('/cart', lang)} className="text-ms-stone hover:text-ms-black transition-colors relative">
                                 <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                                 {itemCount > 0 && (
                                     <span className="absolute -top-1 -right-1 bg-ms-stone text-ms-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full animate-scale-in">

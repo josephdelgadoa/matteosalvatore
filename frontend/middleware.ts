@@ -29,6 +29,19 @@ function getLocale(request: NextRequest): string {
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
+    // --- Static File & API Bypass ---
+    // Skip middleware for static files, images, favicon, and API routes
+    // This MUST happen before any locale redirection or rewrites
+    if (
+        pathname.includes('.') ||
+        pathname.startsWith('/api/') ||
+        pathname.startsWith('/_next/') ||
+        pathname.startsWith('/favicon.ico') ||
+        pathname.startsWith('/images/')
+    ) {
+        return NextResponse.next();
+    }
+
     // Check if there is any supported locale in the pathname
     const pathnameIsMissingLocale = i18n.locales.every(
         (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
@@ -37,9 +50,6 @@ export async function middleware(request: NextRequest) {
     // Redirect if there is no locale
     if (pathnameIsMissingLocale) {
         const locale = getLocale(request);
-
-        // e.g. incoming request is /products
-        // The new URL is now /es/products
         return NextResponse.redirect(
             new URL(
                 `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
@@ -49,14 +59,43 @@ export async function middleware(request: NextRequest) {
     }
 
     // --- Path Localization Rewrites ---
-    // Rewrite Spanish frontend URLs to the English internal routing
-    let response: NextResponse;
+    const urlMapping: Record<string, string> = {
+        'productos': 'products',
+        'nosotros': 'about',
+        'contacto': 'contact',
+        'carrito': 'cart',
+        'mi-cuenta': 'account',
+        'categoria': 'category',
+        'pago': 'checkout',
+        'busqueda': 'search',
+        'registrarse': 'register',
+        'iniciar-sesion': 'login'
+    };
 
-    if (pathname.startsWith('/es/productos')) {
-        response = NextResponse.rewrite(new URL(pathname.replace('/es/productos', '/es/products'), request.url));
-    } else if (pathname.startsWith('/es/categoria')) {
-        response = NextResponse.rewrite(new URL(pathname.replace('/es/categoria', '/es/category'), request.url));
-    } else {
+    let response: NextResponse | null = null;
+    const segments = pathname.split('/').filter(Boolean); // e.g. ['es', 'nosotros']
+    const lang = segments[0];
+    const slug = segments[1];
+
+    if (i18n.locales.includes(lang as any) && slug) {
+        let internalPath: string | null = null;
+
+        if (lang === 'es' && urlMapping[slug]) {
+            internalPath = urlMapping[slug];
+        } else if (lang === 'en' && Object.values(urlMapping).includes(slug)) {
+            // Already internal English slug
+            internalPath = slug;
+        }
+
+        if (internalPath) {
+            const restOfPath = segments.slice(2).join('/');
+            const newPath = `/${lang}/${internalPath}${restOfPath ? `/${restOfPath}` : ''}`;
+            console.log(`[Middleware] Rewriting ${lang} path: ${pathname} -> ${newPath}`);
+            response = NextResponse.rewrite(new URL(newPath, request.url));
+        }
+    }
+
+    if (!response) {
         response = NextResponse.next({
             request: {
                 headers: request.headers,
@@ -64,9 +103,7 @@ export async function middleware(request: NextRequest) {
         });
     }
 
-    // --- Supabase Auth Middleware Logic (Preserved) ---
-    // Note: We might need to adjust this if auth routes move under [lang]
-
+    // --- Supabase Auth Middleware Logic ---
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -77,10 +114,12 @@ export async function middleware(request: NextRequest) {
                 },
                 setAll(cookiesToSet) {
                     cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
-                    response = NextResponse.next({
-                        request,
-                    });
-                    cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+                    if (!response) {
+                        response = NextResponse.next({
+                            request,
+                        });
+                    }
+                    cookiesToSet.forEach(({ name, value, options }) => response!.cookies.set(name, value, options));
                 }
             },
         }
@@ -88,10 +127,6 @@ export async function middleware(request: NextRequest) {
 
     const { data: { session } } = await supabase.auth.getSession();
 
-    // Protect Admin Routes
-    // Note: This now checks for /es/admin or /en/admin due to redirection
-    // Protect Admin Routes
-    // Exclude /admin/login from protection to avoid loops
     if (pathname.includes('/admin') && !pathname.includes('/admin/login')) {
         if (!session) {
             const locale = getLocale(request);
@@ -99,10 +134,17 @@ export async function middleware(request: NextRequest) {
         }
     }
 
+    // Locale Cookie Management
+    if (i18n.locales.includes(lang as any)) {
+        response.cookies.set('NEXT_LOCALE', lang, {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 365, // 1 year
+        });
+    }
+
     return response;
 }
 
 export const config = {
-    // Matcher ignoring `/_next/`, `/api/`, `/_static/`, `_vercel`, `.*\\..*`
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images).*)'],
 };

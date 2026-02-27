@@ -1,5 +1,6 @@
 'use client';
 
+import { getLocalizedPath } from '@/lib/routes';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
@@ -70,7 +71,7 @@ export default function ProductListingPage({ params }: { params: { lang: Locale 
                         const productSlug = params.lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
 
                         return (
-                            <Link href={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}/${productSlug}`} key={product.id} className="group cursor-pointer">
+                            <Link href={getLocalizedPath(`/products/${productSlug}`, params.lang)} key={product.id} className="group cursor-pointer">
                                 <div className="aspect-[3/4] overflow-hidden bg-ms-pearl mb-4 relative">
                                     <div
                                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"

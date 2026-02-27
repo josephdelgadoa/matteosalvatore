@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { Locale } from '../../i18n-config';
 import { PRODUCT_CATEGORIES, NAV_STRUCTURE } from '../../lib/constants';
 import { cn } from '@/lib/utils';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface NavigationProps {
     lang: Locale;
@@ -54,7 +55,7 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
                                         return (
                                             <div key={category.id} className="space-y-2">
                                                 <Link
-                                                    href={category.link_url || `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${slug}`}
+                                                    href={getLocalizedPath(category.link_url || `/${lang === 'es' ? 'categoria' : 'category'}/${slug}`, lang)}
                                                     className="font-medium text-ms-black hover:text-ms-gold transition-colors block"
                                                 >
                                                     {labelText}
@@ -71,10 +72,11 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
                     );
                 } else {
                     // Standard Link
+                    const href = item.link_url || item.href;
                     return (
                         <Link
                             key={item.id}
-                            href={item.link_url || `/${lang}${item.href}`}
+                            href={getLocalizedPath(href, lang)}
                             className="text-sm font-medium uppercase tracking-wider text-ms-stone hover:text-ms-black transition-colors"
                         >
                             {lang === 'es' ? (item.label_es || item.label?.es) : (item.label_en || item.label?.en)}
@@ -91,13 +93,13 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
             {(!menuItems || menuItems.length === 0) && (
                 <>
                     <Link
-                        href={`/${lang}/search?q=new`}
+                        href={getLocalizedPath('/search?q=new', lang)}
                         className="text-sm font-medium uppercase tracking-wider text-ms-stone hover:text-ms-black transition-colors"
                     >
                         {dict.newArrivals}
                     </Link>
                     <Link
-                        href={`/${lang}/about`}
+                        href={getLocalizedPath('/about', lang)}
                         className="text-sm font-medium uppercase tracking-wider text-ms-stone hover:text-ms-black transition-colors"
                     >
                         {dict.about}
