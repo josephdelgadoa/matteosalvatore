@@ -295,6 +295,7 @@
             "menuBar": "Menu Bar",
             "settings": "Settings",
             "complaints": "Complaints",
+            "presentation": "Presentation",
             "signOut": "Sign Out"
         },
         "header": {
@@ -440,6 +441,57 @@
             "titleEs": "Title (ES)",
             "titleEn": "Title (EN)",
             "linkUrl": "Link URL"
+        },
+        "presentation": {
+            "title": "Project Presentation",
+            "subtitle": "Matteo Salvatore - Timeless Elegance",
+            "vision": {
+                "title": "Project Vision",
+                "text": "Create a premium shopping experience, merging art, design, and technology for the modern gentleman.",
+                "points": [
+                    "Internationalization (ES/EN)",
+                    "Localized Routes (SEO)",
+                    "Dynamic Menu Management"
+                ]
+            },
+            "architecture": {
+                "title": "System Architecture",
+                "description": "Modern decoupled architecture with Next.js and Express."
+            },
+            "modules": {
+                "title": "Modules & Technologies",
+                "frontend": "Frontend (Next.js 14, Tailwind, Zustand)",
+                "backend": "Backend (Node.js 22, Express)",
+                "database": "Database (PostgreSQL/Supabase)",
+                "admin": "Admin Panel (Dashboard, CRM, Inventory)",
+                "ai": "IA & Automation (Gemini AI, Chatbot)"
+            },
+            "benefits": {
+                "title": "Key Benefits",
+                "items": [
+                    {
+                        "title": "Scalability",
+                        "desc": "Microservices-based architecture ready to grow."
+                    },
+                    {
+                        "title": "SEO Optimization",
+                        "desc": "Localized slugs and dynamic metadata per page."
+                    },
+                    {
+                        "title": "Premium Experience",
+                        "desc": "Minimalist UI and high-end fluid animations."
+                    },
+                    {
+                        "title": "Security",
+                        "desc": "Secure payments with Culqi and robust authentication."
+                    }
+                ]
+            },
+            "milestones": {
+                "title": "Milestones & Progress",
+                "label": "Project Progress (%)"
+            },
+            "footer": "Driving the future of luxury retail."
         }
     },
     "cookies": {

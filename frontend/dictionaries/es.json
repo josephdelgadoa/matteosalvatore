@@ -295,6 +295,7 @@
             "menuBar": "Barra de Menú",
             "settings": "Configuración",
             "complaints": "Reclamaciones",
+            "presentation": "Presentación",
             "signOut": "Cerrar Sesión"
         },
         "header": {
@@ -440,6 +441,57 @@
             "titleEs": "Título (ES)",
             "titleEn": "Título (EN)",
             "linkUrl": "URL del Enlace"
+        },
+        "presentation": {
+            "title": "Presentación del Proyecto",
+            "subtitle": "Matteo Salvatore - Elegancia Atemporal",
+            "vision": {
+                "title": "Visión del Proyecto",
+                "text": "Crear una experiencia de compra premium, fusionando arte, diseño y tecnología para el caballero moderno.",
+                "points": [
+                    "Internacionalización (ES/EN)",
+                    "Rutas Localizadas (SEO)",
+                    "Gestión Dinámica de Menús"
+                ]
+            },
+            "architecture": {
+                "title": "Arquitectura del Sistema",
+                "description": "Arquitectura desacoplada moderna con Next.js y Express."
+            },
+            "modules": {
+                "title": "Módulos y Tecnologías",
+                "frontend": "Frontend (Next.js 14, Tailwind, Zustand)",
+                "backend": "Backend (Node.js 22, Express)",
+                "database": "Base de Datos (PostgreSQL/Supabase)",
+                "admin": "Admin Panel (Dashboard, CRM, Inventario)",
+                "ai": "IA y Automatización (Gemini AI, Chatbot)"
+            },
+            "benefits": {
+                "title": "Beneficios Principales",
+                "items": [
+                    {
+                        "title": "Escalabilidad",
+                        "desc": "Arquitectura basada en microservicios listos para crecer."
+                    },
+                    {
+                        "title": "Optimización SEO",
+                        "desc": "Slugs localizados y metadatos dinámicos por página."
+                    },
+                    {
+                        "title": "Experiencia Premium",
+                        "desc": "UI minimalistay animaciones fluidas de alto nivel."
+                    },
+                    {
+                        "title": "Seguridad",
+                        "desc": "Pagos seguros con Culqi y autenticación robusta."
+                    }
+                ]
+            },
+            "milestones": {
+                "title": "Hitos y Progreso",
+                "label": "Progreso del Proyecto (%)"
+            },
+            "footer": "Impulsando el futuro del retail de lujo."
         }
     },
     "cookies": {

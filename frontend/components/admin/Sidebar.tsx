@@ -14,7 +14,8 @@ import {
     Settings,
     Package,
     LogOut,
-    Menu
+    Menu,
+    Presentation
 } from 'lucide-react';
 
 export const AdminSidebar = ({ lang }: { lang: Locale }) => {
@@ -24,6 +25,7 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
 
     const menuItems = [
         { href: `/${lang}/admin`, label: dict.sidebar.overview, icon: LayoutDashboard },
+        { href: `/${lang}/admin/presentation`, label: dict.sidebar.presentation || 'Presentación', icon: Presentation },
         { href: `/${lang}/admin/products`, label: dict.sidebar.products, icon: ShoppingBag },
         { href: `/${lang}/admin/categories`, label: dict.sidebar.categories, icon: LayoutDashboard },
         { href: `/${lang}/admin/settings/categories-images`, label: dict.sidebar.categoriesImages, icon: LayoutDashboard },

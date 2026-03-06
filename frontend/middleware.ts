@@ -69,7 +69,11 @@ export async function middleware(request: NextRequest) {
         'pago': 'checkout',
         'busqueda': 'search',
         'registrarse': 'register',
-        'iniciar-sesion': 'login'
+        'iniciar-sesion': 'login',
+        'ayuda': 'help',
+        'envios': 'shipping',
+        'guia-de-tallas': 'size-guide',
+        'faq': 'faq'
     };
 
     let response: NextResponse | null = null;
@@ -78,12 +82,35 @@ export async function middleware(request: NextRequest) {
     const slug = segments[1];
 
     if (i18n.locales.includes(lang as any) && slug) {
-        let internalPath: string | null = null;
+        // 1. Check for REDIRECTS (Incorrect slug for language)
+        // If English and using Spanish slug -> Redirect to English slug
+        if (lang === 'en' && urlMapping[slug]) {
+            const correctSlug = urlMapping[slug];
+            const restOfPath = segments.slice(2).join('/');
+            const newPath = `/en/${correctSlug}${restOfPath ? `/${restOfPath}` : ''}`;
+            console.log(`[Middleware] Redirecting ${pathname} -> ${newPath} (Wrong slug for EN)`);
+            return NextResponse.redirect(new URL(newPath, request.url));
+        }
 
+        // If Spanish and using English slug -> Redirect to Spanish slug
+        const inverseMapping: Record<string, string> = Object.entries(urlMapping).reduce((acc, [es, en]) => {
+            acc[en] = es;
+            return acc;
+        }, {} as Record<string, string>);
+
+        if (lang === 'es' && inverseMapping[slug]) {
+            const correctSlug = inverseMapping[slug];
+            const restOfPath = segments.slice(2).join('/');
+            const newPath = `/es/${correctSlug}${restOfPath ? `/${restOfPath}` : ''}`;
+            console.log(`[Middleware] Redirecting ${pathname} -> ${newPath} (Wrong slug for ES)`);
+            return NextResponse.redirect(new URL(newPath, request.url));
+        }
+
+        // 2. INTERNAL REWRITES
+        let internalPath: string | null = null;
         if (lang === 'es' && urlMapping[slug]) {
             internalPath = urlMapping[slug];
         } else if (lang === 'en' && Object.values(urlMapping).includes(slug)) {
-            // Already internal English slug
             internalPath = slug;
         }
 

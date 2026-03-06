@@ -11,6 +11,7 @@ import { AboutBrandSection } from '@/components/sections/AboutBrandSection';
 import { ProductGrid } from '@/components/ui/ProductGrid';
 import { NewsletterPopup } from '@/components/ui/NewsletterPopup';
 import { productsApi } from '@/lib/api/products';
+import { getLocalizedPath } from '@/lib/routes';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
 import { getDictionary } from '../../../get-dictionary';
@@ -296,7 +297,7 @@ function formatCategoryLink(link: string | null, lang: string): string {
     // Fallback if slug is empty
     if (!slug) return `/${lang}/${lang === 'es' ? 'productos' : 'products'}`;
 
-    return `/${lang}/${lang === 'es' ? 'categoria' : 'category'}/${slug}`;
+    return getLocalizedPath(`/category/${slug}`, lang as Locale);
 }
 
 // Helper component for content to reduce duplication

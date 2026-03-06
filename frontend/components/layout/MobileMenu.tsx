@@ -68,7 +68,7 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                                                         return (
                                                             <div key={child.id} className="space-y-2">
                                                                 <Link
-                                                                    href={child.link_url || getLocalizedPath(`/${lang === 'es' ? 'categoria' : 'category'}/${slug}`, lang)}
+                                                                    href={getLocalizedPath(child.link_url || `/category/${slug}`, lang)}
                                                                     onClick={onClose}
                                                                     className="block font-medium text-lg text-ms-black"
                                                                 >
@@ -85,7 +85,7 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                                     return (
                                         <li key={item.id}>
                                             <Link
-                                                href={item.link_url || getLocalizedPath(`/${lang === 'es' ? 'categoria' : 'category'}/${item.slug || (lang === 'es' ? item.label_es : item.label_en)?.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')}`, lang)}
+                                                href={getLocalizedPath(item.link_url || `/category/${item.slug || (lang === 'es' ? item.label_es : item.label_en)?.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')}`, lang)}
                                                 onClick={onClose}
                                                 className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
                                             >

@@ -55,7 +55,7 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
                                         return (
                                             <div key={category.id} className="space-y-2">
                                                 <Link
-                                                    href={getLocalizedPath(category.link_url || `/${lang === 'es' ? 'categoria' : 'category'}/${slug}`, lang)}
+                                                    href={getLocalizedPath(category.link_url || `/category/${slug}`, lang)}
                                                     className="font-medium text-ms-black hover:text-ms-gold transition-colors block"
                                                 >
                                                     {labelText}
