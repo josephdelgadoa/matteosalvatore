@@ -60,7 +60,7 @@ export default async function ReturnsPage({ params }: { params: { lang: Locale }
                     <div className="space-y-4">
                         <p>{policy.support.text}</p>
                         <ul className="space-y-2">
-                            <li><strong>WhatsApp:</strong> +51 900 000 000</li>
+                            <li><strong>WhatsApp:</strong> +51 908 913 172</li>
                             <li><strong>Email:</strong> soporte@matteosalvatore.pe</li>
                         </ul>
                     </div>
