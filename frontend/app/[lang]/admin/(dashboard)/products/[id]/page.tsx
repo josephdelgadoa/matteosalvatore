@@ -9,8 +9,10 @@ import { productCategoriesApi, ProductCategory } from '@/lib/api/productCategori
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { ImageUploader } from '@/components/admin/ImageUploader';
-import { Trash, Plus, GripVertical } from 'lucide-react';
+import { Trash, Plus, GripVertical, Sparkles } from 'lucide-react';
 import { Reorder } from 'framer-motion';
+import { ProductAiGenerator } from '@/components/admin/ProductAiGenerator';
+import { GeneratedProductAsset } from '@/lib/api/ai';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
@@ -162,6 +164,44 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         setFormData({ ...formData, product_variants: newVariants });
     };
 
+    const handleAiGenerate = (aiResult: GeneratedProductAsset) => {
+        setFormData(prev => ({
+            ...prev,
+            name_es: aiResult.name_es,
+            name_en: aiResult.name_en,
+            slug_es: aiResult.slug_es,
+            slug_en: aiResult.slug_en,
+            description_es: aiResult.description_es,
+            description_en: aiResult.description_en,
+            seo_title_es: aiResult.seo_title_es,
+            seo_title_en: aiResult.seo_title_en,
+            seo_description_es: aiResult.seo_description_es,
+            seo_description_en: aiResult.seo_description_en,
+            seo_keywords_es: aiResult.keywords.join(', '),
+            seo_keywords_en: aiResult.keywords.join(', '),
+            // Store extra assets in a hidden or reference field if we want, 
+            // but for now let's just use them to fill the form and maybe 
+            // show them in a special section.
+        }));
+
+        // Find category match if possible
+        const categoryMatch = rootCategories.find((c: any) =>
+            c.name_es.toLowerCase().includes(aiResult.specifications_es?.Category?.toLowerCase() || '') ||
+            c.name_en.toLowerCase().includes(aiResult.specifications_en?.Category?.toLowerCase() || '')
+        );
+
+        if (categoryMatch) {
+            setFormData(prev => ({ ...prev, category: categoryMatch.slug_es || categoryMatch.slug || categoryMatch.id }));
+        }
+
+        addToast('AI assets applied to form!', 'success');
+
+        // Store the full result for the "AI Marketing Assets" display
+        setAiMarketingAssets(aiResult);
+    };
+
+    const [aiMarketingAssets, setAiMarketingAssets] = useState<GeneratedProductAsset | null>(null);
+
     if (isLoading) return <div className="flex justify-center p-20"><Spinner /></div>;
 
     return (
@@ -177,6 +217,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     )}
                 </h1>
                 <div className="flex gap-3">
+                    <ProductAiGenerator
+                        initialName={formData.name_es}
+                        initialCategory={formData.category}
+                        onGenerate={handleAiGenerate}
+                    />
                     <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
                     <Button onClick={handleSubmit} isLoading={isSaving}>Save Product</Button>
                 </div>
@@ -413,6 +458,50 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                         <p className="text-sm text-ms-stone italic">No variants added.</p>
                     )}
                 </section>
+
+                {aiMarketingAssets && (
+                    <section className="bg-ms-white p-6 border border-ms-fog space-y-6">
+                        <div className="flex items-center gap-2 border-b border-ms-fog pb-2 mb-4">
+                            <Sparkles className="w-5 h-5 text-ms-brand-primary" />
+                            <h3 className="font-medium text-lg">AI Marketing Assets (Generated)</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-4">
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Hashtags</h4>
+                                    <p className="text-ms-black font-mono text-sm">{aiMarketingAssets.hashtags.join(' ')}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Instagram Caption (ES)</h4>
+                                    <pre className="text-ms-black text-sm whitespace-pre-wrap bg-ms-pearl p-3 border border-ms-fog">{aiMarketingAssets.social_caption_es}</pre>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Image Prompt (Lifestyle)</h4>
+                                    <p className="text-ms-stone text-xs italic bg-ms-pearl p-2 border border-ms-fog border-dashed">{aiMarketingAssets.image_prompts.lifestyle}</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Semantic Description</h4>
+                                    <p className="text-ms-black text-sm italic">{aiMarketingAssets.semantic_description}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Cross Sell Suggestions</h4>
+                                    <ul className="list-disc list-inside text-sm text-ms-black">
+                                        {aiMarketingAssets.cross_sell_suggestions.map((s, i) => <li key={i}>{s}</li>)}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Image Prompt (Ad Copy)</h4>
+                                    <p className="text-ms-stone text-xs italic bg-ms-pearl p-2 border border-ms-fog border-dashed">{aiMarketingAssets.image_prompts.ad}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-ms-stone text-center mt-6">These assets are for your reference and social media. Slugs and SEO Metadata have already been updated in the form above.</p>
+                    </section>
+                )}
             </form>
         </div>
     );
