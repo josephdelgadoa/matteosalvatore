@@ -197,6 +197,36 @@
             "text": "We are committed to slow fashion. Our timeless designs are meant to last for years, not seasons. By using natural, biodegradable fibers, we minimize our environmental footprint."
         }
     },
+    "returnsPolicy": {
+        "title": "Returns & Exchanges Policy",
+        "quality": {
+            "title": "Quality Commitment",
+            "text": "At Matteo Salvatore, we strive to offer products of the highest quality. We want you to be completely satisfied with your purchase. If for any reason you are not, we are here to help you with the exchange or return process."
+        },
+        "conditions": {
+            "title": "Conditions for Exchanges and Returns",
+            "items": [
+                "The period to make any exchange or return is 7 calendar days from the date of receipt of the product.",
+                "Garments must be in their original condition, unworn, unwashed, and with all original tags and packaging intact.",
+                "It is essential to present the proof of purchase (receipt or invoice) corresponding to the purchase.",
+                "For hygiene reasons, exchanges or returns of underwear, socks or products for personal use are not accepted, unless they have manufacturing defects."
+            ]
+        },
+        "exchange": {
+            "title": "Exchange Process",
+            "text1": "If you wish to exchange a product for size or color, you can do so by visiting our physical stores or managing it through our customer service.",
+            "text2": "In the case of shipping, the transportation costs for exchanges for reasons other than manufacturing defects will be borne by the customer."
+        },
+        "refund": {
+            "title": "Returns and Refunds",
+            "text1": "Refunds will be made through the same payment method used in the original purchase.",
+            "text2": "The processing time for the refund may vary depending on the financial institution, generally between 7 to 15 business days."
+        },
+        "support": {
+            "title": "Customer Service",
+            "text": "To start an exchange or return process, please contact us:"
+        }
+    },
     "contact": {
         "title": "Contact Us",
         "subtitle": "Get in Touch",

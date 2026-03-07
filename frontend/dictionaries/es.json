@@ -197,6 +197,36 @@
             "text": "Estamos comprometidos con la moda lenta. Nuestros diseños atemporales están hechos para durar años, no temporadas. Al usar fibras naturales y biodegradables, minimizamos nuestra huella ambiental."
         }
     },
+    "returnsPolicy": {
+        "title": "Política de Cambios y Devoluciones",
+        "quality": {
+            "title": "Compromiso de Calidad",
+            "text": "En Matteo Salvatore, nos esforzamos por ofrecer productos de la más alta calidad. Queremos que estés completamente satisfecho con tu compra. Si por alguna razón no lo estás, estamos aquí para ayudarte con el proceso de cambio o devolución."
+        },
+        "conditions": {
+            "title": "Condiciones para Cambios y Devoluciones",
+            "items": [
+                "El plazo para realizar cualquier cambio o devolución es de 7 días calendario a partir de la fecha de recepción del producto.",
+                "Las prendas deben estar en su estado original, sin uso, sin lavar y con todas las etiquetas y empaques originales intactos.",
+                "Es indispensable presentar el comprobante de pago (boleta o factura) correspondiente a la compra.",
+                "Por razones de higiene, no se aceptan cambios ni devoluciones de ropa interior, medias o productos de uso personal, a menos que presenten fallas de fabricación."
+            ]
+        },
+        "exchange": {
+            "title": "Proceso de Cambio",
+            "text1": "Si deseas cambiar un producto por talle o color, puedes hacerlo acercándote a nuestras tiendas físicas o gestionándolo a través de nuestro servicio de atención al cliente.",
+            "text2": "En caso de envíos, los costos de transporte para cambios por motivos ajenos a fallas de origen correrán por cuenta del cliente."
+        },
+        "refund": {
+            "title": "Devoluciones y Reembolsos",
+            "text1": "Las devoluciones de dinero se realizarán a través del mismo medio de pago utilizado en la compra original.",
+            "text2": "El tiempo de procesamiento del reembolso puede variar dependiendo de la entidad financiera, generalmente entre 7 a 15 días hábiles."
+        },
+        "support": {
+            "title": "Atención al Cliente",
+            "text": "Para iniciar un proceso de cambio o devolución, por favor contáctanos:"
+        }
+    },
     "contact": {
         "title": "Contáctanos",
         "subtitle": "Ponte en Contacto",
