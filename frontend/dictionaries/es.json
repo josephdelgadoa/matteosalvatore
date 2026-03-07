@@ -161,7 +161,8 @@
         "newArrivals": "Nuevos",
         "bestSellers": "Más Vendidos",
         "support": "Soporte",
-        "shipping": "Envíos y Devoluciones",
+        "shipping": "Envíos",
+        "returns": "Cambios y Devoluciones",
         "sizeGuide": "Guía de Tallas",
         "faq": "Preguntas Frecuentes",
         "contact": "Contacto",
@@ -290,6 +291,9 @@
             "categories": "Categorías",
             "categoriesImages": "Imágenes de Categorías",
             "orders": "Pedidos",
+            "stores": "Tiendas",
+            "inventory": "Inventario",
+            "pos": "Terminal POS",
             "customers": "Clientes",
             "users": "Usuarios",
             "menuBar": "Barra de Menú",
@@ -328,7 +332,12 @@
             "confirmDelete": "¿Estás seguro de que quieres eliminar",
             "deleteError": "Error al eliminar el producto",
             "deleteSuccess": "Producto eliminado con éxito",
-            "loadError": "Error al cargar los productos"
+            "loadError": "Error al cargar los productos",
+            "duplicate": "Duplicar",
+            "duplicating": "Duplicando...",
+            "duplicateSuccess": "Producto duplicado con éxito",
+            "duplicateError": "Error al duplicar el producto",
+            "copy": "Copia"
         },
         "categoriesList": {
             "title": "Categorías de Productos",

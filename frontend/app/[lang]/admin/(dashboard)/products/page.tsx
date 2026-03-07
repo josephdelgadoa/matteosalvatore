@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Plus } from 'lucide-react';
+import { Plus, Copy } from 'lucide-react';
 import { DataTable } from '@/components/admin/DataTable';
 import { productsApi, Product } from '@/lib/api/products';
 import { Spinner } from '@/components/ui/Spinner';
@@ -44,6 +44,58 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
         } catch (err) {
             console.error('Error deleting product:', err);
             addToast(dict.products.deleteError, 'error');
+        }
+    };
+
+    const handleDuplicate = async (item: Product) => {
+        try {
+            addToast(dict.products.duplicating, 'info');
+
+            // 1. Get full product details
+            const fullProduct = await productsApi.getBySlug(item.slug_es);
+
+            // 2. Prepare duplicated data
+            const suffix = ` (${dict.products.copy})`;
+            const duplicateData: Partial<Product> = {
+                ...fullProduct,
+                name_es: `${fullProduct.name_es}${suffix}`.substring(0, 255),
+                name_en: `${fullProduct.name_en}${suffix}`.substring(0, 255),
+                slug_es: `${fullProduct.slug_es}-copy-${Math.floor(Math.random() * 1000)}`,
+                slug_en: `${fullProduct.slug_en}-copy-${Math.floor(Math.random() * 1000)}`,
+                is_active: false, // Default to inactive
+            };
+
+            // Remove internal IDs and fields that should not be copied directly
+            delete (duplicateData as any).id;
+            delete (duplicateData as any).sku; // Let backend regenerate SKU
+            delete (duplicateData as any).created_at;
+            delete (duplicateData as any).updated_at;
+            delete (duplicateData as any).reviews;
+
+            // Strip IDs from variants
+            if (duplicateData.product_variants) {
+                duplicateData.product_variants = duplicateData.product_variants.map(v => {
+                    const { id, ...variantData } = v;
+                    return { ...variantData, sku_variant: undefined } as any; // Let backend regenerate SKUs
+                });
+            }
+
+            // Strip IDs from images
+            if (duplicateData.product_images) {
+                duplicateData.product_images = duplicateData.product_images.map(img => {
+                    const { id, product_id, ...imageData } = img;
+                    return imageData as any;
+                });
+            }
+
+            // 3. Create duplicate
+            await productsApi.create(duplicateData);
+
+            addToast(dict.products.duplicateSuccess, 'success');
+            fetchProducts();
+        } catch (err: any) {
+            console.error('Error duplicating product:', err);
+            addToast(`${dict.products.duplicateError}: ${err.message || 'Unknown error'}`, 'error');
         }
     };
 
@@ -114,6 +166,17 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                 columns={columns}
                 editPath={(item) => `/admin/products/${item.slug_es || item.slug_en}`}
                 onDelete={handleDelete}
+                extraActions={(item) => (
+                    <Button
+                        variant="text"
+                        size="sm"
+                        className="p-2 h-8 w-8"
+                        onClick={() => handleDuplicate(item)}
+                        title={dict.products.duplicate}
+                    >
+                        <Copy className="w-4 h-4 text-ms-stone hover:text-ms-black" />
+                    </Button>
+                )}
             />
         </div>
     );

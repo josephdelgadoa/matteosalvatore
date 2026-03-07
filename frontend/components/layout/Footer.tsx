@@ -40,6 +40,7 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                         <h4 className="font-serif text-lg mb-6">{dict.support}</h4>
                         <ul className="space-y-4">
                             <li><Link href={getLocalizedPath('/help/shipping', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.shipping}</Link></li>
+                            <li><Link href={getLocalizedPath('/help/returns', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.returns || 'Cambios y Devoluciones'}</Link></li>
                             <li><Link href={getLocalizedPath('/help/size-guide', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.sizeGuide}</Link></li>
                             <li><Link href={getLocalizedPath('/help/faq', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.faq}</Link></li>
                             <li><Link href={getLocalizedPath('/contact', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.contact}</Link></li>

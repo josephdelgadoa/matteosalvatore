@@ -52,6 +52,13 @@ app.use('/api/users', usersRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/product-categories', productCategoriesRouter);
 app.use('/api/complaints', complaintsRouter);
+app.use('/api/stores', require('./routes/stores'));
+app.use('/api/inventory', require('./routes/inventory'));
+app.use('/api/pos', require('./routes/pos'));
+app.use('/api/dashboard/stats', (req, res, next) => {
+    const dashboardController = require('./controllers/dashboardController');
+    dashboardController.getDashboardStats(req, res, next);
+});
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/health', require('./routes/health'));
 

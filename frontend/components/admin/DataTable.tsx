@@ -15,13 +15,15 @@ interface DataTableProps<T> {
     columns: Column<T>[];
     onDelete?: (item: T) => void;
     editPath?: (item: T) => string;
+    extraActions?: (item: T) => React.ReactNode;
 }
 
 export function DataTable<T extends { id: string | number }>({
     data,
     columns,
     onDelete,
-    editPath
+    editPath,
+    extraActions
 }: DataTableProps<T>) {
     return (
         <div className="bg-ms-white border border-ms-fog overflow-hidden">
@@ -36,7 +38,7 @@ export function DataTable<T extends { id: string | number }>({
                                 {col.header}
                             </th>
                         ))}
-                        {(onDelete || editPath) && <th className="p-4 w-20"></th>}
+                        {(onDelete || editPath || extraActions) && <th className="p-4 w-20"></th>}
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-ms-fog">
@@ -49,8 +51,9 @@ export function DataTable<T extends { id: string | number }>({
                                         : (item[col.accessorKey] as React.ReactNode)}
                                 </td>
                             ))}
-                            {(onDelete || editPath) && (
+                            {(onDelete || editPath || extraActions) && (
                                 <td className="p-4 flex justify-end gap-2">
+                                    {extraActions && extraActions(item)}
                                     {editPath && (
                                         <Link href={editPath(item)}>
                                             <Button variant="text" size="sm" className="p-2 h-8 w-8">
@@ -74,7 +77,7 @@ export function DataTable<T extends { id: string | number }>({
                     ))}
                     {data.length === 0 && (
                         <tr>
-                            <td colSpan={columns.length + (onDelete || editPath ? 1 : 0)} className="p-8 text-center text-ms-stone">
+                            <td colSpan={columns.length + (onDelete || editPath || extraActions ? 1 : 0)} className="p-8 text-center text-ms-stone">
                                 No data found.
                             </td>
                         </tr>

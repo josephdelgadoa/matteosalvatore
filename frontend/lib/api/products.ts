@@ -9,6 +9,7 @@ export interface Product {
     description_es: string;
     description_en: string;
     base_price: number;
+    sku: string;
     category: string;
     subcategory: string;
     product_variants: ProductVariant[];
