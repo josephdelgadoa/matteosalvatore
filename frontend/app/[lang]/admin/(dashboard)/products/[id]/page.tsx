@@ -191,7 +191,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         );
 
         if (categoryMatch) {
-            setFormData(prev => ({ ...prev, category: categoryMatch.slug_es || categoryMatch.slug || categoryMatch.id }));
+            const match = categoryMatch as any;
+            setFormData(prev => ({ ...prev, category: match.slug_es || match.slug || match.id }));
         }
 
         addToast('AI assets applied to form!', 'success');

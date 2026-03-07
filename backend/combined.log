@@ -639,3 +639,8 @@
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-07T07:16:41.185Z"}
 {"level":"info","message":"Generating AI content for product: Polo Negro","service":"user-service","timestamp":"2026-03-07T07:21:26.180Z"}
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-07T14:26:13.958Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Premium Rojo","service":"user-service","timestamp":"2026-03-07T14:35:55.969Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Premium Rojo Hombre 2026 – Algodón Peruano | Matteo Salvatore (Copia)","service":"user-service","timestamp":"2026-03-07T14:36:45.463Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Premium Rojo Hombre 2026 – Algodón Peruano | Matteo Salvatore (Copia)","service":"user-service","timestamp":"2026-03-07T14:39:17.046Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T14:41:33.006Z"}
+{"level":"info","message":"Generating AI content for product: Matteo Salvatore Polo Básico Premium - Algodón Pima Peruano - Slim Regular Fit - Rojo Essential 2026 - Hombre","service":"user-service","timestamp":"2026-03-07T14:42:18.458Z"}
