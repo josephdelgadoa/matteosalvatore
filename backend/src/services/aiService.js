@@ -1,7 +1,16 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { logger } = require('../utils/logger');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+let genAI;
+function getGenAI() {
+  if (!genAI) {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY is not defined in environment variables');
+    }
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  }
+  return genAI;
+}
 
 /**
  * Generates product content using Gemini AI
@@ -10,7 +19,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
  */
 exports.generateProductContent = async (productData) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
 You are the Global Creative Director and Lead SEO Strategist for "Matteo Salvatore", a world-class luxury minimalist fashion house based in Peru, specializing in the world's finest Pima Cotton.
@@ -111,7 +120,7 @@ Key values: Heritage, Craftsmanship, Peruvian Pima Excellence, Minimalist Timele
  */
 exports.generateBlogContent = async (blogData) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    const model = getGenAI().getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
 You are the Executive Editor and Chief SEO Orchestrator for "Matteo Salvatore". 

@@ -1,7 +1,16 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { logger } = require('../utils/logger');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+let genAI;
+function getGenAI() {
+    if (!genAI) {
+        if (!process.env.GEMINI_API_KEY) {
+            throw new Error('GEMINI_API_KEY is not defined in environment variables');
+        }
+        genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    }
+    return genAI;
+}
 
 /**
  * Handles AI Chatbot conversations focused on conversion
@@ -13,7 +22,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
  */
 exports.getChatbotResponse = async (message, history = [], lang = 'es', context = {}) => {
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+        const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
 
         // Build specialized system prompt for sales and luxury brand alignment
         const systemPrompt = `
