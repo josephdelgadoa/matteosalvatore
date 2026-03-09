@@ -10,6 +10,14 @@
         "logout": "Cerrar Sesión",
         "menu": "Menú"
     },
+    "chatbot": {
+        "welcome": "¡Hola! Soy Matteo, tu asistente personal. ¿En qué puedo ayudarte hoy?",
+        "placeholder": "Escribe un mensaje...",
+        "actionCart": "Ver mi carrito",
+        "actionRegister": "Registrarme",
+        "actionPay": "Ir a pagar",
+        "close": "Cerrar"
+    },
     "nav": {
         "clothing": "Ropa",
         "footwear": "Calzado",

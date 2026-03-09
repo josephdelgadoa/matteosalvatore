@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CookieConsent } from '@/components/ui/CookieConsent';
+import { AiChatbot } from '@/components/chatbot/AiChatbot';
 import { getDictionary } from '../../../get-dictionary';
 import { Locale } from '../../../i18n-config';
 
@@ -21,6 +22,7 @@ export default async function ShopLayout({
                 {children}
             </main>
             <Footer lang={params.lang} dict={dict.footer} />
+            <AiChatbot lang={params.lang} dict={dict} />
             <CookieConsent dict={dict.cookies} lang={params.lang} />
         </div>
     );

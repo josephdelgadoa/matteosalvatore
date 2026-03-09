@@ -63,6 +63,7 @@ app.use('/api/dashboard/stats', (req, res, next) => {
 });
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/ai', require('./routes/ai'));
+app.use('/api/chatbot', require('./routes/chatbot'));
 app.use('/api/health', require('./routes/health'));
 
 app.get('/', (req, res) => {
