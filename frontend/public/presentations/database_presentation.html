@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Architecture | Matteo Salvatore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent: #d4af37;
+            /* Luxury Gold */
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e0e0e0;
+            --text-dim: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 6rem;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .brand-accent {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        section {
+            margin-bottom: 8rem;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card h3::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .table-details {
+            list-style: none;
+        }
+
+        .table-details li {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            padding: 0.4rem 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .table-details li span {
+            color: var(--text-main);
+            font-family: monospace;
+        }
+
+        /* Integration Status Section */
+        .culqi-integration {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .culqi-integration::after {
+            content: 'CULQI';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 8rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.02);
+            pointer-events: none;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 10px;
+            width: 85%;
+            /* Updated Status */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .task-list {
+            display: list-item;
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1rem;
+        }
+
+        .check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--accent);
+        }
+
+        .check::after {
+            content: '✓';
+        }
+
+        .pending {
+            border-color: var(--text-dim);
+            color: var(--text-dim);
+        }
+
+        .pending::after {
+            content: '•';
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .culqi-integration {
+                padding: 2rem;
+            }
+
+            .task-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow"></div>
+
+    <div class="container">
+        <header>
+            <span class="brand-accent">Matteo Salvatore</span>
+            <h1>Arquitectura de Datos</h1>
+            <div class="status-badge">Ecosistema Digital - v.2.5.0</div>
+        </header>
+
+        <!-- Database Schema Section -->
+        <section>
+            <div class="section-header">
+                <h2>Esquema Relacional (Supabase)</h2>
+            </div>
+
+            <div class="grid">
+                <!-- Products -->
+                <div class="card">
+                    <h3>Catálogo & Productos</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>products</span></li>
+                        <li>Table: <span>product_variants</span></li>
+                        <li>Table: <span>product_images</span></li>
+                        <li>Primary Key: <span>UUID</span></li>
+                        <li>Search: <span>PG Full Text Search</span></li>
+                    </ul>
+                </div>
+
+                <!-- Customers -->
+                <div class="card">
+                    <h3>CRM & Usuarios</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>customers</span></li>
+                        <li>Table: <span>addresses</span></li>
+                        <li>Auth: <span>Supabase Auth (JWT)</span></li>
+                        <li>Language: <span>Bicultural (ES/EN)</span></li>
+                    </ul>
+                </div>
+
+                <!-- Orders -->
+                <div class="card">
+                    <h3>Ventas & Logística</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>orders</span></li>
+                        <li>Table: <span>order_items</span></li>
+                        <li>Numbering: <span>Auto-generated MS-YYYYMMDD-XXXX</span></li>
+                        <li>Trigger: <span>IGV (18%) Auto-calc</span></li>
+                    </ul>
+                </div>
+
+                <!-- Payments -->
+                <div class="card">
+                    <h3>Finanzas & Transacciones</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>payments</span></li>
+                        <li>Service: <span>Culqi Integration</span></li>
+                        <li>Security: <span>Tokenization (Frontend)</span></li>
+                        <li>Audit: <span>Charge IDs stored for reconciliation</span></li>
+                    </ul>
+                </div>
+
+                <!-- Intelligence -->
+                <div class="card">
+                    <h3>AI & Marketing</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>chatbot_conversations</span></li>
+                        <li>Table: <span>seo_metadata</span></li>
+                        <li>Table: <span>reviews</span></li>
+                        <li>Engine: <span>Gemini 2.5 Flash</span></li>
+                    </ul>
+                </div>
+
+                <!-- Session -->
+                <div class="card">
+                    <h3>Persistencia</h3>
+                    <ul class="table-details">
+                        <li>Table: <span>cart</span></li>
+                        <li>Primary: <span>Redis (Session-based)</span></li>
+                        <li>Fallback: <span>Supabase persistent carts</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Culqi Integration Section -->
+        <section>
+            <div class="section-header">
+                <h2>Avance de Integración: Culqi</h2>
+            </div>
+
+            <div class="culqi-integration">
+                <p>Nivel de integración actual: <strong>85% Avanzado</strong></p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <div class="task-list">
+                    <div class="task-item">
+                        <div class="check"></div> Tokenización frontend (v4)
+                    </div>
+                    <div class="task-item">
+                        <div class="check"></div> API Backend de Cargos
+                    </div>
+                    <div class="task-item">
+                        <div class="check"></div> Sincronización con Órdenes
+                    </div>
+                    <div class="task-item">
+                        <div class="check"></div> Validación de Stocks post-pago
+                    </div>
+                    <div class="task-item">
+                        <div class="check"></div> Automatización IGV (18%)
+                    </div>
+                    <div class="task-item">
+                        <div class="check pending"></div> Manejo de Webhooks Reales
+                    </div>
+                    <div class="task-item">
+                        <div class="check pending"></div> Pruebas 3DS (Producción)
+                    </div>
+                    <div class="task-item">
+                        <div class="check pending"></div> Conciliación para Reclamos
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; color: var(--text-dim); font-size: 0.9rem;">
+                    <p>La integración se encuentra en fase de <strong>QA Producción</strong>. El checkout es capaz de
+                        procesar pagos con tarjetas locales e internacionales en Nuevos Soles (PEN).</p>
+                </div>
+            </div>
+        </section>
+
+        <footer
+            style="text-align: center; color: var(--text-dim); margin-top: 4rem; font-size: 0.8rem; letter-spacing: 0.1em;">
+            © 2026 MATTEO SALVATORE DIGITAL ARCHITECTURE
+        </footer>
+    </div>
+</body>
+
+</html>

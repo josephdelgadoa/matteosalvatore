@@ -345,6 +345,7 @@
             "settings": "Configuración",
             "complaints": "Reclamaciones",
             "presentation": "Presentación",
+            "database": "Base de Datos",
             "signOut": "Cerrar Sesión"
         },
         "header": {

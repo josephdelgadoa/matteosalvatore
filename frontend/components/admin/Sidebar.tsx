@@ -27,6 +27,7 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
     const menuItems = [
         { href: `/${lang}/admin`, label: dict.sidebar.overview, icon: LayoutDashboard },
         { href: `/${lang}/admin/presentation`, label: dict.sidebar.presentation || 'Presentación', icon: Presentation },
+        { href: `/presentations/database_presentation.html`, label: dict.sidebar.database || 'Base de Datos', icon: LayoutDashboard, external: true },
         { href: `/${lang}/admin/products`, label: dict.sidebar.products, icon: ShoppingBag },
         { href: `/${lang}/admin/blog`, label: dict.sidebar.blog || 'Blog', icon: FileText },
         { href: `/${lang}/admin/categories`, label: dict.sidebar.categories, icon: LayoutDashboard },
@@ -70,6 +71,8 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
                         <Link
                             key={item.href}
                             href={item.href}
+                            target={item.external ? "_blank" : undefined}
+                            rel={item.external ? "noopener noreferrer" : undefined}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
                                 isActive
