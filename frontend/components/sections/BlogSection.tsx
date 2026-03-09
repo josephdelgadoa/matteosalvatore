@@ -38,10 +38,10 @@ export const BlogSection = ({ posts, lang, dict }: BlogSectionProps) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {posts.map((post) => {
-                        const title = lang === 'es' ? post.title_es : post.title_en;
-                        const excerpt = lang === 'es' ? post.excerpt_es : post.excerpt_en;
-                        const slug = lang === 'es' ? post.slug_es : post.slug_en;
+                    {posts.slice(0, 3).map((post) => {
+                        const title = lang === 'es' ? (post.title_es || post.title_en) : (post.title_en || post.title_es);
+                        const excerpt = lang === 'es' ? (post.excerpt_es || post.excerpt_en) : (post.excerpt_en || post.excerpt_es);
+                        const slug = lang === 'es' ? (post.slug_es || post.slug_en) : (post.slug_en || post.slug_es);
                         const date = new Date(post.published_at || post.created_at).toLocaleDateString(lang === 'es' ? 'es-PE' : 'en-US', {
                             day: 'numeric',
                             month: 'long',
