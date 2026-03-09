@@ -8,6 +8,8 @@ export interface Product {
     name_en: string;
     description_es: string;
     description_en: string;
+    short_description_es?: string;
+    short_description_en?: string;
     base_price: number;
     sku: string;
     category: string;

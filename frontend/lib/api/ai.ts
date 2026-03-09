@@ -12,35 +12,50 @@ export interface AiProductGenerationData {
 }
 
 export interface GeneratedProductAsset {
-    name_es: string;
-    name_en: string;
-    slug_es: string;
-    slug_en: string;
-    short_description_es: string;
-    short_description_en: string;
-    description_es: string;
-    description_en: string;
-    features_es: string[];
-    features_en: string[];
-    specifications_es: Record<string, string>;
-    specifications_en: Record<string, string>;
-    tags: string[];
-    keywords: string[];
-    hashtags: string[];
-    seo_title_es: string;
-    seo_title_en: string;
-    seo_description_es: string;
-    seo_description_en: string;
-    image_prompts: {
+    "1_name_es": string;
+    "1_name_en": string;
+    "2_slug_es": string;
+    "2_slug_en": string;
+    "3_short_description_es": string;
+    "3_short_description_en": string;
+    "4_full_description_es": string;
+    "4_full_description_en": string;
+    "5_features_es": string[];
+    "5_features_en": string[];
+    "6_specifications_es": Record<string, string>;
+    "6_specifications_en": Record<string, string>;
+    "7_tags": string[];
+    "8_keywords": string[];
+    "9_hashtags": string[];
+    "10_seo_title_es": string;
+    "10_seo_title_en": string;
+    "11_seo_description_es": string;
+    "11_seo_description_en": string;
+    "12_image_prompts": {
         catalog: string;
         lifestyle: string;
-        ad: string;
     };
-    alt_text_es: string;
-    cross_sell_suggestions: string[];
-    semantic_description: string;
-    social_caption_es: string;
-    social_caption_en: string;
+    "13_alt_text_es": string;
+    "13_alt_text_en": string;
+    "14_cross_sell": string[];
+    "15_product_schema": any;
+    "16_ai_optimization": {
+        semantic_description: string;
+        graph_signals: string;
+    };
+    "17_social_captions": {
+        instagram: string;
+        tiktok: string;
+    };
+    "18_video_prompts": {
+        reel: string;
+        ad_video: string;
+    };
+    "19_ad_copy": {
+        meta: string;
+        tiktok: string;
+    };
+    "20_collection_placement": string[];
 }
 
 export const aiApi = {

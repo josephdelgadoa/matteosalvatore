@@ -67,9 +67,14 @@ export const ProductAiGenerator = ({ initialName, initialCategory, onGenerate }:
 
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="AI Product Content Generator" width="lg">
                 <div className="space-y-6">
-                    <p className="text-sm text-ms-stone italic">
-                        Enter basic details and our AI will build a complete premium store listing (ES/EN), including SEO, tags, descriptions, and more.
-                    </p>
+                    <div className="bg-ms-brand-primary/5 p-4 rounded-lg border border-ms-brand-primary/10">
+                        <p className="text-sm text-ms-brand-primary font-medium flex items-center gap-2">
+                            <Sparkles className="w-4 h-4" /> Elite AI Content Engine (V2026)
+                        </p>
+                        <p className="text-xs text-ms-stone mt-1 leading-relaxed">
+                            Enter the minimum product data. Our specialized fashion agent will generate <strong>20 premium assets</strong> automatically, including SEO-polished titles, high-conversion descriptions, social media kits, and AI search signals.
+                        </p>
+                    </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="col-span-2">

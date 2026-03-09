@@ -167,27 +167,26 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     const handleAiGenerate = (aiResult: GeneratedProductAsset) => {
         setFormData(prev => ({
             ...prev,
-            name_es: aiResult.name_es,
-            name_en: aiResult.name_en,
-            slug_es: aiResult.slug_es,
-            slug_en: aiResult.slug_en,
-            description_es: aiResult.description_es,
-            description_en: aiResult.description_en,
-            seo_title_es: aiResult.seo_title_es,
-            seo_title_en: aiResult.seo_title_en,
-            seo_description_es: aiResult.seo_description_es,
-            seo_description_en: aiResult.seo_description_en,
-            seo_keywords_es: aiResult.keywords.join(', '),
-            seo_keywords_en: aiResult.keywords.join(', '),
-            // Store extra assets in a hidden or reference field if we want, 
-            // but for now let's just use them to fill the form and maybe 
-            // show them in a special section.
+            name_es: aiResult["1_name_es"],
+            name_en: aiResult["1_name_en"],
+            slug_es: aiResult["2_slug_es"],
+            slug_en: aiResult["2_slug_en"],
+            short_description_es: aiResult["3_short_description_es"],
+            short_description_en: aiResult["3_short_description_en"],
+            description_es: aiResult["4_full_description_es"],
+            description_en: aiResult["4_full_description_en"],
+            seo_title_es: aiResult["10_seo_title_es"],
+            seo_title_en: aiResult["10_seo_title_en"],
+            seo_description_es: aiResult["11_seo_description_es"],
+            seo_description_en: aiResult["11_seo_description_en"],
+            seo_keywords_es: aiResult["8_keywords"].join(', '),
+            seo_keywords_en: aiResult["8_keywords"].join(', '),
         }));
 
         // Find category match if possible
         const categoryMatch = rootCategories.find((c: any) =>
-            c.name_es.toLowerCase().includes(aiResult.specifications_es?.Category?.toLowerCase() || '') ||
-            c.name_en.toLowerCase().includes(aiResult.specifications_en?.Category?.toLowerCase() || '')
+            c.name_es.toLowerCase().includes(aiResult["6_specifications_es"]?.Category?.toLowerCase() || '') ||
+            c.name_en.toLowerCase().includes(aiResult["6_specifications_en"]?.Category?.toLowerCase() || '')
         );
 
         if (categoryMatch) {
@@ -195,7 +194,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
             setFormData(prev => ({ ...prev, category: match.slug_es || match.slug || match.id }));
         }
 
-        addToast('AI assets applied to form!', 'success');
+        addToast('Elite AI assets applied to form!', 'success');
 
         // Store the full result for the "AI Marketing Assets" display
         setAiMarketingAssets(aiResult);
@@ -256,6 +255,30 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                             />
                             <p className="text-xs text-ms-stone mt-1">Unique identifier for English URL</p>
                         </div>
+
+                        <div className="col-span-2 space-y-4">
+                            <div className="space-y-1">
+                                <label htmlFor="short_description_es" className="text-xs font-medium text-ms-stone">Short Description (ES)</label>
+                                <textarea
+                                    id="short_description_es"
+                                    value={formData.short_description_es || ''}
+                                    onChange={(e) => setFormData({ ...formData, short_description_es: e.target.value })}
+                                    className="w-full p-2 border border-ms-fog rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-ms-brand-primary min-h-[80px]"
+                                    placeholder="Resumen corto para SEO y listados..."
+                                />
+                            </div>
+                            <div className="space-y-1">
+                                <label htmlFor="short_description_en" className="text-xs font-medium text-ms-stone">Short Description (EN)</label>
+                                <textarea
+                                    id="short_description_en"
+                                    value={formData.short_description_en || ''}
+                                    onChange={(e) => setFormData({ ...formData, short_description_en: e.target.value })}
+                                    className="w-full p-2 border border-ms-fog rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-ms-brand-primary min-h-[80px]"
+                                    placeholder="Short summary for SEO and listings..."
+                                />
+                            </div>
+                        </div>
+
                         <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
 
                         <div className="grid grid-cols-2 gap-4">
@@ -461,46 +484,107 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                 </section>
 
                 {aiMarketingAssets && (
-                    <section className="bg-ms-white p-6 border border-ms-fog space-y-6">
-                        <div className="flex items-center gap-2 border-b border-ms-fog pb-2 mb-4">
-                            <Sparkles className="w-5 h-5 text-ms-brand-primary" />
-                            <h3 className="font-medium text-lg">AI Marketing Assets (Generated)</h3>
+                    <section className="bg-ms-white p-6 border border-ms-brand-primary/20 bg-ms-brand-primary/5 rounded-xl space-y-6">
+                        <div className="flex items-center gap-3 border-b border-ms-brand-primary/10 pb-4 mb-4">
+                            <div className="p-2 bg-ms-brand-primary text-ms-white rounded-lg">
+                                <Sparkles className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-lg text-ms-brand-primary">Elite AI Marketing Kit (2026)</h3>
+                                <p className="text-xs text-ms-stone">20 high-conversion assets generated automatically for global dominance.</p>
+                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Hashtags</h4>
-                                    <p className="text-ms-black font-mono text-sm">{aiMarketingAssets.hashtags.join(' ')}</p>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">📱 Social Media Captions</h4>
+                                    <div className="space-y-4">
+                                        <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Instagram</span>
+                                            <p className="text-xs whitespace-pre-wrap">{aiMarketingAssets["17_social_captions"].instagram}</p>
+                                        </div>
+                                        <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">TikTok</span>
+                                            <p className="text-xs whitespace-pre-wrap">{aiMarketingAssets["17_social_captions"].tiktok}</p>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Instagram Caption (ES)</h4>
-                                    <pre className="text-ms-black text-sm whitespace-pre-wrap bg-ms-pearl p-3 border border-ms-fog">{aiMarketingAssets.social_caption_es}</pre>
-                                </div>
-                                <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Image Prompt (Lifestyle)</h4>
-                                    <p className="text-ms-stone text-xs italic bg-ms-pearl p-2 border border-ms-fog border-dashed">{aiMarketingAssets.image_prompts.lifestyle}</p>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">📢 Paid Ad Copy</h4>
+                                    <div className="space-y-3 bg-ms-pearl/50 p-4 rounded-lg border border-ms-fog">
+                                        <p className="text-xs"><strong>Meta:</strong> {aiMarketingAssets["19_ad_copy"].meta}</p>
+                                        <p className="text-xs"><strong>TikTok:</strong> {aiMarketingAssets["19_ad_copy"].tiktok}</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Semantic Description</h4>
-                                    <p className="text-ms-black text-sm italic">{aiMarketingAssets.semantic_description}</p>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">📸 Visual Directives</h4>
+                                    <div className="space-y-4">
+                                        <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm border-l-4 border-l-ms-brand-primary">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Image Prompt (Lifestyle)</span>
+                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{aiMarketingAssets["12_image_prompts"].lifestyle}"</p>
+                                        </div>
+                                        <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm border-l-4 border-l-ms-stone">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Video Prompt (Reel)</span>
+                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{aiMarketingAssets["18_video_prompts"].reel}"</p>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Cross Sell Suggestions</h4>
-                                    <ul className="list-disc list-inside text-sm text-ms-black">
-                                        {aiMarketingAssets.cross_sell_suggestions.map((s, i) => <li key={i}>{s}</li>)}
-                                    </ul>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">🔗 Cross-Sell & Strategy</h4>
+                                    <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
+                                        <div className="flex flex-wrap gap-2">
+                                            {aiMarketingAssets["14_cross_sell"].map((item, i) => (
+                                                <span key={i} className="px-2 py-1 bg-ms-fog/30 text-[10px] rounded-full text-ms-stone">{item}</span>
+                                            ))}
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t border-ms-fog">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Collection Assignment</span>
+                                            <p className="text-[11px] text-ms-brand-primary font-medium">{aiMarketingAssets["20_collection_placement"].join(' • ')}</p>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase text-ms-stone mb-1">Image Prompt (Ad Copy)</h4>
-                                    <p className="text-ms-stone text-xs italic bg-ms-pearl p-2 border border-ms-fog border-dashed">{aiMarketingAssets.image_prompts.ad}</p>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">🧠 2026 AI SEO & Schema</h4>
+                                    <div className="space-y-4">
+                                        <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
+                                            <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Semantic Meaning (SGE)</span>
+                                            <p className="text-[11px] text-ms-stone leading-relaxed">{aiMarketingAssets["16_ai_optimization"].semantic_description}</p>
+                                        </div>
+                                        <div className="bg-ms-stone p-4 rounded-lg border border-ms-black shadow-lg">
+                                            <span className="text-[10px] font-bold text-ms-pearl uppercase block mb-1">Product Schema (JSON-LD)</span>
+                                            <pre className="text-[9px] text-ms-white/80 overflow-x-auto">Generated & Ready to Inject</pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">🏷️ Metadata & Identifiers</h4>
+                                    <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
+                                        <div className="flex flex-wrap gap-1 mb-3">
+                                            {aiMarketingAssets["9_hashtags"].slice(0, 8).map((h, i) => (
+                                                <span key={i} className="text-[10px] text-ms-brand-primary">{h}</span>
+                                            ))}
+                                        </div>
+                                        <p className="text-[10px] text-ms-stone border-t border-ms-fog pt-2">
+                                            <strong>Alt Text:</strong> {aiMarketingAssets["13_alt_text_es"]}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <p className="text-[10px] text-ms-stone text-center mt-6">These assets are for your reference and social media. Slugs and SEO Metadata have already been updated in the form above.</p>
+
+                        <div className="text-center pt-4 border-t border-ms-brand-primary/10">
+                            <p className="text-[10px] text-ms-brand-primary font-medium uppercase tracking-widest">Matteo Salvatore — High Performance Fashion AI</p>
+                        </div>
                     </section>
                 )}
             </form>

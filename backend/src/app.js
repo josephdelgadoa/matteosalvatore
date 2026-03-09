@@ -42,6 +42,7 @@ const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories');
 const productCategoriesRouter = require('./routes/productCategories'); // Taxonomy (New)
 const complaintsRouter = require('./routes/complaints');
+const blogRouter = require('./routes/blog');
 
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
@@ -52,6 +53,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/product-categories', productCategoriesRouter);
 app.use('/api/complaints', complaintsRouter);
+app.use('/api/blog', blogRouter);
 app.use('/api/stores', require('./routes/stores'));
 app.use('/api/inventory', require('./routes/inventory'));
 app.use('/api/pos', require('./routes/pos'));

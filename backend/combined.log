@@ -644,3 +644,134 @@
 {"level":"info","message":"Generating AI content for product: Polo Básico Premium Rojo Hombre 2026 – Algodón Peruano | Matteo Salvatore (Copia)","service":"user-service","timestamp":"2026-03-07T14:39:17.046Z"}
 {"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T14:41:33.006Z"}
 {"level":"info","message":"Generating AI content for product: Matteo Salvatore Polo Básico Premium - Algodón Pima Peruano - Slim Regular Fit - Rojo Essential 2026 - Hombre","service":"user-service","timestamp":"2026-03-07T14:42:18.458Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-07T14:50:01.164Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Rojo","service":"user-service","timestamp":"2026-03-07T15:14:09.906Z"}
+{"level":"info","message":"Generating AI content for product: Matteo Salvatore Polo Básico Premium - Algodón Pima Peruano - Slim Regular Fit - Rojo Carmesí Essential 2026 - Hombre","service":"user-service","timestamp":"2026-03-07T15:15:12.684Z"}
+{"level":"info","message":"Generating AI content for product: Polo Negro","service":"user-service","timestamp":"2026-03-07T15:18:19.804Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Premium Rojo","service":"user-service","timestamp":"2026-03-07T15:29:26.727Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'short_description_en' column of 'products' in the schema cache","service":"user-service","timestamp":"2026-03-07T15:33:06.039Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'short_description_en' column of 'products' in the schema cache","service":"user-service","timestamp":"2026-03-07T15:33:12.778Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'short_description_en' column of 'products' in the schema cache","service":"user-service","timestamp":"2026-03-07T15:33:19.226Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'short_description_en' column of 'products' in the schema cache","service":"user-service","timestamp":"2026-03-07T15:33:24.158Z"}
+{"level":"info","message":"Generating AI content for product: Test Polo Elite","service":"user-service","timestamp":"2026-03-07T15:48:46.597Z"}
+{"level":"info","message":"Generating AI content for product: Product Test Final 2026","service":"user-service","timestamp":"2026-03-07T16:08:52.573Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T17:04:53.929Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T17:06:54.897Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-07T17:10:23.701Z"}
+{"level":"info","message":"Generating AI content for product: Camisa LinoCamisa Lino","service":"user-service","timestamp":"2026-03-07T17:21:15.650Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T19:25:56.421Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-07T19:29:47.595Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T19:30:51.746Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T19:31:53.757Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-07T19:35:47.749Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-07T19:37:46.753Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-07T20:57:08.176Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-07T21:43:14.686Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T03:12:51.769Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T03:18:16.524Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T07:14:08.542Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-8458-S-AZU) already exists.","hint":null,"level":"error","message":"Error inserting variants: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:12:57.599Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-8458-S-AZU) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:12:57.602Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-9348-S-AZU) already exists.","hint":null,"level":"error","message":"Error inserting variants: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:13:09.602Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-9348-S-AZU) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:13:09.603Z"}
+{"code":"23505","details":"Key (slug_es)=(polo-basico-essential-burgundy-algodon-pima-hombre) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_slug_es_key\"","service":"user-service","timestamp":"2026-03-08T10:13:54.778Z"}
+{"code":"23505","details":"Key (slug_es)=(polo-basico-essential-burgundy-algodon-pima-hombre) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_slug_es_key\"","service":"user-service","timestamp":"2026-03-08T10:14:09.649Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-1759-S-BOR) already exists.","hint":null,"level":"error","message":"Error inserting variants: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:15:05.487Z"}
+{"code":"23505","details":"Key (sku_variant)=(MS-HOM-2026-1759-S-BOR) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-08T10:15:05.487Z"}
+{"level":"info","message":"Inserting 8 variants for product update...","service":"user-service","timestamp":"2026-03-08T10:19:52.965Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T10:21:18.722Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico Premium Rosado Hombre 2026 – Algodón Peruano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-08T10:22:15.295Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T10:23:47.651Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T10:25:41.751Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T10:30:41.253Z"}
+{"level":"info","message":"Generating AI content for product: Polo Essential Azul Turquesa en Algodón Peruano - Matteo Salvatore","service":"user-service","timestamp":"2026-03-08T10:46:11.482Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T11:57:26.648Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T11:59:57.391Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T12:01:35.801Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T13:09:03.548Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T13:10:48.874Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T14:09:42.886Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-08T14:09:59.515Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-08T14:09:59.573Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-08T14:11:38.073Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-08T14:11:38.387Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T14:31:39.814Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T14:48:00.022Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T14:50:11.411Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico ","service":"user-service","timestamp":"2026-03-08T14:53:38.447Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T14:55:58.606Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T14:56:26.097Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T14:56:34.676Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T14:57:05.056Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-08T14:57:15.233Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T14:57:53.701Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T15:06:18.037Z"}
+{"level":"info","message":"Generating AI content for product: Cargo Fit","service":"user-service","timestamp":"2026-03-08T15:22:56.989Z"}
+{"level":"info","message":"Inserting 6 variants for product update...","service":"user-service","timestamp":"2026-03-08T15:25:26.111Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T15:51:23.665Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie","service":"user-service","timestamp":"2026-03-08T16:12:07.888Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T16:16:03.246Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie","service":"user-service","timestamp":"2026-03-08T16:16:21.339Z"}
+{"level":"error","message":"Error in generateProductContent: Unexpected non-whitespace character after JSON at position 5533 (line 77 column 4)","service":"user-service","stack":"SyntaxError: Unexpected non-whitespace character after JSON at position 5533 (line 77 column 4)\n    at JSON.parse (<anonymous>)\n    at exports.generateProductContent (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/services/aiService.js:100:17)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async exports.generateProduct (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/controllers/aiController.js:16:34)","timestamp":"2026-03-08T16:16:43.572Z"}
+{"level":"error","message":"Error in AI generateProduct controller: Failed to generate content with AI: Unexpected non-whitespace character after JSON at position 5533 (line 77 column 4)","service":"user-service","stack":"Error: Failed to generate content with AI: Unexpected non-whitespace character after JSON at position 5533 (line 77 column 4)\n    at exports.generateProductContent (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/services/aiService.js:103:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async exports.generateProduct (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/controllers/aiController.js:16:34)","timestamp":"2026-03-08T16:16:43.573Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T16:16:51.354Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-08T16:17:14.042Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T16:17:55.277Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie","service":"user-service","timestamp":"2026-03-08T16:42:19.758Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T16:45:38.632Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie","service":"user-service","timestamp":"2026-03-08T16:46:49.450Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T16:49:44.980Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T16:58:18.386Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie Slim Regular Azul Eléctrico Hombre 2026 – Algodón Peruano | Matteo Salvatore (Copia)","service":"user-service","timestamp":"2026-03-08T20:09:51.271Z"}
+{"level":"info","message":"Generating AI content for product: Hoodie","service":"user-service","timestamp":"2026-03-08T20:21:50.602Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-08T20:42:35.971Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T00:36:59.335Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T00:37:00.587Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T00:37:17.476Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T00:37:19.196Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T00:53:43.378Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T00:56:28.881Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T00:56:29.173Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in createPost: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:05:31.133Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in createPost: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:24:13.030Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in createPost: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:29:23.198Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in createPost: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:31:39.280Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:32:07.856Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:47:06.234Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:51:05.247Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:51:45.518Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T01:58:47.316Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:59:26.309Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T01:59:26.398Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:00:10.127Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:08:27.022Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:09:07.154Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:09:26.935Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:10:05.425Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T02:13:38.073Z"}
+{"level":"info","message":"Generating AI content for product: Polo Básico","service":"user-service","timestamp":"2026-03-09T02:54:10.532Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-09T03:10:02.300Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T04:32:31.170Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T05:57:45.586Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T05:58:12.239Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T06:24:07.095Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T06:24:54.598Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T06:25:03.290Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T06:26:33.498Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T06:28:30.550Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T11:11:45.021Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T11:11:45.171Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T11:14:36.355Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T11:17:02.733Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T11:18:11.030Z"}
+{"code":"PGRST205","details":null,"hint":null,"level":"error","message":"Error in getAllPosts: Could not find the table 'public.blog_posts' in the schema cache","service":"user-service","timestamp":"2026-03-09T11:18:14.338Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T13:35:23.239Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T14:03:34.128Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T14:05:37.019Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T14:11:59.957Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T14:23:17.803Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-09T14:40:13.133Z"}
+{"level":"info","message":"Generating AI content for product: Skinny Pants","service":"user-service","timestamp":"2026-03-09T17:57:20.799Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny ","service":"user-service","timestamp":"2026-03-09T17:58:56.441Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-09T18:01:03.695Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-09T18:15:20.750Z"}

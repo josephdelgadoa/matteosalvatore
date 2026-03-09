@@ -82,5 +82,11 @@ export const NAV_STRUCTURE = [
         label: { es: 'ACCESORIOS', en: 'ACCESSORIES' },
         type: 'link',
         href: '/category/accesorios'
+    },
+    {
+        id: 'blog',
+        label: { es: 'BLOG', en: 'BLOG' },
+        type: 'link',
+        href: '/blog'
     }
 ];
