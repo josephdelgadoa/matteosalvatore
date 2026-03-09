@@ -25,7 +25,7 @@ export interface BlogPost {
 }
 
 export const blogApi = {
-    getAllPosts: async (params?: { lang?: string; publishedOnly?: boolean }) => {
+    getAllPosts: async (params?: { lang?: string; publishedOnly?: boolean; limit?: number; offset?: number }) => {
         const response = await api.get('/blog', { params });
         return response.data.data.posts as BlogPost[];
     },

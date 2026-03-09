@@ -11,6 +11,8 @@ import { AboutBrandSection } from '@/components/sections/AboutBrandSection';
 import { ProductGrid } from '@/components/ui/ProductGrid';
 import { NewsletterPopup } from '@/components/ui/NewsletterPopup';
 import { productsApi } from '@/lib/api/products';
+import { blogApi } from '@/lib/api/blog';
+import { BlogSection } from '@/components/sections/BlogSection';
 import { getLocalizedPath } from '@/lib/routes';
 // @ts-ignore
 import { Locale } from '@/i18n-config';
@@ -122,6 +124,9 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     // 2. Finishing Touches: Accessories
     const finishingProducts = await productsApi.getAll({ category: 'accessories', limit: 4 }).catch(() => []);
 
+    // 3. Latest Blog Posts
+    const latestPosts = await blogApi.getAllPosts({ publishedOnly: true, limit: 3 }).catch(() => []);
+
     return (
         <div className="space-y-16 pb-0">
             <NewsletterPopup dict={dict.newsletter} />
@@ -213,6 +218,13 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 products={finishingProducts}
                 lang={params.lang}
                 viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'categoria' : 'category'}/accessories`}
+            />
+
+            {/* Latest Blog Posts */}
+            <BlogSection
+                posts={latestPosts}
+                lang={params.lang}
+                dict={dict.home.blog}
             />
 
             {/* FAQ Section */}

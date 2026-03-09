@@ -99,6 +99,12 @@ export const Navigation = ({ lang, dict, menuItems }: NavigationProps) => {
                         {dict.newArrivals}
                     </Link>
                     <Link
+                        href={getLocalizedPath('/blog', lang)}
+                        className="text-sm font-medium uppercase tracking-wider text-ms-stone hover:text-ms-black transition-colors"
+                    >
+                        {dict.blog}
+                    </Link>
+                    <Link
                         href={getLocalizedPath('/about', lang)}
                         className="text-sm font-medium uppercase tracking-wider text-ms-stone hover:text-ms-black transition-colors"
                     >

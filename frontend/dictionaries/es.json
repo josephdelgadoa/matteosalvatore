@@ -117,6 +117,11 @@
                 }
             ]
         },
+        "blog": {
+            "title": "Últimos Artículos",
+            "viewAll": "Ver todas las publicaciones",
+            "readMore": "Leer más"
+        },
         "trust": {
             "title": "Envios a todo el Perú",
             "features": [

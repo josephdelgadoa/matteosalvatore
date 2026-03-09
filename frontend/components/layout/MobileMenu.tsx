@@ -119,6 +119,15 @@ export const MobileMenu = ({ isOpen, onClose, lang, dict, commonDict, menuItems 
                         </li>
                         <li>
                             <Link
+                                href={getLocalizedPath('/blog', lang)}
+                                onClick={onClose}
+                                className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
+                            >
+                                {dict.blog}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
                                 href={getLocalizedPath('/about', lang)}
                                 onClick={onClose}
                                 className="text-xl font-light text-ms-black block py-2 border-b border-ms-fog"
