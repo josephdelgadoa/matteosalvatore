@@ -45,10 +45,9 @@ export default function CheckoutPaymentPage() {
             const shippingCost = shippingMethod === 'express' ? 25 : 15;
             const total = getCartTotal() + shippingCost;
 
-            // This should probably be in an api/orders.ts method but calling direct for now
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
                 items: items.map(item => ({
-                    product_id: item.product_id || item.id, // Ensure we have product ID
+                    product_id: item.product_id || item.id,
                     name: item.name,
                     quantity: item.quantity,
                     price: item.price,
@@ -64,19 +63,19 @@ export default function CheckoutPaymentPage() {
                 },
                 customer_email: shippingInfo.email,
                 total_amount: total,
-                customer_id: null // Guest
+                customer_id: null
             });
 
             const newOrder = data.data.order;
             setOrderId(newOrder.id);
 
-            // 2. Configure Culqi with real Order Amount and ID
+            // 2. Configure Culqi
             window.Culqi.settings({
                 title: 'Matteo Salvatore',
                 currency: 'PEN',
                 description: `Order #${newOrder.order_number}`,
                 amount: Math.round(newOrder.total_amount * 100),
-                order: newOrder.order_number // Optional metadata
+                order: newOrder.order_number
             });
 
             // 3. Open Culqi
@@ -97,10 +96,8 @@ export default function CheckoutPaymentPage() {
                 const email = window.Culqi.token.email;
 
                 try {
-                    // 4. Process Payment with Order ID
                     if (!orderId) throw new Error('Order ID missing');
 
-                    // Amount is redundant if we validate on backend, but passing for now
                     const shippingMethod = localStorage.getItem('checkout_shipping') || 'standard';
                     const amount = getCartTotal() + (shippingMethod === 'express' ? 25 : 15);
 
@@ -109,14 +106,15 @@ export default function CheckoutPaymentPage() {
                         amount,
                         email,
                         currency: 'PEN',
-                        orderId: orderId
+                        orderId: orderId,
+                        deviceId: localStorage.getItem('culqi_device_id')
                     });
 
                     addToast('Payment Successful! Redirecting...', 'success');
                     clearCart();
-                    // Clear checkout local storage
                     localStorage.removeItem('checkout_info');
                     localStorage.removeItem('checkout_shipping');
+                    localStorage.removeItem('culqi_device_id');
 
                     setTimeout(() => {
                         router.push(`/checkout/success?orderId=${orderId}`);
@@ -135,16 +133,20 @@ export default function CheckoutPaymentPage() {
                 setLoading(false);
             }
         };
-    }, [addToast, getCartTotal, clearCart, router, orderId, items]); // Added deps
+    }, [addToast, getCartTotal, clearCart, router, orderId, items]);
 
-    // Init Culqi
     const initCulqi = () => {
         if (window.Culqi) {
             window.Culqi.publicKey = process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY;
 
+            const deviceId = window.Culqi.getDevice();
+            if (deviceId) {
+                localStorage.setItem('culqi_device_id', deviceId);
+            }
+
             window.Culqi.options({
                 style: {
-                    logo: 'https://matteosalvatore.pe/images/logo.svg', // Or valid URL
+                    logo: 'https://matteosalvatore.pe/images/logo.svg',
                     maincolor: '#000000',
                     buttontext: '#ffffff',
                     maintext: '#000000',

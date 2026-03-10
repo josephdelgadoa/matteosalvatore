@@ -4,7 +4,7 @@ const { logger } = require('../utils/logger');
 
 exports.processPayment = async (req, res) => {
     try {
-        const { token, amount, email, currency = 'PEN', orderId } = req.body;
+        const { token, amount, email, currency = 'PEN', orderId, deviceId } = req.body;
 
         if (!token || !amount || !email) {
             return res.status(400).json({ success: false, message: 'Missing required payment details' });
@@ -16,8 +16,14 @@ exports.processPayment = async (req, res) => {
             currency_code: currency,
             email: email,
             source_id: token,
-            description: `Order #${orderId}`,
-            capture: true
+            description: `Order #${orderId} - Matteo Salvatore`,
+            capture: true,
+            antifraud_details: deviceId ? {
+                device_id: deviceId
+            } : undefined,
+            metadata: {
+                order_id: orderId
+            }
         });
 
         // 2. Update Order Status if orderId is provided
