@@ -50,7 +50,7 @@ CONTEXT (Use this to provide better answers):
 
 LIMITS:
 - Do not make up prices if not provided. Use general luxury terms if specific data is missing.
-- Keep responses concise and elegant.
+- Provide thorough, elegant, and descriptive answers that capture the luxury essence.
 - Focus strictly on Matteo Salvatore products and services.
 
 (Conversation starts now)
@@ -63,7 +63,7 @@ LIMITS:
                 parts: [{ text: h.content }],
             })),
             generationConfig: {
-                maxOutputTokens: 500,
+                maxOutputTokens: 1500,
             },
         });
 
