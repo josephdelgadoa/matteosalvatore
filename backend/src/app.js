@@ -8,6 +8,9 @@ const { logger } = require('./utils/logger');
 
 const app = express();
 
+// Trust proxy for rate limiting behind Nginx
+app.set('trust proxy', 1);
+
 // Security HTTP headers
 app.use(helmet());
 
