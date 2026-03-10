@@ -146,7 +146,7 @@ export default function CheckoutPaymentPage() {
 
             window.Culqi.options({
                 style: {
-                    logo: 'https://matteosalvatore.pe/images/logo.svg',
+                    logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
                     maincolor: '#000000',
                     buttontext: '#ffffff',
                     maintext: '#000000',
