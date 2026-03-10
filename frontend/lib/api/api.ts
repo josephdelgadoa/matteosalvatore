@@ -22,8 +22,20 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         // Standardize error format
-        const message = error.response?.data?.message || 'An unexpected error occurred';
-        console.error('API Error:', message);
+        const responseData = error.response?.data;
+        const message = responseData?.message || error.message || 'An unexpected error occurred';
+
+        if (process.env.NODE_ENV === 'development') {
+            console.error('API Error Details:', {
+                message,
+                status: error.response?.status,
+                data: responseData,
+                url: error.config?.url
+            });
+        } else {
+            console.error('API Error:', message);
+        }
+
         return Promise.reject(new Error(message));
     }
 );

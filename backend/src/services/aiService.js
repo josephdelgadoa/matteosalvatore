@@ -120,7 +120,7 @@ Key values: Heritage, Craftsmanship, Peruvian Pima Excellence, Minimalist Timele
  */
 exports.generateBlogContent = async (blogData) => {
   try {
-    const model = getGenAI().getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
 You are the Executive Editor and Chief SEO Orchestrator for "Matteo Salvatore". 

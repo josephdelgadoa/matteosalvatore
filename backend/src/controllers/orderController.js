@@ -11,12 +11,23 @@ exports.createOrder = async (req, res, next) => {
         // 1. Generate Order Number
         const orderNumber = `MS-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
-        // 2. Create Order
+        // 2. Calculate values and Create Order
+        const itemsSubtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shippingCost = total_amount - itemsSubtotal;
+
+        // Assuming 18% IGV is included in the item price
+        // Tax = Total * 0.18 / 1.18
+        const taxAmount = Number(((itemsSubtotal * 0.18) / 1.18).toFixed(2));
+        const subtotalBase = itemsSubtotal - taxAmount;
+
         const { data: order, error: orderError } = await supabase
             .from('orders')
             .insert({
                 order_number: orderNumber,
-                customer_id: customer_id || 'guest', // Handle guest vs user
+                customer_id: customer_id || null, // Handle guest vs user
+                subtotal: subtotalBase,
+                tax_amount: taxAmount,
+                shipping_cost: shippingCost,
                 total_amount: total_amount,
                 status: 'pending',
                 shipping_address: shipping_address,
@@ -30,12 +41,12 @@ exports.createOrder = async (req, res, next) => {
         // 3. Create Order Items
         const orderItems = items.map(item => ({
             order_id: order.id,
-            product_id: item.product_id, // backend should assume item has product_id
+            product_id: item.product_id,
             product_name: item.name,
             quantity: item.quantity,
             unit_price: item.price,
-            total_price: item.price * item.quantity,
-            variant_info: { size: item.size, color: item.color }
+            subtotal: item.price * item.quantity,
+            variant_details: `Talla: ${item.size || 'N/A'}, Color: ${item.color || 'N/A'}`
         }));
 
         const { error: itemsError } = await supabase

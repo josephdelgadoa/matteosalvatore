@@ -74,9 +74,17 @@ LIMITS:
 
         const result = await chat.sendMessage(fullMessage);
         const response = await result.response;
-        return response.text();
+        const textResponse = response.text();
+
+        logger.info(`Chatbot response generated successfully for language: ${lang}`);
+        return textResponse;
     } catch (error) {
-        logger.error('Error in getChatbotResponse:', error);
+        logger.error('Error in getChatbotResponse:', {
+            message: error.message,
+            stack: error.stack,
+            lang,
+            context: !!context
+        });
         throw new Error('Chatbot service unavailable: ' + error.message);
     }
 };

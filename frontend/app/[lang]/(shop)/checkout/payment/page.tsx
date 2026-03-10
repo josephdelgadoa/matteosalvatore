@@ -139,7 +139,13 @@ export default function CheckoutPaymentPage() {
         if (window.Culqi) {
             window.Culqi.publicKey = process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY;
 
-            const deviceId = window.Culqi.getDevice();
+            let deviceId = null;
+            if (typeof window.Culqi.getDevice === 'function') {
+                deviceId = window.Culqi.getDevice();
+            } else {
+                console.warn('Culqi.getDevice is not available.');
+            }
+
             if (deviceId) {
                 localStorage.setItem('culqi_device_id', deviceId);
             }
