@@ -52,7 +52,12 @@ export interface GeneratedProductAsset {
         ad_video: string;
     };
     "19_ad_copy": {
-        meta: string;
+        meta: string | {
+            headline_es: string;
+            primary_text_es: string;
+            headline_en: string;
+            primary_text_en: string;
+        };
         tiktok: string;
     };
     "20_collection_placement": string[];
