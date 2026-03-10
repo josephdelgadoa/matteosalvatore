@@ -89,7 +89,12 @@ The JSON must follow this structure exactly:
     "ad_video": "Product focus video script/prompt."
   },
   "19_ad_copy": {
-    "meta": "Headline and Primary Text for Facebook/IG Ads.",
+    "meta": {
+      "headline_es": "Compelling Meta Headline (max 40 chars) ES",
+      "primary_text_es": "Main Ad text (1-2 sentences) ES",
+      "headline_en": "Compelling Meta Headline (max 40 chars) EN",
+      "primary_text_en": "Main Ad text (1-2 sentences) EN"
+    },
     "tiktok": "Hook and text for TikTok ads."
   },
   "20_collection_placement": ["Essential Collection", "Summer 2026", "Minimal Collection"]

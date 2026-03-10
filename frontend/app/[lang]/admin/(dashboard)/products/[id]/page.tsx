@@ -514,7 +514,19 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 <div>
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">📢 Paid Ad Copy</h4>
                                     <div className="space-y-3 bg-ms-pearl/50 p-4 rounded-lg border border-ms-fog">
-                                        <p className="text-xs"><strong>Meta:</strong> {aiMarketingAssets["19_ad_copy"].meta}</p>
+                                        <div className="text-xs">
+                                            <strong>Meta Ad Copy:</strong>
+                                            {typeof aiMarketingAssets["19_ad_copy"].meta === 'object' ? (
+                                                <div className="mt-2 space-y-2 pl-2 border-l-2 border-ms-brand-primary/20">
+                                                    <p><strong>ES:</strong> {aiMarketingAssets["19_ad_copy"].meta.headline_es}</p>
+                                                    <p className="text-ms-stone">{aiMarketingAssets["19_ad_copy"].meta.primary_text_es}</p>
+                                                    <p className="pt-1"><strong>EN:</strong> {aiMarketingAssets["19_ad_copy"].meta.headline_en}</p>
+                                                    <p className="text-ms-stone">{aiMarketingAssets["19_ad_copy"].meta.primary_text_en}</p>
+                                                </div>
+                                            ) : (
+                                                <p className="mt-1">{aiMarketingAssets["19_ad_copy"].meta}</p>
+                                            )}
+                                        </div>
                                         <p className="text-xs"><strong>TikTok:</strong> {aiMarketingAssets["19_ad_copy"].tiktok}</p>
                                     </div>
                                 </div>
