@@ -4,32 +4,27 @@ const { logger } = require('../utils/logger');
 
 exports.processPayment = async (req, res) => {
     try {
-        const { token, amount, email, currency = 'PEN', orderId, deviceId } = req.body;
+        const { token, amount, email, currency = 'PEN', orderId, description } = req.body;
 
         if (!token || !amount || !email) {
             return res.status(400).json({ success: false, message: 'Missing required payment details' });
         }
 
-        // 1. Create Charge
+        // 1. Create Charge - strictly following apidocs.culqi.com/#tag/Cargos/operation/crear-cargo
         const charge = await CulqiService.createCharge({
             amount: Math.round(amount * 100), // Convert to cents
             currency_code: currency,
             email: email,
             source_id: token,
-            description: `Order #${orderId} - Matteo Salvatore`,
+            description: description || `Order #${orderId} - Matteo Salvatore`,
             capture: true,
-            antifraud_details: deviceId ? {
-                device_id: deviceId
-            } : undefined,
             metadata: {
                 order_id: orderId
             }
         });
 
-        // 2. Update Order Status if orderId is provided
-        if (orderId && !orderId.startsWith('ORD-')) { // Ignore temp IDs checks
-            // Assume orderId is UUID or we find by order number. 
-            // If we passed UUID from createOrder result:
+        // 2. Update Order Status
+        if (orderId && !orderId.startsWith('ORD-')) {
             await SupabaseService.update('orders', orderId, {
                 status: 'paid',
                 payment_status: 'paid',

@@ -1,9 +1,3 @@
-// const Culqi = require('culqi-node'); // Removed unused dependency
-// Assuming we might use a library or just fetch. 
-// Official library might be old, let's use fetch for better control or just a simple wrapper.
-// Actually, 'culqi' package is available but let's use fetch for zero-dep if simple.
-// For now, let's assume a simple axios/fetch wrapper.
-
 const axios = require('axios');
 const { logger } = require('../utils/logger');
 
@@ -24,8 +18,9 @@ class CulqiService {
             });
             return response.data;
         } catch (error) {
-            logger.error(`Culqi Charge Error: ${error.response?.data?.user_message || error.message}`);
-            throw new Error(error.response?.data?.user_message || 'Payment processing failed');
+            const errorMsg = error.response?.data?.user_message || error.response?.data?.merchant_message || error.message;
+            logger.error(`Culqi Charge Error: ${errorMsg}`);
+            throw new Error(errorMsg);
         }
     }
 }

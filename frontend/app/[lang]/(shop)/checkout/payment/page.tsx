@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
@@ -11,8 +11,8 @@ import Script from 'next/script';
 
 declare global {
     interface Window {
+        CulqiCheckout: any;
         Culqi: any;
-        culqi: () => void;
     }
 }
 
@@ -21,7 +21,8 @@ export default function CheckoutPaymentPage() {
     const { addToast } = useToast();
     const { items, getCartTotal, clearCart } = useCart();
     const [loading, setLoading] = useState(false);
-    const [canPay, setCanPay] = useState(false);
+    const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+    const culqiInstance = useRef<any>(null);
 
     // State for order ID created before payment
     const [orderId, setOrderId] = useState<string | null>(null);
@@ -34,12 +35,19 @@ export default function CheckoutPaymentPage() {
         }
     }, [router]);
 
+    const initCulqi = () => {
+        setIsScriptLoaded(true);
+    };
+
     const handlePayment = async () => {
-        if (!window.Culqi) return;
+        if (!window.CulqiCheckout) {
+            addToast('Payment system not ready. Please refresh.', 'error');
+            return;
+        }
         setLoading(true);
 
-        // 1. Create Order First
         try {
+            // 1. Create Order First
             const shippingInfo = JSON.parse(localStorage.getItem('checkout_info') || '{}');
             const shippingMethod = localStorage.getItem('checkout_shipping') || 'standard';
             const shippingCost = shippingMethod === 'express' ? 25 : 15;
@@ -69,97 +77,79 @@ export default function CheckoutPaymentPage() {
             const newOrder = data.data.order;
             setOrderId(newOrder.id);
 
-            // 2. Configure Culqi
-            window.Culqi.settings({
-                title: 'Matteo Salvatore',
-                currency: 'PEN',
-                description: `Order #${newOrder.order_number}`,
-                amount: Math.round(newOrder.total_amount * 100),
-                order: newOrder.order_number
-            });
+            // 2. Configure and Open Culqi Checkout Custom
+            const config = {
+                settings: {
+                    title: 'Matteo Salvatore',
+                    currency: 'PEN',
+                    amount: Math.round(newOrder.total_amount * 100),
+                    order: newOrder.order_number
+                },
+                client: {
+                    email: shippingInfo.email,
+                },
+                options: {
+                    lang: 'auto',
+                    installments: true,
+                    modal: true, // Use popup/modal version
+                    customButton: '', // Let Culqi handle its own trigger or we call .open()
+                    style: {
+                        logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
+                        maincolor: '#000000',
+                        buttontext: '#ffffff',
+                        maintext: '#000000',
+                        desctext: '#000000'
+                    }
+                }
+            };
 
-            // 3. Open Culqi
-            window.Culqi.open();
+            const culqi = new window.CulqiCheckout(process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY, config);
+            
+            culqi.culqi = async () => {
+                if (culqi.token) {
+                    const token = culqi.token.id;
+                    const email = culqi.token.email;
+
+                    try {
+                        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payments/process`, {
+                            token,
+                            amount: total,
+                            email,
+                            currency: 'PEN',
+                            orderId: newOrder.id
+                        });
+
+                        addToast('Payment Successful! Redirecting...', 'success');
+                        clearCart();
+                        localStorage.removeItem('checkout_info');
+                        localStorage.removeItem('checkout_shipping');
+
+                        setTimeout(() => {
+                            router.push(`/checkout/success?orderId=${newOrder.id}`);
+                        }, 2000);
+
+                    } catch (err: any) {
+                        console.error(err);
+                        addToast(err.response?.data?.message || 'Payment failed', 'error');
+                        setLoading(false);
+                    } finally {
+                        culqi.close();
+                    }
+                } else if (culqi.error) {
+                    console.log(culqi.error);
+                    addToast(culqi.error.user_message || 'Payment Error', 'error');
+                    setLoading(false);
+                    culqi.close();
+                }
+            };
+
+            culqiInstance.current = culqi;
+            culqi.open();
 
         } catch (err: any) {
             console.error(err);
-            addToast('Failed to create order. Please try again.', 'error');
+            addToast('Failed to initialize payment. Please try again.', 'error');
             setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        // Define the global callback for Culqi
-        window.culqi = async () => {
-            if (window.Culqi.token) {
-                const token = window.Culqi.token.id;
-                const email = window.Culqi.token.email;
-
-                try {
-                    if (!orderId) throw new Error('Order ID missing');
-
-                    const shippingMethod = localStorage.getItem('checkout_shipping') || 'standard';
-                    const amount = getCartTotal() + (shippingMethod === 'express' ? 25 : 15);
-
-                    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payments/process`, {
-                        token,
-                        amount,
-                        email,
-                        currency: 'PEN',
-                        orderId: orderId,
-                        deviceId: localStorage.getItem('culqi_device_id')
-                    });
-
-                    addToast('Payment Successful! Redirecting...', 'success');
-                    clearCart();
-                    localStorage.removeItem('checkout_info');
-                    localStorage.removeItem('checkout_shipping');
-                    localStorage.removeItem('culqi_device_id');
-
-                    setTimeout(() => {
-                        router.push(`/checkout/success?orderId=${orderId}`);
-                    }, 2000);
-
-                } catch (err: any) {
-                    console.error(err);
-                    addToast(err.response?.data?.message || 'Payment failed', 'error');
-                } finally {
-                    setLoading(false);
-                    window.Culqi.close();
-                }
-            } else {
-                console.log(window.Culqi.error);
-                addToast(window.Culqi.error?.user_message || 'Payment Error', 'error');
-                setLoading(false);
-            }
-        };
-    }, [addToast, getCartTotal, clearCart, router, orderId, items]);
-
-    const initCulqi = () => {
-        if (window.Culqi) {
-            window.Culqi.publicKey = process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY;
-
-            let deviceId = null;
-            if (typeof window.Culqi.getDevice === 'function') {
-                deviceId = window.Culqi.getDevice();
-            } else {
-                console.warn('Culqi.getDevice is not available.');
-            }
-
-            if (deviceId) {
-                localStorage.setItem('culqi_device_id', deviceId);
-            }
-
-            window.Culqi.options({
-                style: {
-                    logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
-                    maincolor: '#000000',
-                    buttontext: '#ffffff',
-                    maintext: '#000000',
-                    desctext: '#000000'
-                }
-            });
-            setCanPay(true);
         }
     };
 
@@ -180,7 +170,7 @@ export default function CheckoutPaymentPage() {
                 <div className="flex flex-col gap-4">
                     <Button
                         onClick={handlePayment}
-                        disabled={!canPay || loading}
+                        disabled={!isScriptLoaded || loading}
                         isLoading={loading}
                         className="w-full py-4 text-lg"
                     >
