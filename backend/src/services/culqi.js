@@ -13,7 +13,8 @@ class CulqiService {
             const response = await axios.post(`${CULQI_API_URL}/charges`, chargeData, {
                 headers: {
                     'Authorization': `Bearer ${this.privateKey}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    ...(process.env.CULQI_RSA_ID ? { 'x-culqi-rsa-id': process.env.CULQI_RSA_ID } : {})
                 }
             });
             return response.data;

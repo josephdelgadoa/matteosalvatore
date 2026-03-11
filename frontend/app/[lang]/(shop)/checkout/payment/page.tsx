@@ -13,6 +13,7 @@ declare global {
     interface Window {
         CulqiCheckout: any;
         Culqi: any;
+        culqi: any;
     }
 }
 
@@ -98,6 +99,7 @@ export default function CheckoutPaymentPage() {
                     installments: true,
                     modal: true, // Use popup/modal version
                     customButton: '', // Let Culqi handle its own trigger or we call .open()
+                    rsa: process.env.NEXT_PUBLIC_CULQI_RSA_ID,
                     style: {
                         logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
                         maincolor: '#000000',
@@ -110,10 +112,14 @@ export default function CheckoutPaymentPage() {
 
             const culqi = new window.CulqiCheckout(process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY, config);
             
-            culqi.culqi = async () => {
-                if (culqi.token) {
-                    const token = culqi.token.id;
-                    const email = culqi.token.email;
+            // Handle Culqi v4 callback
+            window.culqi = async () => {
+                const tokenObj = window.Culqi.token || (culqi as any).token;
+                const errorObj = window.Culqi.error || (culqi as any).error;
+
+                if (tokenObj) {
+                    const token = tokenObj.id;
+                    const email = tokenObj.email;
 
                     try {
                         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payments/process`, {
@@ -134,15 +140,14 @@ export default function CheckoutPaymentPage() {
                         }, 2000);
 
                     } catch (err: any) {
-                        console.error(err);
+                        console.error('Payment processing error:', err);
                         addToast(err.response?.data?.message || 'Payment failed', 'error');
                         setLoading(false);
-                    } finally {
                         culqi.close();
                     }
-                } else if (culqi.error) {
-                    console.log(culqi.error);
-                    addToast(culqi.error.user_message || 'Payment Error', 'error');
+                } else if (errorObj) {
+                    console.error('Culqi error:', errorObj);
+                    addToast(errorObj.user_message || 'Payment Error', 'error');
                     setLoading(false);
                     culqi.close();
                 }
