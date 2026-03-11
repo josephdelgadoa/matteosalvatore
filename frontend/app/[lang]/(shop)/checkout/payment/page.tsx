@@ -44,6 +44,11 @@ export default function CheckoutPaymentPage() {
             addToast('Payment system not ready. Please refresh.', 'error');
             return;
         }
+        if (!process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY) {
+            console.error('Culqi Public Key is missing!');
+            addToast('Configuration error. Please contact support.', 'error');
+            return;
+        }
         setLoading(true);
 
         try {
@@ -156,7 +161,7 @@ export default function CheckoutPaymentPage() {
     return (
         <div className="animate-fade-in space-y-8">
             <Script
-                src="https://checkout.culqi.com/js/v4"
+                src="https://js.culqi.com/checkout-js"
                 onLoad={initCulqi}
             />
             <ToastContainer />
