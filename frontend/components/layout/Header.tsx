@@ -15,9 +15,10 @@ interface HeaderProps {
     lang: Locale;
     dict: any; // defined in nav dict
     commonDict: any;
+    menuItems?: any[];
 }
 
-export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
+export const Header = ({ lang, dict, commonDict, menuItems: initialMenu = [] }: HeaderProps) => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isScrolled, setIsScrolled] = useState(false);
@@ -51,27 +52,16 @@ export const Header = ({ lang, dict, commonDict }: HeaderProps) => {
     };
 
     // Fetch menu items
-    const [menuItems, setMenuItems] = useState<any[]>([]);
+    const [menuItems, setMenuItems] = useState<any[]>(initialMenu);
 
     useEffect(() => {
-        const fetchMenu = async () => {
-            try {
-                // We need to import menuApi here. 
-                // Since I cannot add import easily with this tool without overwriting top, I will assume I added it.
-                // Wait, I need to add the import first.
-                // Let's do this in two steps.
-                // Actually, I can use dynamic import or just added it to the top.
-                // I will add the import in a separate call or try to combine.
-            } catch (error) {
-                console.error('Failed to fetch menu:', error);
-            }
-        };
-
-        // Dynamic import to avoid breaking changes if I miss the top import
-        import('@/lib/api/menu').then(({ menuApi }) => {
-            menuApi.getAll().then(data => setMenuItems(data)).catch(console.error);
-        });
-    }, []);
+        // If we didn't get menu items from props, fetch them on client
+        if (initialMenu.length === 0) {
+            import('@/lib/api/menu').then(({ menuApi }) => {
+                menuApi.getAll().then(data => setMenuItems(data)).catch(console.error);
+            });
+        }
+    }, [initialMenu]);
 
     return (
         <>
