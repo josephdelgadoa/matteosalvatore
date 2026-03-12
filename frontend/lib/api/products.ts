@@ -44,7 +44,7 @@ export interface ProductImage {
 }
 
 export const productsApi = {
-    getAll: async (params?: { category?: string; subcategory?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc'; includeInactive?: boolean; ids?: string[] }) => {
+    getAll: async (params?: { category?: string; subcategory?: string; limit?: number; featured?: boolean; sort?: 'newest' | 'price-asc' | 'price-desc' | 'subcategory-asc' | 'subcategory-desc' | 'category-asc' | 'category-desc' | 'name-asc' | 'name-desc'; includeInactive?: boolean; ids?: string[] }) => {
         const queryParams: any = { ...params };
         if (params?.includeInactive) {
             queryParams.include_inactive = 'true';

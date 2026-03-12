@@ -6,6 +6,7 @@ const CULQI_API_URL = 'https://api.culqi.com/v2';
 class CulqiService {
     constructor() {
         this.privateKey = process.env.CULQI_SECRET_KEY;
+        this.rsaPublicKey = process.env.CULQI_RSA_PUBLIC_KEY;
     }
 
     async createCharge(chargeData) {

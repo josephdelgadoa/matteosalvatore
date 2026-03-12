@@ -372,6 +372,7 @@
             "add": "Añadir Producto",
             "tableProduct": "Producto",
             "tableCategory": "Categoría",
+            "tableSubcategory": "Subcategoría",
             "tablePrice": "Precio",
             "tableStock": "Inventario",
             "items": "unidades",

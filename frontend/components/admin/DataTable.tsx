@@ -1,13 +1,14 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 
-interface Column<T> {
+export interface Column<T> {
     header: string;
     accessorKey: keyof T | ((item: T) => React.ReactNode);
     className?: string;
+    sortKey?: string;
 }
 
 interface DataTableProps<T> {
@@ -16,6 +17,8 @@ interface DataTableProps<T> {
     onDelete?: (item: T) => void;
     editPath?: (item: T) => string;
     extraActions?: (item: T) => React.ReactNode;
+    onSort?: (key: string) => void;
+    currentSort?: string;
 }
 
 export function DataTable<T extends { id: string | number }>({
@@ -23,7 +26,9 @@ export function DataTable<T extends { id: string | number }>({
     columns,
     onDelete,
     editPath,
-    extraActions
+    extraActions,
+    onSort,
+    currentSort
 }: DataTableProps<T>) {
     return (
         <div className="bg-ms-white border border-ms-fog overflow-hidden">
@@ -33,9 +38,27 @@ export function DataTable<T extends { id: string | number }>({
                         {columns.map((col, idx) => (
                             <th
                                 key={idx}
-                                className={cn("p-4 font-medium text-xs text-ms-stone uppercase tracking-wider", col.className)}
+                                className={cn(
+                                    "p-4 font-medium text-xs text-ms-stone uppercase tracking-wider",
+                                    col.sortKey && "cursor-pointer hover:bg-ms-fog/50 transition-colors select-none",
+                                    col.className
+                                )}
+                                onClick={() => col.sortKey && onSort?.(col.sortKey)}
                             >
-                                {col.header}
+                                <div className="flex items-center gap-1">
+                                    {col.header}
+                                    {col.sortKey && (
+                                        <div className="text-ms-silver">
+                                            {currentSort === `${col.sortKey}-asc` ? (
+                                                <ArrowUp className="w-3 h-3 text-ms-black" />
+                                            ) : currentSort === `${col.sortKey}-desc` ? (
+                                                <ArrowDown className="w-3 h-3 text-ms-black" />
+                                            ) : (
+                                                <ArrowUpDown className="w-3 h-3" />
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </th>
                         ))}
                         {(onDelete || editPath || extraActions) && <th className="p-4 w-20"></th>}

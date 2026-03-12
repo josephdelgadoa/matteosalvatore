@@ -15,11 +15,16 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
     const dict = useAdminDictionary();
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentSort, setCurrentSort] = useState<string>('newest');
     const { addToast } = useToast();
-
-    const fetchProducts = async () => {
+ 
+    const fetchProducts = async (sort?: string) => {
         try {
-            const data = await productsApi.getAll({ includeInactive: true, limit: 100 });
+            const data = await productsApi.getAll({ 
+                includeInactive: true, 
+                limit: 100,
+                sort: (sort || currentSort) as any
+            });
             setProducts(data);
         } catch (err: any) {
             console.error('Error loading products:', err);
@@ -28,14 +33,26 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
             setIsLoading(false);
         }
     };
-
+ 
     useEffect(() => {
         fetchProducts();
     }, []);
 
+    const handleSort = (key: string) => {
+        let newSort = `${key}-asc`;
+        if (currentSort === `${key}-asc`) {
+            newSort = `${key}-desc`;
+        } else if (currentSort === `${key}-desc`) {
+            newSort = 'newest'; // Cycle back to default or toggle
+        }
+        
+        setCurrentSort(newSort);
+        fetchProducts(newSort);
+    };
+ 
     const handleDelete = async (item: Product) => {
         if (!confirm(`${dict.products.confirmDelete} ${item.name_es}?`)) return;
-
+ 
         try {
             await productsApi.delete(item.id);
             addToast(dict.products.deleteSuccess, 'success');
@@ -46,14 +63,14 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
             addToast(dict.products.deleteError, 'error');
         }
     };
-
+ 
     const handleDuplicate = async (item: Product) => {
         try {
             addToast(dict.products.duplicating, 'info');
-
+ 
             // 1. Get full product details
             const fullProduct = await productsApi.getBySlug(item.slug_es);
-
+ 
             // 2. Prepare duplicated data
             const suffix = ` (${dict.products.copy})`;
             const duplicateData: Partial<Product> = {
@@ -64,14 +81,14 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                 slug_en: `${fullProduct.slug_en}-copy-${Math.floor(Math.random() * 1000)}`,
                 is_active: false, // Default to inactive
             };
-
+ 
             // Remove internal IDs and fields that should not be copied directly
             delete (duplicateData as any).id;
             delete (duplicateData as any).sku; // Let backend regenerate SKU
             delete (duplicateData as any).created_at;
             delete (duplicateData as any).updated_at;
             delete (duplicateData as any).reviews;
-
+ 
             // Strip IDs from variants
             if (duplicateData.product_variants) {
                 duplicateData.product_variants = duplicateData.product_variants.map(v => {
@@ -79,7 +96,7 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                     return { ...variantData, sku_variant: undefined } as any; // Let backend regenerate SKUs
                 });
             }
-
+ 
             // Strip IDs from images
             if (duplicateData.product_images) {
                 duplicateData.product_images = duplicateData.product_images.map(img => {
@@ -87,10 +104,10 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                     return imageData as any;
                 });
             }
-
+ 
             // 3. Create duplicate
             await productsApi.create(duplicateData);
-
+ 
             addToast(dict.products.duplicateSuccess, 'success');
             fetchProducts();
         } catch (err: any) {
@@ -98,10 +115,11 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
             addToast(`${dict.products.duplicateError}: ${err.message || 'Unknown error'}`, 'error');
         }
     };
-
+ 
     const columns = [
         {
             header: dict.products.tableProduct,
+            sortKey: 'name',
             accessorKey: (item: Product) => (
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-ms-pearl flex-shrink-0">
@@ -122,12 +140,21 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
         },
         {
             header: dict.products.tableCategory,
+            sortKey: 'category',
             accessorKey: (item: Product) => (
                 <span className="capitalize">{item.category}</span>
             )
         },
         {
+            header: dict.products.tableSubcategory,
+            sortKey: 'subcategory',
+            accessorKey: (item: Product) => (
+                <span className="capitalize">{item.subcategory || '-'}</span>
+            )
+        },
+        {
             header: dict.products.tablePrice,
+            sortKey: 'price',
             accessorKey: (item: Product) => `S/. ${item.base_price.toFixed(2)}`
         },
         {
@@ -166,6 +193,8 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                 columns={columns}
                 editPath={(item) => `/admin/products/${item.slug_es || item.slug_en}`}
                 onDelete={handleDelete}
+                onSort={handleSort}
+                currentSort={currentSort}
                 extraActions={(item) => (
                     <Button
                         variant="text"

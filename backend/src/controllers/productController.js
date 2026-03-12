@@ -32,6 +32,12 @@ exports.getAllProducts = async (req, res, next) => {
         if (sort === 'price-asc') query = query.order('base_price', { ascending: true });
         if (sort === 'price-desc') query = query.order('base_price', { ascending: false });
         if (sort === 'newest') query = query.order('created_at', { ascending: false });
+        if (sort === 'subcategory-asc') query = query.order('subcategory', { ascending: true });
+        if (sort === 'subcategory-desc') query = query.order('subcategory', { ascending: false });
+        if (sort === 'category-asc') query = query.order('category', { ascending: true });
+        if (sort === 'category-desc') query = query.order('category', { ascending: false });
+        if (sort === 'name-asc') query = query.order('name_es', { ascending: true });
+        if (sort === 'name-desc') query = query.order('name_es', { ascending: false });
 
         // Limit
         if (limit) query = query.limit(parseInt(limit));

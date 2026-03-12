@@ -372,6 +372,7 @@
             "add": "Add Product",
             "tableProduct": "Product",
             "tableCategory": "Category",
+            "tableSubcategory": "Subcategory",
             "tablePrice": "Price",
             "tableStock": "Stock",
             "items": "items",
