@@ -890,3 +890,12 @@
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T04:24:33.586Z"}
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T04:50:17.671Z"}
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T14:53:07.883Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-12T14:59:21.360Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-12T15:00:30.338Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(160)","service":"user-service","timestamp":"2026-03-12T15:02:13.884Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(160)","service":"user-service","timestamp":"2026-03-12T15:05:53.929Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-12T15:06:32.507Z"}
+{"code":"22001","details":null,"hint":null,"level":"error","message":"ERROR 💥: value too long for type character varying(60)","service":"user-service","timestamp":"2026-03-12T15:06:47.860Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T15:07:07.019Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T15:07:17.904Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-12T15:07:19.571Z"}

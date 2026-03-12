@@ -32,6 +32,10 @@ INSTRUCTIONS FOR TITLE POLISHING (Elite Structure):
 - ES Example: "Polo Básico Premium Negro Hombre 2026 – Algodón Peruano | Matteo Salvatore"
 - EN Example: "Premium Basic Black Polo Men 2026 – Peruvian Cotton | Matteo Salvatore"
 - Titles must be magnetic, sophisticated, and technically perfect for Google/AI discovery.
+- **STRICT SEO CONSTRAINTS**: 
+    - SEO Title (items 10): MAXIMUM 60 characters.
+    - SEO Description (items 11): MAXIMUM 160 characters.
+    - Failure to follow these limits will result in content being rejected.
 
 BASIC PRODUCT DATA (Input):
 - User Provided Name: ${productData.name}
@@ -64,10 +68,10 @@ The JSON must follow this structure exactly:
   "7_tags": ["polo-premium", "algodon-peruano", "minimalist", ...],
   "8_keywords": ["polo blanco hombre", "best pima cotton polo", ...],
   "9_hashtags": ["#MatteoSalvatore", "#QuietLuxury", ...],
-  "10_seo_title_es": "Optimized Meta Title ES (max 60 chars)",
-  "10_seo_title_en": "Optimized Meta Title EN (max 60 chars)",
-  "11_seo_description_es": "Compelling Meta Description ES (max 160 chars)",
-  "11_seo_description_en": "Compelling Meta Description EN (max 160 chars)",
+  "10_seo_title_es": "Optimized Meta Title ES (STRICTLY MAX 60 chars)",
+  "10_seo_title_en": "Optimized Meta Title EN (STRICTLY MAX 60 chars)",
+  "11_seo_description_es": "Compelling Meta Description ES (STRICTLY MAX 160 chars)",
+  "11_seo_description_en": "Compelling Meta Description EN (STRICTLY MAX 160 chars)",
   "12_image_prompts": {
     "catalog": "Ultra realistic lighting, studio background, sharp details.",
     "lifestyle": "Location in Miraflores or Barranco, natural light, aspirational aesthetic."
@@ -111,7 +115,15 @@ Key values: Heritage, Craftsmanship, Peruvian Pima Excellence, Minimalist Timele
     // Clean up JSON if AI includes markdown code blocks
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
 
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+
+    // Programmatic Enforcement of SEO Limits
+    if (parsed["10_seo_title_es"]) parsed["10_seo_title_es"] = parsed["10_seo_title_es"].substring(0, 60);
+    if (parsed["10_seo_title_en"]) parsed["10_seo_title_en"] = parsed["10_seo_title_en"].substring(0, 60);
+    if (parsed["11_seo_description_es"]) parsed["11_seo_description_es"] = parsed["11_seo_description_es"].substring(0, 160);
+    if (parsed["11_seo_description_en"]) parsed["11_seo_description_en"] = parsed["11_seo_description_en"].substring(0, 160);
+
+    return parsed;
   } catch (error) {
     logger.error('Error in generateProductContent:', error);
     throw new Error('Failed to generate content with AI: ' + error.message);
@@ -147,6 +159,10 @@ STRUCTURE REQUIREMENTS (ES & EN):
     - Clear Calls to Action (CTA) pointing to Matteo Salvatore collections.
     - GEO-friendly mentions (e.g., Lima fashion scene, Barranco workshops, Global Luxury standards).
 
+STRICT SEO CONSTRAINTS:
+- SEO Title (seo_title_es/en): MAXIMUM 60 characters.
+- SEO Description (seo_description_es/en): MAXIMUM 160 characters.
+
 JSON OUTPUT FORMAT (Return ONLY this):
 {
   "title_es": "...",
@@ -176,7 +192,15 @@ TONE: Sophisticated, intellectual, exclusive, authoritative yet inviting.
     const response = await result.response;
     let text = response.text();
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+
+    // Programmatic Enforcement of SEO Limits
+    if (parsed.seo_title_es) parsed.seo_title_es = parsed.seo_title_es.substring(0, 60);
+    if (parsed.seo_title_en) parsed.seo_title_en = parsed.seo_title_en.substring(0, 60);
+    if (parsed.seo_description_es) parsed.seo_description_es = parsed.seo_description_es.substring(0, 160);
+    if (parsed.seo_description_en) parsed.seo_description_en = parsed.seo_description_en.substring(0, 160);
+
+    return parsed;
   } catch (error) {
     logger.error('Error in generateBlogContent:', error);
     throw new Error('Failed to generate blog content: ' + error.message);
