@@ -88,7 +88,9 @@ export default function CheckoutPaymentPage() {
                 settings: {
                     title: 'Matteo Salvatore',
                     currency: 'PEN',
-                    amount: Math.round(newOrder.total_amount * 100)
+                    amount: Math.round(newOrder.total_amount * 100),
+                    xculqirsaid: process.env.NEXT_PUBLIC_CULQI_RSA_ID,
+                    rsapublickey: process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY
                 },
                 client: {
                     email: shippingInfo.email,
@@ -97,7 +99,6 @@ export default function CheckoutPaymentPage() {
                     lang: 'auto',
                     installments: true,
                     modal: true, // Use popup/modal version
-                    rsa: process.env.NEXT_PUBLIC_CULQI_RSA_ID,
                     style: {
                         logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
                         maincolor: '#000000',
