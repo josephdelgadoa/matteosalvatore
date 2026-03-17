@@ -106,44 +106,49 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-ms-fog flex flex-col md:flex-row justify-between items-center gap-6">
+                {/* NEW PAYMENT LOGOS ROW */}
+                <div className="py-10 border-t border-ms-fog flex flex-col items-center justify-center gap-5">
+                    <p className="text-[11px] font-semibold text-ms-stone uppercase tracking-[0.2em]">{dict.weAccept}</p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                        {/* Visa */}
+                        <div className="w-[64px] h-[40px] bg-white border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.02)] rounded-[4px] flex items-center justify-center p-2.5 hover:shadow-md transition-shadow">
+                            <svg viewBox="0 0 38 12" className="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.9868 11.5137L15.115 0.93589H18.5136L16.3813 11.5137H12.9868ZM26.345 11.5137H29.6206L24.1627 0.93589H21.5037C20.803 0.93589 20.2505 1.20721 19.9537 1.82535L14.7779 11.5137H18.3496L19.0628 9.50676H23.4144L23.8242 11.5137H26.345ZM20.0274 6.86219L21.6067 2.47653L22.5186 6.86219H20.0274ZM34.4449 6.56152C34.4608 5.24233 33.6499 4.19741 33.0245 3.65437C33.0245 2.33818 31.0601 2.26607 31.0858 1.59577C31.0963 1.28137 31.42 0.948639 32.1009 0.849282C32.4419 0.798198 33.1519 0.767458 33.993 1.16611L34.5501 0.869939C34.0954 0.690675 33.2081 0.574875 32.2275 0.574875C28.9839 0.574875 26.68 2.32215 26.6661 4.63767C26.6521 6.3464 28.1751 7.29817 29.3516 7.87271C30.5621 8.46033 30.9669 8.83501 30.9631 9.34388C30.9585 10.1272 30.0166 10.4721 29.07 10.4721C27.756 10.4721 26.9638 10.1059 26.348 9.8145L25.8018 10.0967C26.435 10.3951 27.5305 10.6563 28.6756 10.6716C32.1472 10.6716 34.426 8.94541 34.4449 6.56152ZM9.6828 0.93589L6.89973 8.21371L6.6027 6.7351C5.83422 3.83188 2.76633 1.68854 0 0.93589L0.640652 0.93589C1.34327 0.93589 1.95478 1.33559 2.14856 2.12672L4.01815 11.5137H7.55832L13.1166 0.93589H9.6828Z" fill="#1434CB"/>
+                            </svg>
+                        </div>
+                        {/* Mastercard */}
+                        <div className="w-[64px] h-[40px] bg-white border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.02)] rounded-[4px] flex items-center justify-center p-2 hover:shadow-md transition-shadow">
+                            <svg viewBox="0 0 34 21" className="w-[85%] h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="10.5" cy="10.5" r="10.5" fill="#EB001B"/>
+                                <circle cx="23.5" cy="10.5" r="10.5" fill="#F79E1B"/>
+                                <path d="M17 18.7303C18.8471 16.8924 20 13.8443 20 10.5C20 7.1557 18.8471 4.10756 17 2.26965C15.1529 4.10756 14 7.1557 14 10.5C14 13.8443 15.1529 16.8924 17 18.7303Z" fill="#FF5F00"/>
+                            </svg>
+                        </div>
+                        {/* American Express */}
+                        <div className="w-[64px] h-[40px] bg-white border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.02)] rounded-[4px] flex items-center justify-center hover:shadow-md transition-shadow overflow-hidden">
+                            <svg viewBox="0 0 34 34" className="w-[85%] h-auto relative top-[2px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M11.6667 22H14L10.5 12H7.66667L4.16667 22H6.5L7.33333 19.5H10.8333L11.6667 22ZM8.16667 17L9.08333 14H9.08333L10 17H8.16667ZM24.5 12H20.1667V22H24.5V19.8333H22.5V17.8333H24.1667V15.6667H22.5V14.1667H24.5V12ZM29.8333 22H26.8333L25.3333 19.5V22H23.5V12H25.3333V14.5L26.8333 12H29.8333L27.1667 16L30 22H29.8333ZM19 22H16.6667L15.3333 16H15.3333V22H13.5V12H16.5L18 18H18L19.5 12H22.5V22H20.6667V16H20.6667L19 22Z" fill="#006FCF"/>
+                            </svg>
+                        </div>
+                        {/* Diners Club */}
+                        <div className="w-[64px] h-[40px] bg-white border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.02)] rounded-[4px] flex items-center justify-center hover:shadow-md transition-shadow">
+                            <span className="text-[#00529B] font-[900] tracking-[-0.05em] text-[10.5px] leading-none text-center flex flex-col items-center">
+                                <span>Diners Club</span>
+                                <span className="text-[7px] font-medium tracking-normal mt-[1px]">INTERNATIONAL</span>
+                            </span>
+                        </div>
+                        {/* Yape */}
+                        <div className="w-[64px] h-[40px] bg-[#742284] border border-[#742284] shadow-[0_2px_4px_rgba(0,0,0,0.02)] rounded-[4px] flex items-center justify-center hover:shadow-md transition-shadow overflow-hidden group">
+                           <span className="text-white font-sans font-black text-[14px] leading-none tracking-tight">YAPE</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* BOTTOM COPYRIGHT ROW */}
+                <div className="pt-6 pb-2 border-t border-ms-fog flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="text-xs text-ms-silver uppercase tracking-wide flex flex-col gap-1 text-center md:text-left">
                         <p>© {new Date().getFullYear()} Matteo Salvatore</p>
                         <p>Powered by <a href="https://nexa-sphere.com" target="_blank" rel="noopener noreferrer" className="hover:text-ms-stone transition-colors">Nexa-Sphere</a></p>
-                    </div>
-
-                    <div className="flex flex-col items-center gap-2">
-                        <p className="text-[10px] text-ms-silver uppercase tracking-widest">{dict.weAccept}</p>
-                        <div className="flex gap-3 items-center opacity-80 hover:opacity-100 transition-opacity">
-                            {/* Visa */}
-                            <svg viewBox="0 0 32 20" width="32" height="20" className="fill-ms-stone hover:fill-ms-black transition-colors" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.9 14.1l1.6-9.8h2.6l-1.6 9.8h-2.6zm6.6-9.6c-.4-.1-1.2-.3-2.3-.3-2.5 0-4.3 1.3-4.3 3.3 0 1.4 1.3 2.2 2.3 2.7 1 .5 1.3.8 1.3 1.3 0 .7-.9 1-1.7 1-1.1 0-1.8-.1-2.6-.4l-.4-.1-.4 2.2c.6.3 1.8.6 3.1.6 2.7 0 4.4-1.3 4.4-3.4 0-1.1-.7-2-2.3-2.8-1-.5-1.5-.8-1.5-1.3 0-.4.5-1 1.6-1 .9 0 1.6.2 2.1.4l.3.1.4-2.3zm8.9 9.6h2.4l-4.1-9.8h-2c-.5 0-.9.2-1.1.8l-3.8 9h2.7l.5-1.4h3.3l.3 1.4zm-3.2-3.4l.8-2.3.5-1.3.3.9.5 2.7h-2.1zm-18-6.2l-2.6 6.7-.3-1.4-1.1-4c-.2-.7-.8-1.2-1.6-1.3H1v.3c.4 0 1 .1 1.4.3.4.2.6.4.7.7l2.2 8.6h2.8l4.1-9.9h-2.8z" />
-                            </svg>
-                            {/* Mastercard */}
-                            <svg viewBox="0 0 32 20" width="32" height="20" className="fill-ms-stone hover:fill-ms-black transition-colors" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 9.9c0-2.3 1-4.3 2.5-5.6C12 3.1 10.1 2.3 8.1 2.3 3.6 2.3 0 5.8 0 10.2s3.6 7.9 8.1 7.9c2 .0 3.9-.8 5.4-2-1.5-1.3-2.5-3.3-2.5-5.6l0 -.6zm12.9-7.6c-2 0-3.9.8-5.4 2.1 1.5 1.3 2.5 3.3 2.5 5.6 0 2.3-1 4.3-2.5 5.6 1.4 1.3 3.4 2.1 5.4 2.1 4.5 0 8.1-3.5 8.1-7.9s-3.6-7.8-8.1-7.8z" />
-                                <path d="M19 10c0-2.2-1-4.2-2.5-5.5-1.4 1.3-2.5 3.3-2.5 5.5 0 2.2 1 4.2 2.5 5.5 1.5-1.3 2.5-3.3 2.5-5.5z" />
-                            </svg>
-                            {/* American Express */}
-                            <svg viewBox="0 0 32 20" width="32" height="20" className="fill-ms-stone hover:fill-ms-black transition-colors" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.7 13.9L4 10H1.5L0 14h2.7l.8-2 .9 1.9 .5 0zM3.4 11.2l-.5 1.4H2.4l.6-1.4s.2-.4.4 0zM12 10.4v2s0 .2-.2.2l-.7-.1c-.4-.1-.7-.2-.9-.1-.2 0-.2.2 0 .4.4.2.6.7.7 1l-.8 0c-.2-.4-.3-.7-.6-.8-.3 -.1-.6 0-.8.2-.1.2-.1.3-.1.5 0 .3.2.3.4.4.3.1.6 0 .9-.1.2-.1.4 0 .5.1.1.2 0 .4-.2.4-.4.1-.7.2-1.1.2-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8c.4 0 .8.1 1.1.2.2.1.2.3.2.4-.1.1-.3 0-.5-.1-.2-.1-.5-.1-.8-.1-.6 0-1.1.5-1.1 1.1 0 .6.5 1.1 1.1 1.1.2 0 .4-.1.6-.2.1-.1.3-.2.4-.1.2 0 .3.3.4.4l-.2 0c-.2.1-.4.2-.6.2-.2 0-.3-.1-.3-.2-.1-.2 0-.4.2-.4.2 0 .5-.1.8 0 .2.1.3.3.4.6l.8 0c0-.3-.1-.8-.4-1 .2-.1.4-.2.5-.4.1-.1.1-.3.1-.3zm4.5-.4h-2.3v3.9h2.3v-.6H13v-1h.9v-.6h-.9v-1h1.2v-.7h0zM20 10l-1 .7c-.1-.1-.1-.1-.1-.2-.2-.2-.6-.3-.9-.3-.5 0-.9.2-1.2.4-.1.1-.1.2-.1.4 0 .2.3.3.5.3h.8c.4 0 .7.1.9.4s.2.5.2.8c0 .2 0 .4-.2.6l-1.3 1c-.1.1-.1.1-.2 0-.1-.1.2-.4.4-.6.2-.2.3-.4.3-.6s-.2-.3-.5-.3h-.8c-.3 0-.5-.1-.6-.2-.2-.1-.2-.4 0-.5.4-.3 1-.5 1.7-.5.2 0 .5 0 .6.1.1 0 .1.1.2.1zm-.5 3.9l.9-.7V10h1v3.9h-.8v-.7l-1.1.7hnpM24.7 10h-2.1v3.9h2.1v-.6h-1.3v-1h.9v-.6h-.9v-1l1.3 0c.2 0 .2.1.2.1l0-.1c-.1-.1-.1-.1-.2-.1h0zm2.2 1.6l1 2.3h-1l-.5-1.1c-.2-.5-.4-1.1-.7-1.6l-.3 1v1.7h-1v-4h1v1.8l.6-1.5c.2-.5.5-1.1.7-1.7l1.3 0z"/>
-                                <path d="M31.2 10.1l.8 1.7v1.1l0 0-.2-.2s0-.1 0-.1c0-.1.1-.2.2-.2s0-.1.2-.1-.1-.1-.1-.1c0 0-.1.1-.2.1h-.2v0-.1.2h-.1v-.3l-.3.6v.1h.7v.1h-1l0 .5h0l0-.1-.2.1h-.2l.1-.3s.1-.2 0-.3l-.4.3h-.2s0 .1 0 .2l-.1.4s-.2.4-.2.4l-.4-.4-.3-.2.3 0s.1 0 .1.1c.1 0 .1-.1.1-.2l-.2-.3-.2.3s-.1 0-.2.1c-.1.1-.2 0-.2-.1s0-.1.1-.1h.1l-.1-.2-.2-.2-.2 0v0-.1-.1-.1h-.1v0h.2v.3h0v-.3l-.1 0s-.1 0 0-.1c0 0 0 0 0-.1l.1 0v-.1 0-.1h0v.2s0 .1-.1.1c-.1 0-.1 0-.1.1s.1 0 .1.1c.1.1.2 0 .3 0v.1.1l.5.5s.1.1.1.1c0 .1.1.1.2 0l.2-.2s0 0 0 0v-2.1h-.5v0h.3zm-1.8 1.9h-.1c0-.1 0-.1-.1 0 0 .1 0 .1-.1.2 0 0-.1.1-.1.2s0 .1.1.1.1.1.1.1c0 0 .1 0 .1-.1 0-.1.1-.1.1-.1.1 0 .1-.1 0-.1 0-.1-.1-.1-.1-.2h0z"/>
-                                <path d="M5.4 11.2l-.7-.6-.2-.3h-.3v1h.3v-.3l.6.5h.5l-.2-.3c.1 0 .2-.1.2-.3s-.1-.2-.2-.3v0h.3z"/>
-                                <path d="M9.4 11.1h-.5v.5h.4v.3h-.4v.6H10v-1.3h-.5l0 .1 0-.1h0zm-.3-.2c0-.1-.1-.2-.2-.2h-1v1.3h.2v-.6h.4v.6h.2l.1 0c.2-.2.3-.4.3-.6l-.1-.4h.1zm-.2.5h-.4v-.3h.4c.1 0 .2.1.2.1 0 .1 0 .2-.2.2zm13 0h-.3v-.3h.3c0 0 .1 0 .1 0 0 .1.1.2-.1.3zm.2.6v0-.5l-.8 0-.1 0h-.3v1h.2v-.4h.3l0 0c0 .1.1.2.2.3h.3v0l-.3-.5c0 0 .1-.1.1-.2l.4.1z"/>
-                                <rect x="0" y="0" width="32" height="20" rx="3.5" ry="3.5" fill="none" stroke="currentColor" strokeWidth="1" />
-                            </svg>
-                            {/* Diners Club */}
-                            <svg viewBox="0 0 32 20" width="32" height="20" className="fill-ms-stone hover:fill-ms-black transition-colors" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="10" cy="10" r="5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-                                <circle cx="16" cy="10" r="5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-                                <text x="13" y="11" fontSize="14" fontWeight="900" textAnchor="middle" fill="currentColor">D</text>
-                            </svg>
-                            {/* Yape Logo */}
-                            <svg viewBox="0 0 32 20" width="32" height="20" className="fill-ms-stone hover:fill-ms-black hover:text-[#742284] transition-colors" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="0" width="32" height="20" rx="4" fill="currentColor" opacity="0.1" />
-                                <text x="16" y="14" fontSize="11" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle" fill="currentColor">YAPE</text>
-                            </svg>
-                        </div>
                     </div>
 
                     <div className="flex gap-6 flex-wrap justify-center md:justify-end">
