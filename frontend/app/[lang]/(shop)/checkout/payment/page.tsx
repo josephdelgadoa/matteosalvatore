@@ -41,7 +41,7 @@ export default function CheckoutPaymentPage() {
     };
 
     const handlePayment = async () => {
-        if (!window.CulqiCheckout) {
+        if (!window.Culqi) {
             addToast('Payment system not ready. Please refresh.', 'error');
             return;
         }
@@ -83,42 +83,50 @@ export default function CheckoutPaymentPage() {
             const newOrder = data.data.order;
             setOrderId(newOrder.id);
 
-            // 2. Configure and Open Culqi Checkout Custom
-            const config = {
-                settings: {
-                    title: 'Matteo Salvatore',
-                    currency: 'PEN',
-                    amount: Math.round(newOrder.total_amount * 100),
+            const hasRsaKey = process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY && 
+                              !process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY.startsWith('PASTE');
+
+            // 2. Configure and Open Culqi Checkout v4
+            window.Culqi.publicKey = process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY;
+            
+            window.Culqi.settings({
+                title: 'Matteo Salvatore',
+                currency: 'PEN',
+                amount: Math.round(newOrder.total_amount * 100),
+                ...(hasRsaKey && {
                     xculqirsaid: process.env.NEXT_PUBLIC_CULQI_RSA_ID,
                     rsapublickey: process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY
-                },
-                client: {
-                    email: shippingInfo.email,
-                },
-                options: {
-                    lang: 'auto',
-                    installments: true,
-                    modal: true, // Use popup/modal version
-                    style: {
-                        logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
-                        maincolor: '#000000',
-                        buttontext: '#ffffff',
-                        maintext: '#000000',
-                        desctext: '#000000'
-                    }
-                }
-            };
+                })
+            });
 
-            const culqi = new window.CulqiCheckout(process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY, config);
+            window.Culqi.options({
+                lang: 'auto',
+                installments: true,
+                modal: true, // Use popup/modal version
+                style: {
+                    logo: 'https://matteosalvatore.pe/images/logo-matteo-salvatore-v-web.png',
+                    maincolor: '#000000',
+                    buttontext: '#ffffff',
+                    maintext: '#000000',
+                    desctext: '#000000'
+                }
+            });
+            
+            if (window.Culqi.client) {
+                window.Culqi.client({
+                    email: shippingInfo.email
+                });
+            }
             
             // Handle Culqi v4 callback
             window.culqi = async () => {
-                const tokenObj = window.Culqi.token || (culqi as any).token;
-                const errorObj = window.Culqi.error || (culqi as any).error;
+                const tokenObj = window.Culqi.token;
+                const errorObj = window.Culqi.error;
 
                 if (tokenObj) {
                     const token = tokenObj.id;
                     const email = tokenObj.email;
+                    const authentication_3DS = tokenObj.authentication_3DS;
 
                     try {
                         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payments/process`, {
@@ -126,7 +134,8 @@ export default function CheckoutPaymentPage() {
                             amount: total,
                             email,
                             currency: 'PEN',
-                            orderId: newOrder.id
+                            orderId: newOrder.id,
+                            authentication_3DS: authentication_3DS
                         });
 
                         addToast('Payment Successful! Redirecting...', 'success');
@@ -142,18 +151,18 @@ export default function CheckoutPaymentPage() {
                         console.error('Payment processing error:', err);
                         addToast(err.response?.data?.message || 'Payment failed', 'error');
                         setLoading(false);
-                        culqi.close();
+                        if (window.Culqi.close) window.Culqi.close();
                     }
                 } else if (errorObj) {
                     console.error('Culqi error:', errorObj);
                     addToast(errorObj.user_message || 'Payment Error', 'error');
                     setLoading(false);
-                    culqi.close();
+                    if (window.Culqi.close) window.Culqi.close();
                 }
             };
 
-            culqiInstance.current = culqi;
-            culqi.open();
+            culqiInstance.current = window.Culqi;
+            window.Culqi.open();
 
         } catch (err: any) {
             console.error(err);
@@ -165,7 +174,7 @@ export default function CheckoutPaymentPage() {
     return (
         <div className="animate-fade-in space-y-8">
             <Script
-                src="https://js.culqi.com/checkout-js"
+                src="https://checkout.culqi.com/js/v4"
                 onLoad={initCulqi}
             />
             <ToastContainer />

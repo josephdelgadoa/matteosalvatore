@@ -4,7 +4,7 @@ const { logger } = require('../utils/logger');
 
 exports.processPayment = async (req, res) => {
     try {
-        const { token, amount, email, currency = 'PEN', orderId, description } = req.body;
+        const { token, amount, email, currency = 'PEN', orderId, description, authentication_3DS } = req.body;
 
         if (!token || !amount || !email) {
             return res.status(400).json({ success: false, message: 'Missing required payment details' });
@@ -20,12 +20,14 @@ exports.processPayment = async (req, res) => {
             capture: true,
             metadata: {
                 order_id: orderId
-            }
+            },
+            ...(authentication_3DS ? { authentication_3DS } : {})
         });
 
         // 2. Update Order Status
         if (orderId && !orderId.startsWith('ORD-')) {
-            await SupabaseService.update('orders', orderId, {
+            const ordersService = new SupabaseService('orders');
+            await ordersService.update(orderId, {
                 status: 'paid',
                 payment_status: 'paid',
                 payment_id: charge.id
