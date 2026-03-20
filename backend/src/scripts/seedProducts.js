@@ -15,7 +15,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const products = [
     {
-        sku: 'MS-SHIRT-LINEN-001',
+        sku: '00512000', // Camisa Tulum / Lino
         name_es: 'Camisa de Lino Premium',
         name_en: 'Premium Linen Shirt',
         slug: 'premium-linen-shirt-white',
@@ -27,13 +27,12 @@ const products = [
         is_featured: true,
         is_active: true,
         variants: [
-            { size: 'S', color: 'White', sku_variant: 'MS-SHIRT-LIN-WHT-S', stock_quantity: 12 },
-            { size: 'M', color: 'White', sku_variant: 'MS-SHIRT-LIN-WHT-M', stock_quantity: 18 },
-            { size: 'L', color: 'White', sku_variant: 'MS-SHIRT-LIN-WHT-L', stock_quantity: 20 },
-            { size: 'XL', color: 'White', sku_variant: 'MS-SHIRT-LIN-WHT-XL', stock_quantity: 10 },
-            { size: 'M', color: 'Sand', sku_variant: 'MS-SHIRT-LIN-SND-M', stock_quantity: 15 },
-            { size: 'L', color: 'Sand', sku_variant: 'MS-SHIRT-LIN-SND-L', stock_quantity: 15 },
-            { size: 'M', color: 'Sky Blue', sku_variant: 'MS-SHIRT-LIN-SKY-M', stock_quantity: 12 }
+            { size: 'S', color: 'Blanco', sku_variant: '00512000081', stock_quantity: 12 },
+            { size: 'M', color: 'Blanco', sku_variant: '00512000082', stock_quantity: 18 },
+            { size: 'L', color: 'Blanco', sku_variant: '00512000083', stock_quantity: 20 },
+            { size: 'XL', color: 'Blanco', sku_variant: '00512000084', stock_quantity: 10 },
+            { size: 'M', color: 'Arena', sku_variant: '00512000422', stock_quantity: 15 },
+            { size: 'L', color: 'Arena', sku_variant: '00512000423', stock_quantity: 15 }
         ],
         images: [
             { image_url: 'https://images.unsplash.com/photo-1598032446167-d1d73a87163c?q=80&w=2787&auto=format&fit=crop', alt_text_es: 'Camisa de lino blanca', is_primary: true },
@@ -41,7 +40,7 @@ const products = [
         ]
     },
     {
-        sku: 'MS-POLO-PIMA-001',
+        sku: '00501000', // Polo Pima Básico
         name_es: 'Polo Pima Deluxe',
         name_en: 'Deluxe Pima Polo',
         slug: 'deluxe-pima-polo-navy',
@@ -53,11 +52,11 @@ const products = [
         is_featured: true,
         is_active: true,
         variants: [
-            { size: 'S', color: 'Navy', sku_variant: 'MS-POLO-PIMA-NVY-S', stock_quantity: 20 },
-            { size: 'M', color: 'Navy', sku_variant: 'MS-POLO-PIMA-NVY-M', stock_quantity: 30 },
-            { size: 'L', color: 'Navy', sku_variant: 'MS-POLO-PIMA-NVY-L', stock_quantity: 25 },
-            { size: 'M', color: 'Black', sku_variant: 'MS-POLO-PIMA-BLK-M', stock_quantity: 25 },
-            { size: 'L', color: 'Black', sku_variant: 'MS-POLO-PIMA-BLK-L', stock_quantity: 20 }
+            { size: 'S', color: 'Azul Marino', sku_variant: '00501000021', stock_quantity: 20 },
+            { size: 'M', color: 'Azul Marino', sku_variant: '00501000022', stock_quantity: 30 },
+            { size: 'L', color: 'Azul Marino', sku_variant: '00501000023', stock_quantity: 25 },
+            { size: 'M', color: 'Negro', sku_variant: '00501000252', stock_quantity: 25 },
+            { size: 'L', color: 'Negro', sku_variant: '00501000253', stock_quantity: 20 }
         ],
         images: [
             { image_url: 'https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?q=80&w=2942&auto=format&fit=crop', alt_text_es: 'Polo azul marino hombre', is_primary: true },
@@ -65,7 +64,7 @@ const products = [
         ]
     },
     {
-        sku: 'MS-SWTR-MERINO-001',
+        sku: '00513000', // Polera / Sweater
         name_es: 'Chompa Merino Essential',
         name_en: 'Essential Merino Sweater',
         slug: 'merino-sweater-grey',
@@ -77,16 +76,16 @@ const products = [
         is_featured: false,
         is_active: true,
         variants: [
-            { size: 'M', color: 'Grey', sku_variant: 'MS-SWTR-MER-GRY-M', stock_quantity: 10 },
-            { size: 'L', color: 'Grey', sku_variant: 'MS-SWTR-MER-GRY-L', stock_quantity: 12 },
-            { size: 'M', color: 'Charcoal', sku_variant: 'MS-SWTR-MER-CHR-M', stock_quantity: 8 }
+            { size: 'M', color: 'Gris', sku_variant: '00513000142', stock_quantity: 10 },
+            { size: 'L', color: 'Gris', sku_variant: '00513000143', stock_quantity: 12 },
+            { size: 'M', color: 'Gris Carbón', sku_variant: '00513000162', stock_quantity: 8 }
         ],
         images: [
             { image_url: 'https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=2872&auto=format&fit=crop', alt_text_es: 'Chompa gris hombre', is_primary: true }
         ]
     },
     {
-        sku: 'MS-JKT-BOMBER-001',
+        sku: '00506000', // Conjunto
         name_es: 'Casaca Bomber Técnica',
         name_en: 'Technical Bomber Jacket',
         slug: 'tech-bomber-jacket-olive',
@@ -98,16 +97,16 @@ const products = [
         is_featured: true,
         is_active: true,
         variants: [
-            { size: 'M', color: 'Olive', sku_variant: 'MS-JKT-BOMB-OLV-M', stock_quantity: 8 },
-            { size: 'L', color: 'Olive', sku_variant: 'MS-JKT-BOMB-OLV-L', stock_quantity: 10 },
-            { size: 'M', color: 'Black', sku_variant: 'MS-JKT-BOMB-BLK-M', stock_quantity: 12 }
+            { size: 'M', color: 'Verde Oliva', sku_variant: '00506000372', stock_quantity: 8 },
+            { size: 'L', color: 'Verde Oliva', sku_variant: '00506000373', stock_quantity: 10 },
+            { size: 'M', color: 'Negro', sku_variant: '00506000252', stock_quantity: 12 }
         ],
         images: [
             { image_url: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2836&auto=format&fit=crop', alt_text_es: 'Casaca bomber verde oliva', is_primary: true }
         ]
     },
     {
-        sku: 'MS-SHOE-LOAFER-001',
+        sku: '00508000', // Zapato / Pantalón Cargo? 
         name_es: 'Mocasines Penny Cuero',
         name_en: 'Penny Leather Loafers',
         slug: 'penny-leather-loafers-brown',
@@ -119,10 +118,7 @@ const products = [
         is_featured: false,
         is_active: true,
         variants: [
-            { size: '40', color: 'Dark Brown', sku_variant: 'MS-LOAFER-BRN-40', stock_quantity: 5 },
-            { size: '41', color: 'Dark Brown', sku_variant: 'MS-LOAFER-BRN-41', stock_quantity: 6 },
-            { size: '42', color: 'Dark Brown', sku_variant: 'MS-LOAFER-BRN-42', stock_quantity: 8 },
-            { size: '43', color: 'Dark Brown', sku_variant: 'MS-LOAFER-BRN-43', stock_quantity: 5 }
+            { size: '40', color: 'Marrón', sku_variant: '00508000207', stock_quantity: 5 }
         ],
         images: [
             { image_url: 'https://images.unsplash.com/photo-1614252369475-531eba835eb1?q=80&w=2852&auto=format&fit=crop', alt_text_es: 'Mocasines cuero marrón', is_primary: true }
@@ -202,6 +198,7 @@ async function seed() {
                     .upsert({
                         product_id: productId,
                         sku_variant: variant.sku_variant,
+                        barcode: variant.sku_variant,
                         size: variant.size,
                         color: variant.color,
                         stock_quantity: variant.stock_quantity,

@@ -1,6 +1,7 @@
 const SupabaseService = require('../services/supabase');
 const { logger } = require('../utils/logger');
 const supabase = require('../config/database');
+const { COLOR_MAPPING, SIZE_MAPPING, STYLE_MAPPING, generateMatrixBarcode, normalize } = require('../utils/matrix');
 
 const productService = new SupabaseService('products');
 
@@ -124,10 +125,24 @@ exports.createProduct = async (req, res, next) => {
 
         // Generate SKU if not provided
         if (!productData.sku) {
-            const categoryCode = (productData.category || 'GEN').substring(0, 3).toUpperCase();
-            const year = new Date().getFullYear();
-            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-            productData.sku = `MS-${categoryCode}-${year}-${random}`;
+            const normalizedName = normalize(productData.name_es);
+            let foundStyle = null;
+            
+            // Check if name matches any known styles
+            for (const [styleName, code] of Object.entries(STYLE_MAPPING)) {
+                if (normalizedName.includes(styleName)) {
+                    foundStyle = code;
+                    break;
+                }
+            }
+
+            if (foundStyle) {
+                productData.sku = foundStyle;
+            } else {
+                // FALLBACK: Use a 0000 format to avoid MS-HOM- legacy collisions
+                const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+                productData.sku = `999${random}`; // 999 indicates non-standard style for now
+            }
         }
 
         // 1. Insert Product
@@ -164,9 +179,8 @@ exports.createProduct = async (req, res, next) => {
             const variantInserts = variantsToInsert.map(variant => {
                 let skuVariant = variant.sku_variant;
                 if (!skuVariant && productData.sku) {
-                    const cleanSize = (variant.size || 'OS').toUpperCase().replace(/[^A-Z0-9]/g, '');
-                    const cleanColor = (variant.color || 'GEN').toUpperCase().substring(0, 3).replace(/[^A-Z0-9]/g, '');
-                    skuVariant = `${productData.sku}-${cleanSize}-${cleanColor}`;
+                    // Use the 11-digit Matrix Barcode formula: [Style_8][Color_2][Talla_1]
+                    skuVariant = generateMatrixBarcode(productData.sku, variant.color, variant.size);
                 } else if (!skuVariant) {
                     skuVariant = `VAR-${Math.floor(Math.random() * 100000)}`;
                 }
@@ -175,6 +189,7 @@ exports.createProduct = async (req, res, next) => {
                     product_id: productId,
                     ...variant,
                     sku_variant: skuVariant,
+                    barcode: skuVariant, // Assign to barcode field as well
                     stock_quantity: variant.stock_quantity || 0,
                     is_available: variant.is_available !== false
                 };
@@ -258,9 +273,8 @@ exports.updateProduct = async (req, res, next) => {
                     let skuVariant = variant.sku_variant;
 
                     if (!skuVariant && product.sku) {
-                        const cleanSize = (variant.size || 'OS').toUpperCase().replace(/[^A-Z0-9]/g, '');
-                        const cleanColor = (variant.color || 'GEN').toUpperCase().substring(0, 3).replace(/[^A-Z0-9]/g, '');
-                        skuVariant = `${product.sku}-${cleanSize}-${cleanColor}`;
+                        // Use the 11-digit Matrix Barcode formula: [Style_8][Color_2][Talla_1]
+                        skuVariant = generateMatrixBarcode(product.sku, variant.color, variant.size);
                     } else if (!skuVariant) {
                         skuVariant = `VAR-${Math.floor(Math.random() * 100000)}`;
                     }
@@ -300,7 +314,8 @@ exports.updateProduct = async (req, res, next) => {
                         color: variant.color,
                         stock_quantity: variant.stock_quantity || 0,
                         is_available: variant.is_available !== false,
-                        sku_variant: skuVariant
+                        sku_variant: skuVariant,
+                        barcode: skuVariant
                     });
                 }
 
@@ -328,6 +343,16 @@ exports.deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
 
+        // 1. Delete dependent variants (this will also delete inventory due to ON DELETE CASCADE)
+        await supabase.from('product_variants').delete().eq('product_id', id);
+
+        // 2. Delete dependent images
+        await supabase.from('product_images').delete().eq('product_id', id);
+
+        // 3. Delete dependent reviews
+        await supabase.from('reviews').delete().eq('product_id', id);
+
+        // 4. Finally delete the product
         const { error } = await supabase
             .from('products')
             .delete()

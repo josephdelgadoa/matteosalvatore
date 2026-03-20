@@ -20,9 +20,7 @@ import {
     Image as ImageIcon,
     Loader2
 } from 'lucide-react';
-import 'react-quill/dist/quill.snow.css';
-
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import('@/components/admin/Editor'), { ssr: false });
 
 interface BlogFormProps {
     lang: string;

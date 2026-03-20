@@ -27,15 +27,26 @@ Your goal is to transform basic product data into elite, high-conversion, and SE
 
 INSTRUCTIONS FOR TITLE POLISHING (Elite Structure):
 - Take the simple user-provided "Name" and transform it into a powerful, uniform SEO Title.
-- Formula ES: [Product Type] [Style/Quality] [Color] [Gender] [Year] – [Material] | Matteo Salvatore
-- Formula EN: [Style/Quality] [Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
-- ES Example: "Polo Básico Premium Negro Hombre 2026 – Algodón Peruano | Matteo Salvatore"
-- EN Example: "Premium Basic Black Polo Men 2026 – Peruvian Cotton | Matteo Salvatore"
+- Formula ES: [Product Type] [Style/Quality] [Model/Name] [Color] [Gender] [Year] – [Material] | Matteo Salvatore
+- Formula EN: [Style/Quality] [Model/Name] [Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
+- ES Elite Example: "Conjunto Premium Tulum Camello Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore"
+- EN Elite Example: "Premium Tulum Set Camel Men 2026 – Peruvian Pima Cotton | Matteo Salvatore"
 - Titles must be magnetic, sophisticated, and technically perfect for Google/AI discovery.
-- **STRICT SEO CONSTRAINTS**: 
-    - SEO Title (items 10): MAXIMUM 60 characters.
-    - SEO Description (items 11): MAXIMUM 160 characters.
+- **STRICT SEO CONSTRAINTS (FOR ITEMS 10 & 11 ONLY)**: 
+    - SEO Meta Title (items 10): MAXIMUM 60 characters. You must condense the elite title into a powerful 60-char version.
+    - SEO Meta Description (items 11): MAXIMUM 160 characters.
     - Failure to follow these limits will result in content being rejected.
+
+
+MATTEO SALVATORE BRAND STANDARDS & PRODUCT KNOWLEDGE:
+- CORE FABRIC: 100% Peruvian Pima Cotton (Algodón Pima Peruano) – the world's finest, known for durability and silk-like softness.
+- PRODUCT LINE: "Polo Pima Básico" (Pima Classic).
+- TECHNICAL WEIGHT (GRAMAJE): 180g - 190g. This is the "Ideal Weight" for luxury quality feel.
+- NECK CONSTRUCTION (ELITE DETAILS): 
+    - Rib 1x1 with elastane (Ensures no deformation over time).
+    - Reinforced rib for a more structured, premium neck.
+    - Internal neck tape ("Tapete" or "Cinta Interior") for a world-class branded finish.
+- FIT OPTIONS: Regular Fit (Classic), Slim Fit (Tailored), Oversize (Urban/Wide).
 
 BASIC PRODUCT DATA (Input):
 - User Provided Name: ${productData.name}
@@ -50,15 +61,17 @@ BASIC PRODUCT DATA (Input):
 
 OUTPUT REQUIREMENTS:
 You must return ONLY a JSON object. No markdown, no pre-amble. Ensure all HTML tags are standard and clean.
+CRITICAL: Every value must be a flat string or a flat array of strings. DO NOT return objects like {es: "...", en: "..."} for any field.
+
 The JSON must follow this structure exactly:
 
 {
-  "1_name_es": "Polished Elite Title ES (Formula: Brand + Type + Material + Fit + Color + Season/Year - Gender)",
-  "1_name_en": "Polished Elite Title EN (Formula: Brand + Type + Material + Fit + Color + Season/Year - Gender)",
-  "2_slug_es": "seo-geo-optimized-slug-spanish",
-  "2_slug_en": "seo-geo-optimized-slug-english",
-  "3_short_description_es": "Sophisticated short description (2 sentences) ES",
-  "3_short_description_en": "Sophisticated short description (2 sentences) EN",
+  "1_name_es": "Polished Elite Title ES (Single string, not object)",
+  "1_name_en": "Polished Elite Title EN (Single string, not object)",
+  "2_slug_es": "seo-geo-optimized-slug-spanish (Single string)",
+  "2_slug_en": "seo-geo-optimized-slug-english (Single string)",
+  "3_short_description_es": "Sophisticated short description (2 sentences) ES (Single string)",
+  "3_short_description_en": "Sophisticated short description (2 sentences) EN (Single string)",
   "4_full_description_es": "Full HTML description ES (Introduction, Benefits, Styling, Positioning).",
   "4_full_description_en": "Full HTML description EN (Introduction, Benefits, Styling, Positioning).",
   "5_features_es": ["Feature 1", "Feature 2", ...],
@@ -79,14 +92,14 @@ The JSON must follow this structure exactly:
   "13_alt_text_es": "SEO-rich Alt Text ES",
   "13_alt_text_en": "SEO-rich Alt Text EN",
   "14_cross_sell": ["Product name 1", "Product name 2"],
-  "15_product_schema": "JSON-LD Object (Product, Brand, Price, Availability, Color, Material)",
+  "15_product_schema": "JSON-LD Object (Flattened as a string or simple JSON)",
   "16_ai_optimization": {
     "semantic_description": "Contextual meaning for AI search agents.",
     "graph_signals": "Knowledge graph data points."
   },
   "17_social_captions": {
-    "instagram": "Post caption with emojis",
-    "tiktok": "Engaging short caption"
+    "instagram": "Post caption with emojis (Single string)",
+    "tiktok": "Engaging short caption (Single string)"
   },
   "18_video_prompts": {
     "reel": "Cinematic sequence prompt (e.g. Walking in Barranco, golden hour).",
@@ -99,7 +112,7 @@ The JSON must follow this structure exactly:
       "headline_en": "Compelling Meta Headline (max 40 chars) EN",
       "primary_text_en": "Main Ad text (1-2 sentences) EN"
     },
-    "tiktok": "Hook and text for TikTok ads."
+    "tiktok": "Hook and text for TikTok ads (Single string)"
   },
   "20_collection_placement": ["Essential Collection", "Summer 2026", "Minimal Collection"]
 }
@@ -111,6 +124,8 @@ Key values: Heritage, Craftsmanship, Peruvian Pima Excellence, Minimalist Timele
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
+
+    logger.info(`[AIService] Raw text from Gemini: ${text.substring(0, 500)}...`);
 
     // Clean up JSON if AI includes markdown code blocks
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();

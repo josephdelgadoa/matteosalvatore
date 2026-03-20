@@ -13,10 +13,10 @@ import { Trash, Plus, GripVertical, Sparkles } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import { ProductAiGenerator } from '@/components/admin/ProductAiGenerator';
 import { GeneratedProductAsset } from '@/lib/api/ai';
+import { inferStyleCode, generateMatrixBarcode } from '@/lib/matrix';
+import { slugify } from '@/lib/utils';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import('@/components/admin/Editor'), { ssr: false });
 
 const quillModules = {
     toolbar: [
@@ -71,7 +71,12 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                 // 2. Fetch Product if existing
                 if (!isNew) {
                     const product = await productsApi.getBySlug(params.id);
-                    setFormData(product);
+                    // Add tempId to existing variants for stable keys
+                    const variantsWithIds = product.product_variants?.map((v: any) => ({
+                        ...v,
+                        tempId: v.id || Math.random().toString(36).substr(2, 9)
+                    })) || [];
+                    setFormData({ ...product, product_variants: variantsWithIds });
                     setImages(product.product_images?.sort((a: any, b: any) => a.display_order - b.display_order) || []);
                 }
             } catch (err) {
@@ -142,18 +147,94 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         }
     };
 
+    const renderAiValue = (val: any): string => {
+        if (!val) return '';
+        if (typeof val === 'string') return val;
+        if (typeof val === 'object') {
+            if (val.es) return val.es;
+            if (val.en) return val.en;
+            // Fallback to first key
+            const keys = Object.keys(val);
+            if (keys.length > 0) return String(val[keys[0]]);
+        }
+        return String(val);
+    };
+
     const handleVariantChange = (index: number, field: string, value: any) => {
         const newVariants = [...(formData.product_variants || [])];
-        newVariants[index] = { ...newVariants[index], [field]: value };
+        const updatedVariant = { ...newVariants[index], [field]: value };
+        
+        // Auto-generate SKU if color or size changes
+        if (field === 'color' || field === 'size') {
+            const currentSku = formData.sku || '';
+            const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+                || inferStyleCode(formData.name_es || '') 
+                || '00000000';
+            updatedVariant.sku_variant = generateMatrixBarcode(styleCode, updatedVariant.color, updatedVariant.size);
+        }
+        
+        newVariants[index] = updatedVariant;
         setFormData({ ...formData, product_variants: newVariants });
     };
 
+    // Update all variant SKUs when product name or SKU changes
+    useEffect(() => {
+        if (!formData.product_variants?.length) return;
+        
+        const currentSku = formData.sku || '';
+        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+            || inferStyleCode(formData.name_es || '');
+            
+        if (!styleCode) return;
+
+        const updatedVariants = formData.product_variants.map(v => ({
+            ...v,
+            sku_variant: generateMatrixBarcode(styleCode, v.color, v.size)
+        }));
+
+        // Only update if something actually changed to avoid infinite loops
+        const changed = JSON.stringify(updatedVariants) !== JSON.stringify(formData.product_variants);
+        if (changed) {
+            setFormData(prev => ({ ...prev, product_variants: updatedVariants }));
+        }
+    }, [formData.name_es, formData.sku]);
+
+    // Auto-generate Slugs for New Products
+    useEffect(() => {
+        if (!isNew || !formData.name_es) return;
+        
+        // Only auto-generate if the slug is empty or matches the previous auto-generated one
+        const suggestedSlugEs = slugify(formData.name_es);
+        const suggestedSlugEn = slugify(formData.name_en || formData.name_es);
+
+        setFormData(prev => ({
+            ...prev,
+            slug_es: prev.slug_es && prev.slug_es !== slugify(prev.name_es || '') ? prev.slug_es : suggestedSlugEs,
+            slug_en: prev.slug_en && prev.slug_en !== slugify(prev.name_en || prev.name_es || '') ? prev.slug_en : suggestedSlugEn
+        }));
+    }, [formData.name_es, formData.name_en, isNew]);
+
     const addVariant = () => {
+        const currentSku = formData.sku || '';
+        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+            || inferStyleCode(formData.name_es || '') 
+            || '00000000';
+        const initialColor = 'Black';
+        const initialSize = 'M';
+        const initialSku = generateMatrixBarcode(styleCode, initialColor, initialSize);
+
         setFormData({
             ...formData,
             product_variants: [
                 ...(formData.product_variants || []),
-                { size: 'M', color: 'Black', stock_quantity: 10, is_available: true } as ProductVariant
+                { 
+                    tempId: Math.random().toString(36).substr(2, 9),
+                    size: initialSize, 
+                    color: initialColor, 
+                    sku_variant: initialSku,
+                    stock_quantity: 10, 
+                    is_available: true 
+                } as any
             ]
         });
     };
@@ -167,20 +248,20 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     const handleAiGenerate = (aiResult: GeneratedProductAsset) => {
         setFormData(prev => ({
             ...prev,
-            name_es: aiResult["1_name_es"],
-            name_en: aiResult["1_name_en"],
-            slug_es: aiResult["2_slug_es"],
-            slug_en: aiResult["2_slug_en"],
-            short_description_es: aiResult["3_short_description_es"],
-            short_description_en: aiResult["3_short_description_en"],
-            description_es: aiResult["4_full_description_es"],
-            description_en: aiResult["4_full_description_en"],
-            seo_title_es: aiResult["10_seo_title_es"],
-            seo_title_en: aiResult["10_seo_title_en"],
-            seo_description_es: aiResult["11_seo_description_es"],
-            seo_description_en: aiResult["11_seo_description_en"],
-            seo_keywords_es: aiResult["8_keywords"].join(', '),
-            seo_keywords_en: aiResult["8_keywords"].join(', '),
+            name_es: renderAiValue(aiResult["1_name_es"]),
+            name_en: renderAiValue(aiResult["1_name_en"]),
+            slug_es: renderAiValue(aiResult["2_slug_es"]),
+            slug_en: renderAiValue(aiResult["2_slug_en"]),
+            short_description_es: renderAiValue(aiResult["3_short_description_es"]),
+            short_description_en: renderAiValue(aiResult["3_short_description_en"]),
+            description_es: renderAiValue(aiResult["4_full_description_es"]),
+            description_en: renderAiValue(aiResult["4_full_description_en"]),
+            seo_title_es: renderAiValue(aiResult["10_seo_title_es"]),
+            seo_title_en: renderAiValue(aiResult["10_seo_title_en"]),
+            seo_description_es: renderAiValue(aiResult["11_seo_description_es"]),
+            seo_description_en: renderAiValue(aiResult["11_seo_description_en"]),
+            seo_keywords_es: Array.isArray(aiResult["8_keywords"]) ? aiResult["8_keywords"].join(', ') : renderAiValue(aiResult["8_keywords"]),
+            seo_keywords_en: Array.isArray(aiResult["8_keywords"]) ? aiResult["8_keywords"].join(', ') : renderAiValue(aiResult["8_keywords"]),
         }));
 
         // Find category match if possible
@@ -279,7 +360,14 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                             </div>
                         </div>
 
-                        <Input label="Base Price (S/.)" type="number" value={formData.base_price || 0} onChange={e => setFormData({ ...formData, base_price: parseFloat(e.target.value) })} required />
+                        <Input 
+                            label="Base Price (S/.)" 
+                            type="number" 
+                            step="0.01"
+                            value={formData.base_price === 0 && !formData.base_price ? '' : formData.base_price} 
+                            onChange={e => setFormData({ ...formData, base_price: e.target.value === '' ? '' : parseFloat(e.target.value) } as any)} 
+                            required 
+                        />
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -455,8 +543,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     </div>
 
                     <Reorder.Group axis="y" values={formData.product_variants || []} onReorder={(newVariants) => setFormData({ ...formData, product_variants: newVariants })} className="space-y-3">
-                        {formData.product_variants?.map((variant, idx) => (
-                            <Reorder.Item key={variant.sku_variant || idx} value={variant} className="flex gap-4 items-end bg-ms-ivory/30 p-3 border border-ms-fog cursor-default">
+                        {formData.product_variants?.map((variant: any, idx) => (
+                            <Reorder.Item key={variant.tempId || variant.id || idx} value={variant} className="flex gap-4 items-end bg-ms-ivory/30 p-3 border border-ms-fog cursor-default">
                                 <div className="cursor-grab active:cursor-grabbing p-2 text-ms-stone hover:text-ms-black">
                                     <GripVertical className="w-5 h-5" />
                                 </div>
@@ -467,6 +555,15 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                 <div className="w-32">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Color</label>
                                     <input className="w-full px-3 h-10 bg-ms-white border border-ms-fog text-sm focus:outline-none focus:border-ms-black transition-colors" value={variant.color} onChange={e => handleVariantChange(idx, 'color', e.target.value)} />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="text-xs font-medium text-ms-stone mb-1 block">SKU (Auto)</label>
+                                    <input 
+                                        className="w-full px-3 h-10 bg-ms-fog/20 border border-ms-fog text-xs font-mono text-ms-stone focus:outline-none cursor-not-allowed" 
+                                        value={variant.sku_variant} 
+                                        readOnly 
+                                        placeholder="Generating..."
+                                    />
                                 </div>
                                 <div className="w-24">
                                     <label className="text-xs font-medium text-ms-stone mb-1 block">Stock</label>
@@ -502,11 +599,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <div className="space-y-4">
                                         <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Instagram</span>
-                                            <p className="text-xs whitespace-pre-wrap">{aiMarketingAssets["17_social_captions"].instagram}</p>
+                                            <p className="text-xs whitespace-pre-wrap">{renderAiValue(aiMarketingAssets["17_social_captions"].instagram)}</p>
                                         </div>
                                         <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">TikTok</span>
-                                            <p className="text-xs whitespace-pre-wrap">{aiMarketingAssets["17_social_captions"].tiktok}</p>
+                                            <p className="text-xs whitespace-pre-wrap">{renderAiValue(aiMarketingAssets["17_social_captions"].tiktok)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -524,10 +621,10 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                                     <p className="text-ms-stone">{aiMarketingAssets["19_ad_copy"].meta.primary_text_en}</p>
                                                 </div>
                                             ) : (
-                                                <p className="mt-1">{aiMarketingAssets["19_ad_copy"].meta}</p>
+                                                <p className="mt-1">{renderAiValue(aiMarketingAssets["19_ad_copy"].meta)}</p>
                                             )}
                                         </div>
-                                        <p className="text-xs"><strong>TikTok:</strong> {aiMarketingAssets["19_ad_copy"].tiktok}</p>
+                                        <p className="text-xs"><strong>TikTok:</strong> {renderAiValue(aiMarketingAssets["19_ad_copy"].tiktok)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -538,11 +635,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <div className="space-y-4">
                                         <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm border-l-4 border-l-ms-brand-primary">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Image Prompt (Lifestyle)</span>
-                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{aiMarketingAssets["12_image_prompts"].lifestyle}"</p>
+                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{renderAiValue(aiMarketingAssets["12_image_prompts"].lifestyle)}"</p>
                                         </div>
                                         <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm border-l-4 border-l-ms-stone">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Video Prompt (Reel)</span>
-                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{aiMarketingAssets["18_video_prompts"].reel}"</p>
+                                            <p className="text-[11px] italic leading-relaxed text-ms-stone">"{renderAiValue(aiMarketingAssets["18_video_prompts"].reel)}"</p>
                                         </div>
                                     </div>
                                 </div>
@@ -569,7 +666,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <div className="space-y-4">
                                         <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Semantic Meaning (SGE)</span>
-                                            <p className="text-[11px] text-ms-stone leading-relaxed">{aiMarketingAssets["16_ai_optimization"].semantic_description}</p>
+                                            <p className="text-[11px] text-ms-stone leading-relaxed">{renderAiValue(aiMarketingAssets["16_ai_optimization"].semantic_description)}</p>
                                         </div>
                                         <div className="bg-ms-stone p-4 rounded-lg border border-ms-black shadow-lg">
                                             <span className="text-[10px] font-bold text-ms-pearl uppercase block mb-1">Product Schema (JSON-LD)</span>
@@ -583,11 +680,11 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                         <div className="flex flex-wrap gap-1 mb-3">
                                             {aiMarketingAssets["9_hashtags"].slice(0, 8).map((h, i) => (
-                                                <span key={i} className="text-[10px] text-ms-brand-primary">{h}</span>
+                                                <span key={i} className="text-[10px] text-ms-brand-primary">{renderAiValue(h)}</span>
                                             ))}
                                         </div>
                                         <p className="text-[10px] text-ms-stone border-t border-ms-fog pt-2">
-                                            <strong>Alt Text:</strong> {aiMarketingAssets["13_alt_text_es"]}
+                                            <strong>Alt Text:</strong> {renderAiValue(aiMarketingAssets["13_alt_text_es"])}
                                         </p>
                                     </div>
                                 </div>

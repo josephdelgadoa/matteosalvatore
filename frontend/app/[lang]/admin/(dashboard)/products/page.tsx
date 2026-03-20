@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Plus, Copy } from 'lucide-react';
+import { Plus, Copy, Search } from 'lucide-react';
 import { DataTable } from '@/components/admin/DataTable';
 import { productsApi, Product } from '@/lib/api/products';
 import { Spinner } from '@/components/ui/Spinner';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
+import { Input } from '@/components/ui/Input';
 import { Locale } from '@/i18n-config';
 import { useAdminDictionary } from '@/providers/AdminDictionaryProvider';
 
@@ -16,6 +17,7 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentSort, setCurrentSort] = useState<string>('newest');
+    const [searchQuery, setSearchQuery] = useState('');
     const { addToast } = useToast();
  
     const fetchProducts = async (sort?: string) => {
@@ -116,6 +118,19 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
         }
     };
  
+    const filteredProducts = React.useMemo(() => {
+        if (!searchQuery.trim()) return products;
+        
+        const query = searchQuery.toLowerCase().trim();
+        return products.filter(p => 
+            p.name_es.toLowerCase().includes(query) ||
+            p.name_en.toLowerCase().includes(query) ||
+            (p.sku && p.sku.toLowerCase().includes(query)) ||
+            p.category.toLowerCase().includes(query) ||
+            (p.subcategory && p.subcategory.toLowerCase().includes(query))
+        );
+    }, [products, searchQuery]);
+
     const columns = [
         {
             header: dict.products.tableProduct,
@@ -136,6 +151,15 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                         <span className="text-xs text-ms-stone block">{item.slug_es} / {item.slug_en}</span>
                     </div>
                 </div>
+            )
+        },
+        {
+            header: "Código de Estilo",
+            sortKey: 'sku',
+            accessorKey: (item: Product) => (
+                <code className="text-[10px] font-mono bg-ms-fog/30 px-1.5 py-0.5 rounded text-ms-stone">
+                    {item.sku || '-'}
+                </code>
             )
         },
         {
@@ -188,8 +212,28 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                 </Link>
             </div>
 
+            <div className="mb-6 relative max-w-md">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-ms-stone pointer-events-none">
+                    <Search className="w-4 h-4" />
+                </div>
+                <Input
+                    placeholder={dict.products.search}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-11 py-3 bg-ms-pearl/30 border-ms-fog/50 focus:bg-ms-white transition-all shadow-none"
+                />
+                {searchQuery && (
+                    <button 
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest text-ms-stone hover:text-ms-black"
+                    >
+                        Limpiar
+                    </button>
+                )}
+            </div>
+
             <DataTable
-                data={products}
+                data={filteredProducts}
                 columns={columns}
                 editPath={(item) => `/admin/products/${item.slug_es || item.slug_en}`}
                 onDelete={handleDelete}

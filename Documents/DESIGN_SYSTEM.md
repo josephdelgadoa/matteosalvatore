@@ -77,4 +77,3 @@
 ---
 ¡The Matteo Salvatore Design System is built for global dominance and AI efficiency!
 !El Sistema de Diseño de Matteo Salvatore está construido para la dominancia global y la eficiencia AI!
-                                                                                                          

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    transpilePackages: ['react-quill'],
     images: {
         domains: ['localhost', 'matteosalvatore.pe', 'res.cloudinary.com', 'supabase.co', 'images.unsplash.com'],
         remotePatterns: [

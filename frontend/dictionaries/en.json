@@ -370,6 +370,7 @@
         "products": {
             "title": "Products",
             "subtitle": "Manage your catalog, inventory, and variants.",
+            "search": "Search...",
             "add": "Add Product",
             "tableProduct": "Product",
             "tableCategory": "Category",

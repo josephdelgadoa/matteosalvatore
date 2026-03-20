@@ -370,6 +370,7 @@
         "products": {
             "title": "Productos",
             "subtitle": "Administre su catálogo, inventario y variantes.",
+            "search": "Buscar...",
             "add": "Añadir Producto",
             "tableProduct": "Producto",
             "tableCategory": "Categoría",
