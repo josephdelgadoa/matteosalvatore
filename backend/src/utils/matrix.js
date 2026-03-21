@@ -1,92 +1,68 @@
 /**
- * Barcode Matrix Configuration (Updated March 2026)
+ * Barcode Matrix Configuration (Consolidated March 2026)
  * Formula: [Style_8][Color_2][Talla_1] (Total: 11 digits)
  */
 
 const COLOR_MAPPING = {
-    "AZUL": "01",
-    "AZUL MARINO": "02",
-    "AZUL NOCHE": "03",
-    "AZUL ACERO": "04",
+    "ARENA": "01",
+    "AZUL": "02",
+    "AZUL MARINO": "03",
+    "AZUL NOCHE": "04",
     "BEIGE": "05",
-    "BEIGE / ARENA": "06",
-    "BEIGE / CREMA": "07",
-    "BLANCO": "08",
-    "CAMELL": "09",
-    "CELESTE BEBÉ": "10",
-    "CELESTE PASTEL": "11",
-    "CEMENTO": "12",
-    "CREMA": "13",
-    "GRIS": "14",
-    "GRIS ACERO": "15",
-    "GRIS CARBÓN": "16",
-    "GRIS HIELO": "17",
-    "GUINDA": "18",
-    "HUESO": "19",
-    "MARRÓN": "20",
-    "MARRÓN / TABACO": "21",
-    "MARRÓN / TOPO": "22",
-    "MELANGE": "23",
-    "MELANGE CLARO": "24",
-    "NEGRO": "25",
-    "PALO ROSA": "26",
-    "PLOMO": "27",
-    "PLOMO PLATA": "28",
-    "PLOMO RATA": "29",
-    "ROJO": "30",
-    "ROSADO BEBÉ": "31",
-    "ROSA CLARO": "32",
-    "SKY": "33",
-    "CIELO": "33",
-    "TURQUESA": "34",
-    "VERDE": "35",
-    "VERDE BOTELLA": "36",
-    "VERDE OLIVA": "37",
-    "VERDE OLIVO / MILITAR": "38",
-    "VERDE MILITAR": "39",
-    "VERDE CEMENTO": "40",
-    "VINO": "41",
-    "ARENA": "42"
+    "BLANCO": "06",
+    "CAMELL": "07",
+    "CELESTE BEBE": "08",
+    "CEMENTO": "09",
+    "CREMA": "10",
+    "HUESO": "11",
+    "MELANGE": "12",
+    "NEGRO": "13",
+    "PALO ROSA": "14",
+    "PLOMO": "15",
+    "PLOMO PLATA": "16",
+    "PLOMO RATA": "17",
+    "ROJO": "18",
+    "ROSADO BEBE": "19",
+    "SKY": "20",
+    "TURQUESA": "21",
+    "VERDE": "22",
+    "VERDE BOTELLA": "23",
+    "VINO": "24"
 };
 
 const SIZE_MAPPING = {
-    "XS": "0",
-    "28": "0",
-    "S": "1",
-    "30": "1",
-    "M": "2",
-    "32": "2",
-    "L": "3",
-    "34": "3",
-    "XL": "4",
-    "36": "5", // Note: The mapping table says XL/34 is 4, and XXL/36 is 5. But S/30, M/32, L/34? 
-    "XXL": "5",
-    "38": "6",
-    "40": "7"
+    "XS": "0", "28": "0",
+    "S": "1", "30": "1",
+    "M": "2", "32": "2",
+    "L": "3", "34": "3",
+    "XL": "4", "36": "4",
+    "XXL": "5", "38": "5",
+    "40": "6"
 };
 
 const STYLE_MAPPING = {
-    "POLO PIMA BÁSICO": "00501000",
-    "POLO PIMA CLÁSICO": "00501000",
+    "POLO PIMA BASICO": "00501000",
+    "POLO CLASICO": "00501000",
+    "POLO SLIM FIT": "00501000",
     "POLO ESENCIAL": "00501000",
-    "POLO PREMIUM": "00501000",
     "POLO OVERSIZE": "00502000",
-    "POLO BOXI": "00503000",
-    "POLO HENLEY MC": "00504000",
-    "POLO HENLEY ML": "00505000",
+    "POLO BOXY": "00503000",
+    "HENLEY MC": "00504000",
+    "HENLEY ML": "00505000",
     "CONJUNTO CANGURO": "00506000",
-    "SET RANGLA / SET URBANO": "00507000",
-    "PANTALÓN CARGO FIT": "00508000",
-    "PANTALÓN JOGGUER": "00509000",
-    "PANTALÓN SKINNY": "00510000",
+    "CONJUNTO RAGLAN": "00507000",
+    "PANTALON CARGO": "00508000",
+    "PANTALON JOGGUER": "00509000",
+    "JOGGER": "00509000",
+    "PANTALON SKINNY": "00510000",
     "CONJUNTO TULUM": "00511000",
     "CAMISA TULUM": "00512000",
-    "POLERA HOODIE CLASSIC": "00513000"
+    "HOODIE CLASSIC": "00513000",
+    "CAPUCHA": "00513000"
 };
 
 /**
  * Normalizes input string to match mapping keys
- * Removes accents and common fluff words like 'PREMIUM'
  */
 function normalize(str) {
     if (!str) return "";
@@ -107,7 +83,7 @@ function generateMatrixBarcode(stylePrefix, colorName, sizeName) {
     const normalizedColor = normalize(colorName);
     let colorId = "00";
     for (const [name, id] of Object.entries(COLOR_MAPPING)) {
-        if (normalizedColor.includes(normalize(name))) {
+        if (normalizedColor === normalize(name) || normalizedColor.includes(normalize(name))) {
             colorId = id;
             break;
         }

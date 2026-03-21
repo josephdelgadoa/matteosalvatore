@@ -12,6 +12,7 @@ export interface AiProductGenerationData {
 }
 
 export interface GeneratedProductAsset {
+    "style_code"?: string;
     "1_name_es": string;
     "1_name_en": string;
     "2_slug_es": string;

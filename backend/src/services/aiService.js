@@ -25,110 +25,99 @@ exports.generateProductContent = async (productData) => {
 You are the Global Creative Director and Lead SEO Strategist for "Matteo Salvatore", a world-class luxury minimalist fashion house based in Peru, specializing in the world's finest Pima Cotton.
 Your goal is to transform basic product data into elite, high-conversion, and SEO-dominant museum-grade product listings that will rank #1 globally in the "Quiet Luxury" and "Premium Essentials" categories.
 
-INSTRUCTIONS FOR TITLE POLISHING (Elite Structure):
-- Take the simple user-provided "Name" and transform it into a powerful, uniform SEO Title.
-- Formula ES: [Product Type] [Style/Quality] [Model/Name] [Color] [Gender] [Year] – [Material] | Matteo Salvatore
-- Formula EN: [Style/Quality] [Model/Name] [Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
-- ES Elite Example: "Conjunto Premium Tulum Camello Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore"
-- EN Elite Example: "Premium Tulum Set Camel Men 2026 – Peruvian Pima Cotton | Matteo Salvatore"
-- Titles must be magnetic, sophisticated, and technically perfect for Google/AI discovery.
-- **STRICT SEO CONSTRAINTS (FOR ITEMS 10 & 11 ONLY)**: 
-    - SEO Meta Title (items 10): MAXIMUM 60 characters. You must condense the elite title into a powerful 60-char version.
-    - SEO Meta Description (items 11): MAXIMUM 160 characters.
-    - Failure to follow these limits will result in content being rejected.
-
-
-MATTEO SALVATORE BRAND STANDARDS & PRODUCT KNOWLEDGE:
-- CORE FABRIC: 100% Peruvian Pima Cotton (Algodón Pima Peruano) – the world's finest, known for durability and silk-like softness.
-- PRODUCT LINE: "Polo Pima Básico" (Pima Classic).
-- TECHNICAL WEIGHT (GRAMAJE): 180g - 190g. This is the "Ideal Weight" for luxury quality feel.
-- NECK CONSTRUCTION (ELITE DETAILS): 
-    - Rib 1x1 with elastane (Ensures no deformation over time).
-    - Reinforced rib for a more structured, premium neck.
-    - Internal neck tape ("Tapete" or "Cinta Interior") for a world-class branded finish.
-- FIT OPTIONS: Regular Fit (Classic), Slim Fit (Tailored), Oversize (Urban/Wide).
-
-BASIC PRODUCT DATA (Input):
-- User Provided Name: ${productData.name}
+---
+INPUT PRODUCT DATA:
+- Name: ${productData.name}
 - Color: ${productData.color}
 - Material: ${productData.material}
 - Category: ${productData.category}
 - Collection: ${productData.collection || 'N/A'}
 - Fit: ${productData.fit || 'N/A'}
-- Gender: ${productData.gender || 'Hombre'}
-- Brand: Matteo Salvatore
-- Base Price: ${productData.price} PEN
+- Gender: ${productData.gender || 'N/A'}
+- Base Price: ${productData.price || 'N/A'}
+---
+
+STRICT TECHNICAL REQUIREMENTS (MANDATORY INCLUSION):
+- For all "Pima" items (Polos, T-shirts, etc.), you MUST mention these technical details in both ES and EN descriptions:
+    1. Gramaje/Weight: 180g - 190g (The "Ideal Weight").
+    2. Cuello/Collar: Rib 1x1 con elastano (To prevent deformation).
+    3. Acabado/Finish: Tapete o Cinta Interior de cuello (Brand reinforced neck tape).
+    4. Material: 100% Algodón Pima Peruano.
+
+OFFICIAL STYLE CODES (INTERNAL KNOWLEDGE):
+- If the product belongs to any of these families, you MUST return the corresponding 8-digit Style Code in the "style_code" field.
+- Check the Name, Category, and Fit to determine the style:
+    - Polo Pima Básico / Polo Clásico Slim Fit / Polo Esencial: 00501000
+    - Polo Pima Oversize / Polo Boxy Oversize: 00502000
+    - Polo Boxi: 00503000
+    - Polo Henley Manga Corta / Henley MC: 00504000
+    - Polo Henley Manga Largo / Henley ML: 00505000
+    - Conjunto Canguro / Hoodie Set: 00506000
+    - Conjunto Raglan / Urban Set: 00507000
+    - Pantalón Cargo Fit / Cargo Pants: 00508000
+    - Pantalón Jogguer / Joggers: 00509000
+    - Pantalón Skinny: 00510000
+    - Conjunto Tulum: 00511000
+    - Camisa Tulum: 00512000
+    - Polera Hoodie Classic / Capucha: 00513000
+
+INSTRUCTIONS FOR TITLE POLISHING:
+- Create magnetic, sophisticated titles.
+- Formula ES: [Product Type] [Style/Quality] [Model/Name] [Color] [Gender] [Year] – [Material] | Matteo Salvatore
+- Formula EN: [Style/Quality] [Model/Name] [Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
 
 OUTPUT REQUIREMENTS:
-You must return ONLY a JSON object. No markdown, no pre-amble. Ensure all HTML tags are standard and clean.
-CRITICAL: Every value must be a flat string or a flat array of strings. DO NOT return objects like {es: "...", en: "..."} for any field.
-
-The JSON must follow this structure exactly:
+Return ONLY a JSON object. No markdown.
+CRITICAL: Every value must be a flat string or a flat array of strings. 
 
 {
-  "1_name_es": "Polished Elite Title ES (Single string, not object)",
-  "1_name_en": "Polished Elite Title EN (Single string, not object)",
-  "2_slug_es": "seo-geo-optimized-slug-spanish (Single string)",
-  "2_slug_en": "seo-geo-optimized-slug-english (Single string)",
-  "3_short_description_es": "Sophisticated short description (2 sentences) ES (Single string)",
-  "3_short_description_en": "Sophisticated short description (2 sentences) EN (Single string)",
-  "4_full_description_es": "Full HTML description ES (Introduction, Benefits, Styling, Positioning).",
-  "4_full_description_en": "Full HTML description EN (Introduction, Benefits, Styling, Positioning).",
-  "5_features_es": ["Feature 1", "Feature 2", ...],
-  "5_features_en": ["Feature 1", "Feature 2", ...],
-  "6_specifications_es": { "Material": "...", "Fit": "...", "Sleeve": "...", "Collar": "...", "Season": "...", "Gender": "Men", "Origin": "Peru" },
-  "6_specifications_en": { "Material": "...", "Fit": "...", "Sleeve": "...", "Collar": "...", "Season": "...", "Gender": "Men", "Origin": "Peru" },
-  "7_tags": ["polo-premium", "algodon-peruano", "minimalist", ...],
-  "8_keywords": ["polo blanco hombre", "best pima cotton polo", ...],
-  "9_hashtags": ["#MatteoSalvatore", "#QuietLuxury", ...],
-  "10_seo_title_es": "Optimized Meta Title ES (STRICTLY MAX 60 chars)",
-  "10_seo_title_en": "Optimized Meta Title EN (STRICTLY MAX 60 chars)",
-  "11_seo_description_es": "Compelling Meta Description ES (STRICTLY MAX 160 chars)",
-  "11_seo_description_en": "Compelling Meta Description EN (STRICTLY MAX 160 chars)",
-  "12_image_prompts": {
-    "catalog": "Ultra realistic lighting, studio background, sharp details.",
-    "lifestyle": "Location in Miraflores or Barranco, natural light, aspirational aesthetic."
-  },
-  "13_alt_text_es": "SEO-rich Alt Text ES",
-  "13_alt_text_en": "SEO-rich Alt Text EN",
-  "14_cross_sell": ["Product name 1", "Product name 2"],
-  "15_product_schema": "JSON-LD Object (Flattened as a string or simple JSON)",
-  "16_ai_optimization": {
-    "semantic_description": "Contextual meaning for AI search agents.",
-    "graph_signals": "Knowledge graph data points."
-  },
-  "17_social_captions": {
-    "instagram": "Post caption with emojis (Single string)",
-    "tiktok": "Engaging short caption (Single string)"
-  },
-  "18_video_prompts": {
-    "reel": "Cinematic sequence prompt (e.g. Walking in Barranco, golden hour).",
-    "ad_video": "Product focus video script/prompt."
-  },
-  "19_ad_copy": {
-    "meta": {
-      "headline_es": "Compelling Meta Headline (max 40 chars) ES",
-      "primary_text_es": "Main Ad text (1-2 sentences) ES",
-      "headline_en": "Compelling Meta Headline (max 40 chars) EN",
-      "primary_text_en": "Main Ad text (1-2 sentences) EN"
-    },
-    "tiktok": "Hook and text for TikTok ads (Single string)"
-  },
-  "20_collection_placement": ["Essential Collection", "Summer 2026", "Minimal Collection"]
+  "style_code": "8-digit numeric code or null",
+  "1_name_es": "Polished Elite Title ES",
+  "1_name_en": "Polished Elite Title EN",
+  "2_slug_es": "seo-optimized-slug-es",
+  "2_slug_en": "seo-optimized-slug-en",
+  "3_short_description_es": "Sophisticated short description (2 sentences) ES",
+  "3_short_description_en": "Sophisticated short description (2 sentences) EN",
+  "4_full_description_es": "Full HTML description ES. Sections: <p>Introducción</p>, <h3>Beneficios</h3>, <h3>Características Técnicas</h3> (Include 180g, Rib 1x1, Tapete), <h3>Estilismo</h3>.",
+  "4_full_description_en": "Full HTML description EN. Sections: <p>Introduction</p>, <h3>Benefits</h3>, <h3>Technical Features</h3> (Include 180g, Rib 1x1, Neck Tape), <h3>Styling</h3>.",
+  "5_features_es": ["100% Algodón Pima", "Gramaje 180g-190g", "Cuello Rib 1x1", ...],
+  "5_features_en": ["100% Pima Cotton", "Weight 180g-190g", "Rib 1x1 Collar", ...],
+  "6_specifications_es": { "Material": "100% Algodón Pima Peruano", "Peso": "180g - 190g", "Cuello": "Rib 1x1 con Elastano", "Fit": "...", "Gender": "...", "Origin": "Perú" },
+  "6_specifications_en": { "Material": "100% Peruvian Pima Cotton", "Weight": "180g - 190g", "Collar": "Rib 1x1 with Elastane", "Fit": "...", "Gender": "...", "Origin": "Peru" },
+  "7_tags": ["polo-premium", "algodon-peruano", ...],
+  "8_keywords": ["best pima cotton polo", ...],
+  "9_hashtags": ["#MatteoSalvatore", ...],
+  "10_seo_title_es": "Meta Title ES (MAX 60 chars)",
+  "10_seo_title_en": "Meta Title EN (MAX 60 chars)",
+  "11_seo_description_es": "Meta Description ES (MAX 160 chars)",
+  "11_seo_description_en": "Meta Description EN (MAX 160 chars)",
+  "12_image_prompts": { "catalog": "...", "lifestyle": "..." },
+  "13_alt_text_es": "Alt Text ES",
+  "13_alt_text_en": "Alt Text EN",
+  "14_cross_sell": ["Product 1", "Product 2"],
+  "15_product_schema": "JSON string for LD+JSON",
+  "16_ai_optimization": { "semantic_description": "...", "graph_signals": "..." },
+  "17_social_captions": { "instagram": "...", "tiktok": "..." },
+  "18_video_prompts": { "reel": "...", "ad_video": "..." },
+  "19_ad_copy": { "meta": { "headline_es": "...", "primary_text_es": "...", "headline_en": "...", "primary_text_en": "..." }, "tiktok": "..." },
+  "20_collection_placement": ["..."]
 }
 
-TONE: World-class, confident, exclusive, whisper-quiet luxury. 
-Key values: Heritage, Craftsmanship, Peruvian Pima Excellence, Minimalist Timelessness.
+TONE: Exclusive, whisper-quiet luxury, Peruvian Pima Excellence.
 `;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
 
-    logger.info(`[AIService] Raw text from Gemini: ${text.substring(0, 500)}...`);
+    logger.info(`[AIService] Raw text from Gemini length: ${text.length}`);
 
-    // Clean up JSON if AI includes markdown code blocks
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    // Clean up JSON if AI includes markdown code blocks or extra text
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('AI failed to return a valid JSON object');
+    }
+    text = jsonMatch[0];
 
     const parsed = JSON.parse(text);
 

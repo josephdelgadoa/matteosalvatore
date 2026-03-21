@@ -128,9 +128,9 @@ exports.createProduct = async (req, res, next) => {
             const normalizedName = normalize(productData.name_es);
             let foundStyle = null;
             
-            // Check if name matches any known styles
+            // IMPROVED STYLE RECOGNITION (Backwards compatible with consolidation)
             for (const [styleName, code] of Object.entries(STYLE_MAPPING)) {
-                if (normalizedName.includes(styleName)) {
+                if (normalizedName.includes(normalize(styleName))) {
                     foundStyle = code;
                     break;
                 }
@@ -139,9 +139,9 @@ exports.createProduct = async (req, res, next) => {
             if (foundStyle) {
                 productData.sku = foundStyle;
             } else {
-                // FALLBACK: Use a 0000 format to avoid MS-HOM- legacy collisions
-                const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-                productData.sku = `999${random}`; // 999 indicates non-standard style for now
+                // Better Fallback: Use 888 for truly unknown styles to distinguish from 999 (legacy)
+                const random = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+                productData.sku = `888${random}`; 
             }
         }
 

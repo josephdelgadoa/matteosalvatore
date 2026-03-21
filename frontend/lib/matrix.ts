@@ -1,82 +1,65 @@
 /**
- * Matrix Mapping for Matteo Salvatore Product Identification Systems (2026)
+ * Matrix Mapping for Matteo Salvatore Product Identification Systems (Consolidated March 2026)
  * This utility handles the conversion of Styles, Colors, and Sizes into 
  * the official 11-digit barcode format: [Style_8][Color_2][Talla_1]
  */
 
 export const COLOR_MAPPING: Record<string, string> = {
-    "AZUL": "01",
-    "AZUL MARINO": "02",
-    "AZUL NOCHE": "03",
-    "AZUL ACERO": "04",
+    "ARENA": "01",
+    "AZUL": "02",
+    "AZUL MARINO": "03",
+    "AZUL NOCHE": "04",
     "BEIGE": "05",
-    "BEIGE / ARENA": "06",
-    "BEIGE / CREMA": "07",
-    "BLANCO": "08",
-    "CAMELL": "09",
-    "CELESTE BEBE": "10",
-    "CELESTE PASTEL": "11",
-    "CEMENTO": "12",
-    "CREMA": "13",
-    "GRIS": "14",
-    "GRIS ACERO": "15",
-    "GRIS CARBON": "16",
-    "GRIS HIELO": "17",
-    "HUESO": "18",
-    "LADRILLO": "19",
-    "MARRON": "20",
-    "MARRON / CAFE": "21",
-    "MARRON / TOPO": "22",
-    "MELANGE": "23",
-    "MELANGE CLARO": "24",
-    "NEGRO": "25",
-    "PALO ROSA": "26",
-    "PLOMO": "27",
-    "PLOMO PLATA": "28",
-    "PLOMO RATA": "29",
-    "ROJO": "30",
-    "ROSADO BEBE": "31",
-    "ROSA CLARO": "32",
-    "SKY": "33",
-    "CIELO": "33",
-    "TURQUESA": "34",
-    "VERDE": "35",
-    "VERDE BOTELLA": "36",
-    "VERDE OLIVA": "37",
-    "VERDE OLIVO / MILITAR": "38",
-    "VINTO / BORGOÑA": "39",
-    "ARENA": "42" // Alias for Beige/Arena
+    "BLANCO": "06",
+    "CAMELL": "07",
+    "CELESTE BEBE": "08",
+    "CEMENTO": "09",
+    "CREMA": "10",
+    "HUESO": "11",
+    "MELANGE": "12",
+    "NEGRO": "13",
+    "PALO ROSA": "14",
+    "PLOMO": "15",
+    "PLOMO PLATA": "16",
+    "PLOMO RATA": "17",
+    "ROJO": "18",
+    "ROSADO BEBE": "19",
+    "SKY": "20",
+    "TURQUESA": "21",
+    "VERDE": "22",
+    "VERDE BOTELLA": "23",
+    "VINO": "24"
 };
 
 export const SIZE_MAPPING: Record<string, string> = {
-    "S": "1",
-    "M": "2",
-    "L": "3",
-    "XL": "4",
-    "XXL": "5",
-    "30": "6",
-    "32": "7",
-    "40": "7", // Added 40 for loafers based on sql
-    "42": "8"
+    "XS": "0", "28": "0",
+    "S": "1", "30": "1",
+    "M": "2", "32": "2",
+    "L": "3", "34": "3",
+    "XL": "4", "36": "4",
+    "XXL": "5", "38": "5",
+    "40": "6"
 };
 
 export const STYLE_MAPPING: Record<string, string> = {
     "POLO PIMA BASICO": "00501000",
-    "POLO PIMA CLASICO": "00501000",
+    "POLO CLASICO": "00501000",
+    "POLO SLIM FIT": "00501000",
     "POLO ESENCIAL": "00501000",
-    "POLO PREMIUM": "00501000",
     "POLO OVERSIZE": "00502000",
-    "POLO BOXI": "00503000",
-    "POLO HENLEY MC": "00504000",
-    "POLO HENLEY ML": "00505000",
-    "CASACA BOMBER": "00506000",
-    "CASACA HARRINGTON": "00507000",
-    "MOCASINES": "00508000",
-    "PANTALON CHINO": "00509000",
-    "PANTALON CARGO": "00510000",
-    "SHORT CHINO": "00511000",
-    "CAMISA LINO": "00512000",
-    "CHOMPA MERINO": "00513000"
+    "POLO BOXY": "00503000",
+    "HENLEY MC": "00504000",
+    "HENLEY ML": "00505000",
+    "CONJUNTO CANGURO": "00506000",
+    "CONJUNTO RAGLAN": "00507000",
+    "PANTALON CARGO": "00508000",
+    "PANTALON JOGGUER": "00509000",
+    "JOGGER": "00509000",
+    "PANTALON SKINNY": "00510000",
+    "CONJUNTO TULUM": "00511000",
+    "CAMISA TULUM": "00512000",
+    "HOODIE CLASSIC": "00513000",
+    "CAPUCHA": "00513000"
 };
 
 /**
@@ -100,8 +83,10 @@ export function generateMatrixBarcode(stylePrefix: string, colorName: string, si
     // Find color ID
     const normalizedColor = normalize(colorName);
     let colorId = "00";
+    
+    // Exact match or contains check
     for (const [name, id] of Object.entries(COLOR_MAPPING)) {
-        if (normalizedColor.includes(normalize(name))) {
+        if (normalizedColor === normalize(name) || normalizedColor.includes(normalize(name))) {
             colorId = id;
             break;
         }
@@ -121,30 +106,19 @@ export function generateMatrixBarcode(stylePrefix: string, colorName: string, si
 }
 
 /**
- * Infers style code from product name, including color if found
- * Returns [Style_8][Color_2]
+ * Infers style code from product name
+ * Returns basic 8-digit Style code (StylePrefix)
  */
 export function inferStyleCode(productName: string): string | null {
+    if (!productName) return null;
     const normalizedName = normalize(productName);
-    let styleBase = null;
     
+    // Check for exact matches first in STYLE_MAPPING
     for (const [styleName, code] of Object.entries(STYLE_MAPPING)) {
         if (normalizedName.includes(normalize(styleName))) {
-            styleBase = code;
-            break;
+            return code;
         }
     }
 
-    if (!styleBase) return null;
-
-    // Find Color for the main Product SKU
-    let colorId = "00";
-    for (const [colorName, id] of Object.entries(COLOR_MAPPING)) {
-        if (normalizedName.includes(normalize(colorName))) {
-            colorId = id;
-            break;
-        }
-    }
-
-    return `${styleBase}${colorId}`;
+    return null;
 }

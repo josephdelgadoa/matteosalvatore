@@ -9,73 +9,64 @@ Este documento es la "Fuente de Verdad" para la creación de nuevos productos y 
 ## Cambios Implementados
 
 ### 1. Esquema de Base de Datos & Admin
-- **Nuevas Columnas:** Se añadieron `barcode` (VARCHAR, UNIQUE) y `sku_variant` a la tabla `product_variants`.
-- **Búsqueda Avanzada:** El panel de administración permite buscar por **Código de Estilo**, Nombre o Categoría.
+- **Nuevas Columnas:** Se añadieron `barcode` y `sku_variant` a la tabla `product_variants`. Ambos campos son **idénticos y puramente numéricos** para mayor simplicidad.
+- **Búsqueda Avanzada:** El panel de administración permite buscar por **Código de Estilo**, Barcode o Categoría.
 - **Elite AI Ready:** Integración con Gemini 2.5 Flash para generación de metadatos SEO y descripciones de lujo.
 
 ### 2. Lógica de la Matriz de Códigos de Barras
 Implementamos una matriz de 3 partes para cada variante:
 - **Prefijo de Estilo (8 dígitos):** Identificador base del producto.
-- **Identidad de Color (2 dígitos):** ID único para los 42 colores oficiales.
+- **Identidad de Color (2 dígitos):** ID único basado en la tabla oficial.
 - **Identidad de Talla (1 dígito):** ID único para tallas.
 
 **Fórmula de Barcode:** `[Estilo_8][Color_2][Talla_1]` (Total: 11 dígitos numéricos).
 
 ---
 
-## 🎨 Referencia de Identidades de Color (42 Colores Oficiales)
+## 🎨 Referencia de Identidades de Color (24 Colores Oficiales)
 | ID | Color | ID | Color |
 | :--- | :--- | :--- | :--- |
-| **01** | AZUL | **22** | MARRÓN / TOPO |
-| **02** | AZUL MARINO | **23** | MELANGE |
-| **03** | AZUL NOCHE | **24** | MELANGE CLARO |
-| **04** | AZUL ACERO | **25** | NEGRO |
-| **05** | BEIGE | **26** | PALO ROSA |
-| **06** | BEIGE / ARENA | **27** | PLOMO |
-| **07** | BEIGE / CREMA | **28** | PLOMO PLATA |
-| **08** | BLANCO | **29** | PLOMO RATA |
-| **09** | CAMELL | **30** | ROJO |
-| **10** | CELESTE BEBÉ | **31** | ROSADO BEBÉ |
-| **11** | CELESTE PASTEL | **32** | ROSA CLARO |
-| **12** | CEMENTO | **33** | SKY |
-| **13** | CREMA | **34** | TURQUESA |
-| **14** | GRIS | **35** | VERDE |
-| **15** | GRIS ACERO | **36** | VERDE BOTELLA |
-| **16** | GRIS CARBÓN | **37** | VERDE OLIVA |
-| **17** | GRIS HIELO | **38** | VERDE OLIVO / MILITAR |
-| **18** | GUINDA | **39** | VERDE MILITAR |
-| **19** | HUESO | **40** | VERDE CEMENTO |
-| **20** | MARRÓN | **41** | VINO |
-| **21** | MARRÓN / TABACO | **42** | ARENA |
+| **01** | ARENA | **13** | NEGRO |
+| **02** | AZUL | **14** | PALO ROSA |
+| **03** | AZUL MARINO | **15** | PLOMO |
+| **04** | AZUL NOCHE | **16** | PLOMO PLATA |
+| **05** | BEIGE | **17** | PLOMO RATA |
+| **06** | BLANCO | **18** | ROJO |
+| **07** | CAMELL | **19** | ROSADO BEBÉ |
+| **08** | CELESTE BEBÉ | **20** | SKY |
+| **09** | CEMENTO | **21** | TURQUESA |
+| **10** | CREMA | **22** | VERDE |
+| **11** | HUESO | **23** | VERDE BOTELLA |
+| **12** | MELANGE | **24** | VINO |
 
 ---
 
 ## 📏 Mapeo de Tallas
 | Talla | ID | Talla | ID |
 | :--- | :--- | :--- | :--- |
-| **XS / 28** | 0 | **XL / 34** | 4 |
-| **S / 30** | 1 | **XXL / 36** | 5 |
-| **M / 32** | 2 | **38** | 6 |
-| **L / 34** | 3 | **40** | 7 |
+| **XS / 28** | 0 | **XL / 36** | 4 |
+| **S / 30** | 1 | **XXL / 38** | 5 |
+| **M / 32** | 2 | **40** | 6 |
+| **L / 34** | 3 | | |
 
 ---
 
 ## 🏷️ Mapeo de Estilos (Prefijos)
-| Estilo | Prefijo de Estilo | Categoría Sugerida |
+| Estilo | Prefijo | Categoría Sugerida |
 | :--- | :--- | :--- |
-| **Polo Pima Básico** | `00501000` | Polos / Tops |
-| **Polo Oversize** | `00502000` | Polos / Tops |
-| **Polo Boxi** | `00503000` | Polos / Tops |
-| **Polo Henley MC** | `00504000` | Polos / Tops |
-| **Polo Henley ML** | `00505000` | Polos / Tops |
-| **Conjunto Canguro** | `00506000` | Conjuntos |
-| **Set Rangla / Set Urbano** | `00507000` | Conjuntos |
-| **Pantalón Cargo Fit** | `00508000` | Pantalones / Bottoms |
-| **Pantalón Jogguer** | `00509000` | Pantalones / Bottoms |
-| **Pantalón Skinny** | `00510000` | Pantalones / Bottoms |
-| **Conjunto Tulum** | `00511000` | Conjuntos |
-| **Camisa Tulum** | `00512000` | Camisas |
-| **Polera Hoodie Classic** | `00513000` | Poleras / Tops |
+| **POLO PIMA BASICO** | `00501000` | Polos / Tops |
+| **POLO OVERSIZE** | `00502000` | Polos / Tops |
+| **POLO BOXI** | `00503000` | Polos / Tops |
+| **POLO HENLEY MANGA CORTA** | `00504000` | Polos / Tops |
+| **POLO HENLEY MANGA LARGA** | `00505000` | Polos / Tops |
+| **CONJUNTO CANGURO** | `00506000` | Conjuntos |
+| **CONJUNTO RAGLAN** | `00507000` | Conjuntos |
+| **PANTALON CARGO FIT** | `00508000` | Pantalones |
+| **PANTALON JOGGUER** | `00509000` | Pantalones |
+| **PANTALON SKINNY** | `00510000` | Pantalones |
+| **CONJUNTO TULUM** | `00511000` | Conjuntos |
+| **CAMISA TULUM** | `00512000` | Camisas |
+| **POLERA HOODIE CLASSIC** | `00513000` | Poleras |
 
 ---
 ¡El sistema está listo! Base de datos optimizada para escalar a miles de productos con identificación única y automatización AI.
