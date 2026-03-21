@@ -158,7 +158,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                 <div className="flex flex-col md:flex-row gap-[20px] h-auto md:h-[800px]">
 
                     {/* Left Column (50%) - Item 0 */}
-                    <div className="w-full md:w-1/2 h-[400px] md:h-full">
+                    <div className="w-full md:w-1/2 h-[500px] md:h-full">
                         {categories[0] && (
                             <Link href={formatCategoryLink(categories[0].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                 <CategoryCardContent category={categories[0]} dict={dict} />
@@ -170,15 +170,15 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                     <div className="w-full md:w-1/2 flex flex-col gap-[20px] h-full">
 
                         {/* Top Row (50%) - Items 1 & 2 */}
-                        <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
-                            <div className="w-full md:w-1/2 h-full">
+                        <div className="flex flex-col md:flex-row gap-[20px] h-[600px] md:h-1/2">
+                            <div className="w-full md:w-1/2 h-1/2 md:h-full">
                                 {categories[1] && (
                                     <Link href={formatCategoryLink(categories[1].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[1]} dict={dict} />
                                     </Link>
                                 )}
                             </div>
-                            <div className="w-full md:w-1/2 h-full">
+                            <div className="w-full md:w-1/2 h-1/2 md:h-full">
                                 {categories[2] && (
                                     <Link href={formatCategoryLink(categories[2].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[2]} dict={dict} />
@@ -188,15 +188,15 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
                         </div>
 
                         {/* Bottom Row (50%) - Items 3 & 4 */}
-                        <div className="flex flex-col md:flex-row gap-[20px] h-[400px] md:h-1/2">
-                            <div className="w-full md:w-1/2 h-full">
+                        <div className="flex flex-col md:flex-row gap-[20px] h-[600px] md:h-1/2">
+                            <div className="w-full md:w-1/2 h-1/2 md:h-full">
                                 {categories[3] && (
                                     <Link href={formatCategoryLink(categories[3].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[3]} dict={dict} />
                                     </Link>
                                 )}
                             </div>
-                            <div className="w-full md:w-1/2 h-full">
+                            <div className="w-full md:w-1/2 h-1/2 md:h-full">
                                 {categories[4] && (
                                     <Link href={formatCategoryLink(categories[4].link, params.lang)} className="group block relative w-full h-full overflow-hidden rounded-lg">
                                         <CategoryCardContent category={categories[4]} dict={dict} />
@@ -318,7 +318,7 @@ function CategoryCardContent({ category, dict }: { category: any, dict: any }) {
         <>
             <div className="absolute inset-0 bg-ms-black/20 group-hover:bg-ms-black/10 transition-colors z-10" />
             <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                className="absolute inset-0 bg-cover bg-top transition-transform duration-700 group-hover:scale-105"
                 style={{ backgroundImage: `url('${category.image_url || category.img}')` }}
             />
             <div className="absolute bottom-4 left-4 z-20">
