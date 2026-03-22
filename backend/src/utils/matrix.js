@@ -83,9 +83,17 @@ function generateMatrixBarcode(stylePrefix, colorName, sizeName) {
     const normalizedColor = normalize(colorName);
     let colorId = "00";
     for (const [name, id] of Object.entries(COLOR_MAPPING)) {
-        if (normalizedColor === normalize(name) || normalizedColor.includes(normalize(name))) {
+        if (normalizedColor === normalize(name)) {
             colorId = id;
             break;
+        }
+    }
+    if (colorId === "00") {
+        for (const [name, id] of Object.entries(COLOR_MAPPING)) {
+            if (normalizedColor.includes(normalize(name))) {
+                colorId = id;
+                break;
+            }
         }
     }
 

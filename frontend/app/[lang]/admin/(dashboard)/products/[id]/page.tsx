@@ -13,7 +13,7 @@ import { Trash, Plus, GripVertical, Sparkles } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import { ProductAiGenerator } from '@/components/admin/ProductAiGenerator';
 import { GeneratedProductAsset } from '@/lib/api/ai';
-import { inferStyleCode, generateMatrixBarcode } from '@/lib/matrix';
+import { inferStyleCode, generateMatrixBarcode, getColorId } from '@/lib/matrix';
 import { slugify } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('@/components/admin/Editor'), { ssr: false });
@@ -169,7 +169,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         // Auto-generate SKU if color or size changes
         if (field === 'color' || field === 'size') {
             const currentSku = formData.sku || '';
-            const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+            const styleCode = (currentSku.startsWith('MS-HOM-') ? null : (currentSku.substring(0, 8))) 
                 || inferStyleCode(formData.name_es || '') 
                 || '00000000';
             updatedVariant.sku_variant = generateMatrixBarcode(styleCode, updatedVariant.color, updatedVariant.size);
@@ -184,7 +184,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         if (!formData.product_variants?.length) return;
         
         const currentSku = formData.sku || '';
-        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : (currentSku.substring(0, 8))) 
             || inferStyleCode(formData.name_es || '');
             
         if (!styleCode) return;
@@ -218,7 +218,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
 
     const addVariant = () => {
         const currentSku = formData.sku || '';
-        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : currentSku) 
+        const styleCode = (currentSku.startsWith('MS-HOM-') ? null : (currentSku.substring(0, 8))) 
             || inferStyleCode(formData.name_es || '') 
             || '00000000';
         const initialColor = 'Black';
@@ -247,26 +247,31 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
         setFormData({ ...formData, product_variants: newVariants });
     };
 
-    const handleAiGenerate = (aiResult: GeneratedProductAsset) => {
-        const inferredSku = aiResult.style_code || inferStyleCode(renderAiValue(aiResult["1_name_es"]));
+    const handleAiGenerate = (aiResult: GeneratedProductAsset, inputData?: any) => {
+        const baseStyleCode = aiResult.style_code || inferStyleCode(renderAiValue(aiResult["1_name_es"]));
+        let inferredSku = baseStyleCode;
+        if (baseStyleCode && inputData?.color) {
+            const cId = getColorId(inputData.color);
+            inferredSku = `${baseStyleCode.substring(0, 8)}${cId}`;
+        }
         
         setFormData(prev => ({
             ...prev,
             sku: inferredSku || prev.sku,
-            name_es: renderAiValue(aiResult["1_name_es"]),
-            name_en: renderAiValue(aiResult["1_name_en"]),
-            slug_es: renderAiValue(aiResult["2_slug_es"]),
-            slug_en: renderAiValue(aiResult["2_slug_en"]),
-            short_description_es: renderAiValue(aiResult["3_short_description_es"]),
-            short_description_en: renderAiValue(aiResult["3_short_description_en"]),
-            description_es: renderAiValue(aiResult["4_full_description_es"]),
-            description_en: renderAiValue(aiResult["4_full_description_en"]),
-            seo_title_es: renderAiValue(aiResult["10_seo_title_es"]),
-            seo_title_en: renderAiValue(aiResult["10_seo_title_en"]),
-            seo_description_es: renderAiValue(aiResult["11_seo_description_es"]),
-            seo_description_en: renderAiValue(aiResult["11_seo_description_en"]),
-            seo_keywords_es: Array.isArray(aiResult["8_keywords"]) ? aiResult["8_keywords"].join(', ') : renderAiValue(aiResult["8_keywords"]),
-            seo_keywords_en: Array.isArray(aiResult["8_keywords"]) ? aiResult["8_keywords"].join(', ') : renderAiValue(aiResult["8_keywords"]),
+            name_es: renderAiValue(aiResult["1_name_es"] || aiResult.name_es || aiResult.title_es),
+            name_en: renderAiValue(aiResult["1_name_en"] || aiResult.name_en || aiResult.title_en),
+            slug_es: renderAiValue(aiResult["2_slug_es"] || aiResult.slug_es),
+            slug_en: renderAiValue(aiResult["2_slug_en"] || aiResult.slug_en),
+            short_description_es: renderAiValue(aiResult["3_short_description_es"] || aiResult.short_description_es),
+            short_description_en: renderAiValue(aiResult["3_short_description_en"] || aiResult.short_description_en),
+            description_es: renderAiValue(aiResult["4_full_description_es"] || aiResult.full_description_es || aiResult.description_es),
+            description_en: renderAiValue(aiResult["4_full_description_en"] || aiResult.full_description_en || aiResult.description_en),
+            seo_title_es: renderAiValue(aiResult["10_seo_title_es"] || aiResult.seo_title_es),
+            seo_title_en: renderAiValue(aiResult["10_seo_title_en"] || aiResult.seo_title_en),
+            seo_description_es: renderAiValue(aiResult["11_seo_description_es"] || aiResult.seo_description_es),
+            seo_description_en: renderAiValue(aiResult["11_seo_description_en"] || aiResult.seo_description_en),
+            seo_keywords_es: Array.isArray(aiResult["8_keywords"] || aiResult.keywords) ? (aiResult["8_keywords"] || aiResult.keywords).join(', ') : renderAiValue(aiResult["8_keywords"] || aiResult.keywords),
+            seo_keywords_en: Array.isArray(aiResult["8_keywords"] || aiResult.keywords) ? (aiResult["8_keywords"] || aiResult.keywords).join(', ') : renderAiValue(aiResult["8_keywords"] || aiResult.keywords),
             // Additional mapping for cross-sell if needed
         }));
 
@@ -697,7 +702,7 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">🏷️ Metadata & Identifiers</h4>
                                     <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                         <div className="flex flex-wrap gap-1 mb-3">
-                                            {aiMarketingAssets["9_hashtags"].slice(0, 8).map((h, i) => (
+                                            {(aiMarketingAssets["9_hashtags"] || aiMarketingAssets.hashtags || []).map((h: any, i: number) => (
                                                 <span key={i} className="text-[10px] text-ms-brand-primary">{renderAiValue(h)}</span>
                                             ))}
                                         </div>

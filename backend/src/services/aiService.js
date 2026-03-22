@@ -63,12 +63,15 @@ OFFICIAL STYLE CODES (INTERNAL KNOWLEDGE):
 
 INSTRUCTIONS FOR TITLE POLISHING:
 - Create magnetic, sophisticated titles.
-- Formula ES: [Product Type] [Style/Quality] [Model/Name] [Color] [Gender] [Year] – [Material] | Matteo Salvatore
-- Formula EN: [Style/Quality] [Model/Name] [Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
+- MANDATORY: You MUST explicitly include the Color in every title, translated correctly (e.g., if input is "white", output "Blanco" in ES and "White" in EN). Do not omit the color under any circumstances.
+- If the original Name has words like "copia", "copy", or "draft", REMOVE THEM.
+- Formula ES: [Product Type] [Style/Quality] [Clean Name] [Translated Color] [Gender] [Year] – [Material] | Matteo Salvatore
+- Formula EN: [Style/Quality] [Clean Name] [Translated Color] [Product Type] [Gender] [Year] – [Material] | Matteo Salvatore
 
 OUTPUT REQUIREMENTS:
 Return ONLY a JSON object. No markdown.
 CRITICAL: Every value must be a flat string or a flat array of strings. 
+CRITICAL JSON RULE: You must escape all newlines (\n) and quotes (\") inside strings. DO NOT use raw newlines inside the JSON strings.
 
 {
   "style_code": "8-digit numeric code or null",

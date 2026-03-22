@@ -1055,3 +1055,257 @@
 {"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-20T17:11:03.645Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-20T17:39:03.263Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-20T17:50:29.517Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-20T18:14:52.249Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-20T18:15:47.669Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-20T18:19:23.262Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-20T21:15:54.379Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T00:06:19.793Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T01:08:16.976Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T01:08:41.311Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T01:13:30.381Z"}
+{"level":"info","message":"Generating AI content for product: Polo Pima Básico","service":"user-service","timestamp":"2026-03-21T01:26:51.919Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini: ```json\n{\n  \"1_name_es\": \"Polo Esencial Pima Clásico Negro Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore\",\n  \"1_name_en\": \"Essential Pima Classic Black Men Polo 2026 – Peruvian Pima Cotton | Matteo Salvatore\",\n  \"2_slug_es\": \"polo-esencial-pima-clasico-negro-hombre-peruano-matteo-salvatore\",\n  \"2_slug_en\": \"essential-pima-classic-black-men-polo-peruvian-cotton-matteo-salvatore\",\n  \"3_short_description_es\": \"Experimente la inigualable suavidad y durabilidad del Polo Esencial Pima Clásico ...","service":"user-service","timestamp":"2026-03-21T01:27:30.928Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"Error inserting variants: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-21T01:29:05.886Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-21T01:29:05.887Z"}
+{"code":"23505","details":"Key (sku)=(00501000) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-21T01:29:45.726Z"}
+{"level":"info","message":"Generating AI content for product: Polo Pima Básico","service":"user-service","timestamp":"2026-03-21T01:40:48.674Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini: ```json\n{\n  \"1_name_es\": \"Polo Essential Pima Classic Negro Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore\",\n  \"1_name_en\": \"Essential Pima Classic Black Men's Polo 2026 – Peruvian Pima Cotton | Matteo Salvatore\",\n  \"2_slug_es\": \"polo-esencial-pima-classic-negro-hombre-peru\",\n  \"2_slug_en\": \"essential-pima-classic-black-men-polo-peru\",\n  \"3_short_description_es\": \"Experimente la inigualable suavidad del Polo Essential Pima Classic, una pieza fundamental para el guardarropa del hombre mode...","service":"user-service","timestamp":"2026-03-21T01:41:20.499Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"Error inserting variants: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-21T01:44:15.529Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-21T01:44:15.531Z"}
+{"code":"23505","details":"Key (slug_es)=(polo-esencial-pima-classic-negro-hombre-peru) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_slug_es_key\"","service":"user-service","timestamp":"2026-03-21T01:44:19.801Z"}
+{"code":"23505","details":"Key (slug_es)=(polo-esencial-pima-classic-negro-hombre-peru) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_slug_es_key\"","service":"user-service","timestamp":"2026-03-21T01:44:25.013Z"}
+{"level":"info","message":"Generating AI content for product: Polo Pima Básico","service":"user-service","timestamp":"2026-03-21T02:21:03.284Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini: ```json\n{\n  \"1_name_es\": \"Polo Clásico Slim Fit Pima Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore\",\n  \"1_name_en\": \"Classic Slim Fit Pima Polo Baby Pink Men 2026 – Peruvian Pima Cotton | Matteo Salvatore\",\n  \"2_slug_es\": \"polo-clasico-slim-fit-pima-rosado-bebe-hombre-2026-algodon-pima-peruano\",\n  \"2_slug_en\": \"classic-slim-fit-pima-polo-baby-pink-men-2026-peruvian-pima-cotton\",\n  \"3_short_description_es\": \"Experimente la suavidad inigualable del Polo Clásico Slim Fit Pima de...","service":"user-service","timestamp":"2026-03-21T02:21:40.332Z"}
+{"level":"info","message":"Generating AI content for product: Polo Clásico Slim Fit Pima Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-21T02:21:47.073Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini: ```json\n{\n  \"1_name_es\": \"Polo Premium Slim Fit Pima Básico Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore\",\n  \"1_name_en\": \"Premium Slim Fit Pima Classic Baby Pink Polo Men 2026 – Peruvian Pima Cotton | Matteo Salvatore\",\n  \"2_slug_es\": \"polo-pima-slim-fit-rosado-bebe-hombre-lujo-silencioso\",\n  \"2_slug_en\": \"pima-slim-fit-baby-pink-polo-men-quiet-luxury\",\n  \"3_short_description_es\": \"Experimente la inigualable suavidad del Polo Premium Slim Fit Pima Básico Rosado Bebé, diseña...","service":"user-service","timestamp":"2026-03-21T02:22:25.983Z"}
+{"level":"info","message":"Generating AI content for product: Polo Clásico Slim Fit Pima Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-21T02:22:43.863Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini: ```json\n{\n  \"1_name_es\": \"Polo Premium Clásico Slim Fit Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore\",\n  \"1_name_en\": \"Premium Clásico Slim Fit Baby Pink Polo Men 2026 – Peruvian Pima Cotton | Matteo Salvatore\",\n  \"2_slug_es\": \"polo-premium-clasico-slim-fit-rosado-bebe-hombre-2026-algodon-pima-peruano\",\n  \"2_slug_en\": \"premium-classic-slim-fit-baby-pink-polo-men-2026-peruvian-pima-cotton\",\n  \"3_short_description_es\": \"Descubra la esencia del lujo discreto con nuestro Polo Pr...","service":"user-service","timestamp":"2026-03-21T02:23:17.184Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:25:46.719Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:26:32.956Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T02:27:12.403Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:28:48.290Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:29:49.470Z"}
+{"level":"info","message":"Generating AI content for product: Polo Clásico Slim Fit Pima Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-21T02:31:02.775Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:31:30.724Z"}
+{"level":"info","message":"Generating AI content for product: Polo Clásico Slim Fit Pima Rosado Bebé Hombre 2026 – Algodón Pima Peruano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-21T02:58:08.722Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16380","service":"user-service","timestamp":"2026-03-21T02:58:49.916Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T02:59:53.050Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T02:59:59.437Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:01:01.743Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:04:40.502Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:05:19.297Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:06:05.545Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:06:34.666Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-21T03:15:49.778Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-21T03:15:49.877Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T03:16:26.793Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:20:19.835Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:20:33.360Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13558","service":"user-service","timestamp":"2026-03-21T03:21:15.068Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:21:44.744Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14133","service":"user-service","timestamp":"2026-03-21T03:22:29.179Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:22:50.516Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12397","service":"user-service","timestamp":"2026-03-21T03:23:56.265Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T03:24:17.728Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15247","service":"user-service","timestamp":"2026-03-21T03:25:22.430Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15266","service":"user-service","timestamp":"2026-03-21T03:25:46.368Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14338","service":"user-service","timestamp":"2026-03-21T03:26:14.224Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15125","service":"user-service","timestamp":"2026-03-21T03:26:53.159Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13775","service":"user-service","timestamp":"2026-03-21T03:27:28.949Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15033","service":"user-service","timestamp":"2026-03-21T03:27:51.396Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14850","service":"user-service","timestamp":"2026-03-21T03:28:30.582Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13411","service":"user-service","timestamp":"2026-03-21T03:29:20.826Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13454","service":"user-service","timestamp":"2026-03-21T03:29:53.868Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16068","service":"user-service","timestamp":"2026-03-21T03:30:33.634Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13289","service":"user-service","timestamp":"2026-03-21T03:31:10.783Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14913","service":"user-service","timestamp":"2026-03-21T03:31:34.567Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15726","service":"user-service","timestamp":"2026-03-21T03:32:12.301Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14526","service":"user-service","timestamp":"2026-03-21T03:32:48.376Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T06:39:41.384Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T06:40:05.689Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T06:40:30.726Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T06:40:47.799Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T06:41:05.061Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T06:47:41.598Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T06:47:54.641Z"}
+{"code":"PGRST116","details":"The result contains 0 rows","hint":null,"level":"error","message":"ERROR 💥: Cannot coerce the result to a single JSON object","service":"user-service","timestamp":"2026-03-21T06:48:29.065Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16286","service":"user-service","timestamp":"2026-03-21T06:48:35.251Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16124","service":"user-service","timestamp":"2026-03-21T06:49:09.730Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 18031","service":"user-service","timestamp":"2026-03-21T06:49:51.243Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16368","service":"user-service","timestamp":"2026-03-21T06:50:35.339Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14835","service":"user-service","timestamp":"2026-03-21T06:51:18.205Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14868","service":"user-service","timestamp":"2026-03-21T06:51:59.198Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15032","service":"user-service","timestamp":"2026-03-21T06:52:40.714Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16129","service":"user-service","timestamp":"2026-03-21T06:53:28.621Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14146","service":"user-service","timestamp":"2026-03-21T06:54:06.006Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15058","service":"user-service","timestamp":"2026-03-21T06:54:51.443Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15523","service":"user-service","timestamp":"2026-03-21T06:55:37.835Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15423","service":"user-service","timestamp":"2026-03-21T06:56:20.439Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15524","service":"user-service","timestamp":"2026-03-21T06:56:57.828Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15360","service":"user-service","timestamp":"2026-03-21T06:57:35.835Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:17:49.911Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:18:41.459Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:23:47.660Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:26:31.571Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:28:54.996Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:29:14.051Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:29:38.028Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:29:51.352Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:30:13.046Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:31:50.786Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T11:48:29.993Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T12:16:45.158Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T13:15:23.515Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T13:34:12.589Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T14:39:03.777Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T14:40:58.207Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T14:43:00.035Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T14:46:44.920Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T15:24:50.257Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T15:52:58.677Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15589","service":"user-service","timestamp":"2026-03-21T16:15:57.282Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13590","service":"user-service","timestamp":"2026-03-21T16:16:39.470Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13211","service":"user-service","timestamp":"2026-03-21T16:17:14.962Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14717","service":"user-service","timestamp":"2026-03-21T16:17:56.395Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14160","service":"user-service","timestamp":"2026-03-21T16:18:36.096Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13919","service":"user-service","timestamp":"2026-03-21T16:19:14.053Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14831","service":"user-service","timestamp":"2026-03-21T16:19:57.847Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14428","service":"user-service","timestamp":"2026-03-21T16:20:41.169Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15403","service":"user-service","timestamp":"2026-03-21T16:21:19.993Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13467","service":"user-service","timestamp":"2026-03-21T16:21:53.427Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16043","service":"user-service","timestamp":"2026-03-21T16:22:37.744Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15208","service":"user-service","timestamp":"2026-03-21T16:23:22.358Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T16:23:55.161Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T16:23:57.084Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15189","service":"user-service","timestamp":"2026-03-21T16:28:31.271Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13875","service":"user-service","timestamp":"2026-03-21T16:29:22.166Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13549","service":"user-service","timestamp":"2026-03-21T16:29:59.159Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12681","service":"user-service","timestamp":"2026-03-21T16:30:29.900Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13196","service":"user-service","timestamp":"2026-03-21T16:31:08.789Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14956","service":"user-service","timestamp":"2026-03-21T16:31:46.756Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12950","service":"user-service","timestamp":"2026-03-21T16:32:26.810Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14408","service":"user-service","timestamp":"2026-03-21T16:33:03.826Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12380","service":"user-service","timestamp":"2026-03-21T16:33:35.923Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14552","service":"user-service","timestamp":"2026-03-21T16:34:13.557Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15990","service":"user-service","timestamp":"2026-03-21T16:35:07.222Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12922","service":"user-service","timestamp":"2026-03-21T16:35:46.392Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15981","service":"user-service","timestamp":"2026-03-21T16:36:34.306Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14441","service":"user-service","timestamp":"2026-03-21T16:37:30.497Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14235","service":"user-service","timestamp":"2026-03-21T16:38:09.428Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15078","service":"user-service","timestamp":"2026-03-21T16:38:52.071Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13965","service":"user-service","timestamp":"2026-03-21T16:39:28.366Z"}
+{"level":"error","message":"Error in generateProductContent: Bad control character in string literal in JSON at position 4006","service":"user-service","stack":"SyntaxError: Bad control character in string literal in JSON at position 4006\n    at JSON.parse (<anonymous>)\n    at exports.generateProductContent (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/services/aiService.js:122:25)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async seedPants (/Users/josephdelgado/Projects2026/matteosalvatore/backend/seed_batch_pants.js:76:34)","timestamp":"2026-03-21T16:39:28.371Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14366","service":"user-service","timestamp":"2026-03-21T16:40:15.884Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14068","service":"user-service","timestamp":"2026-03-21T16:41:03.779Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13853","service":"user-service","timestamp":"2026-03-21T16:41:36.501Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12898","service":"user-service","timestamp":"2026-03-21T16:42:09.148Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12611","service":"user-service","timestamp":"2026-03-21T16:42:44.688Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12065","service":"user-service","timestamp":"2026-03-21T16:43:17.932Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T17:09:31.045Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T18:11:04.612Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-21T18:16:14.307Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14600","service":"user-service","timestamp":"2026-03-21T18:18:21.033Z"}
+{"level":"error","message":"Error in generateProductContent: Unexpected non-whitespace character after JSON at position 9181","service":"user-service","stack":"SyntaxError: Unexpected non-whitespace character after JSON at position 9181\n    at JSON.parse (<anonymous>)\n    at exports.generateProductContent (/Users/josephdelgado/Projects2026/matteosalvatore/backend/src/services/aiService.js:122:25)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async seedData (/Users/josephdelgado/Projects2026/matteosalvatore/backend/seed_batch_tulum_hoodie.js:82:34)","timestamp":"2026-03-21T18:18:21.042Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16994","service":"user-service","timestamp":"2026-03-21T18:18:57.785Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16411","service":"user-service","timestamp":"2026-03-21T18:19:36.373Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 17749","service":"user-service","timestamp":"2026-03-21T18:20:30.216Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14166","service":"user-service","timestamp":"2026-03-21T18:21:09.379Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14981","service":"user-service","timestamp":"2026-03-21T18:21:59.519Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15597","service":"user-service","timestamp":"2026-03-21T18:22:39.445Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16017","service":"user-service","timestamp":"2026-03-21T18:23:22.754Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13505","service":"user-service","timestamp":"2026-03-21T18:23:57.170Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13782","service":"user-service","timestamp":"2026-03-21T18:24:38.269Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14181","service":"user-service","timestamp":"2026-03-21T18:25:13.874Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14414","service":"user-service","timestamp":"2026-03-21T18:26:09.401Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15025","service":"user-service","timestamp":"2026-03-21T18:26:56.022Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15325","service":"user-service","timestamp":"2026-03-21T18:27:33.614Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12680","service":"user-service","timestamp":"2026-03-21T18:28:10.302Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16114","service":"user-service","timestamp":"2026-03-21T18:28:57.692Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13906","service":"user-service","timestamp":"2026-03-21T18:29:32.531Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13113","service":"user-service","timestamp":"2026-03-21T18:30:12.362Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13054","service":"user-service","timestamp":"2026-03-21T18:30:48.019Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14704","service":"user-service","timestamp":"2026-03-21T18:31:25.172Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15295","service":"user-service","timestamp":"2026-03-21T18:32:06.745Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12914","service":"user-service","timestamp":"2026-03-21T18:32:44.461Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13133","service":"user-service","timestamp":"2026-03-21T18:33:25.559Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:09:25.744Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:09:43.303Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:09:54.658Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:30:56.295Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:38:24.809Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T19:39:28.102Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T20:13:05.071Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T20:13:32.251Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-21T20:13:53.117Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T21:04:00.628Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T21:05:07.312Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T21:06:09.979Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-21T21:07:24.333Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-21T21:07:24.434Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T21:09:38.986Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T21:10:46.900Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T22:57:29.536Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T22:57:47.492Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T23:37:15.305Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T23:47:42.884Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T23:48:41.845Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T23:49:26.436Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-21T23:49:45.998Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T00:39:25.591Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T01:01:09.941Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T01:03:32.637Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T01:50:29.452Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T01:52:24.539Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T02:12:57.343Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T02:16:54.415Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T02:32:11.331Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T03:37:02.882Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T03:38:33.254Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T03:39:36.183Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T03:44:48.623Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T03:46:32.471Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:28:14.897Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:30:57.091Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:34:41.368Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:35:00.497Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:35:16.846Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:37:37.188Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:37:59.960Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:40:22.359Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:45:29.798Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:45:44.703Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T04:50:59.541Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T05:02:05.185Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T05:03:58.286Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T05:07:03.815Z"}
+{"code":"23505","details":"Key (sku_variant)=(00511000131) already exists.","hint":null,"level":"error","message":"Error inserting variants: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-22T05:10:45.347Z"}
+{"code":"23505","details":"Key (sku_variant)=(00511000131) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-22T05:10:45.349Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-22T05:11:26.219Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 15123","service":"user-service","timestamp":"2026-03-22T05:12:03.107Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T05:13:23.441Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-22T05:14:03.236Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16496","service":"user-service","timestamp":"2026-03-22T05:14:38.905Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:17:29.539Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14298","service":"user-service","timestamp":"2026-03-22T05:29:27.655Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:30:43.769Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13428","service":"user-service","timestamp":"2026-03-22T05:33:20.395Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum de Lujo Silencioso Negro para Hombre 2026 – Pima Peruano | Matteo Salvatore (Copia)","service":"user-service","timestamp":"2026-03-22T05:34:47.152Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 17876","service":"user-service","timestamp":"2026-03-22T05:35:22.287Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-22T05:35:33.378Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16059","service":"user-service","timestamp":"2026-03-22T05:36:20.623Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:38:15.891Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14012","service":"user-service","timestamp":"2026-03-22T05:39:04.967Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:40:05.891Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14063","service":"user-service","timestamp":"2026-03-22T05:40:43.591Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:40:44.725Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T05:42:12.798Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-22T05:42:38.413Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16838","service":"user-service","timestamp":"2026-03-22T05:43:26.701Z"}
+{"level":"info","message":"Generating AI content for product: Conjunto Tulum","service":"user-service","timestamp":"2026-03-22T05:44:54.328Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16999","service":"user-service","timestamp":"2026-03-22T05:45:42.769Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"Error inserting variants: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-22T05:46:48.753Z"}
+{"code":"PGRST204","details":null,"hint":null,"level":"error","message":"ERROR 💥: Could not find the 'tempId' column of 'product_variants' in the schema cache","service":"user-service","timestamp":"2026-03-22T05:46:48.754Z"}
+{"code":"23505","details":"Key (sku)=(00511000) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-22T05:46:55.611Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:05:11.318Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:05:45.484Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:15:59.025Z"}

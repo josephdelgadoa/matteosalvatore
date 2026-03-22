@@ -74,23 +74,35 @@ export function normalize(str: string): string {
         .trim().toUpperCase();
 }
 
+export function getColorId(colorName: string): string {
+    if (!colorName) return "00";
+    const normalizedColor = normalize(colorName);
+    
+    // First pass: Exact match
+    for (const [name, id] of Object.entries(COLOR_MAPPING)) {
+        if (normalizedColor === normalize(name)) {
+            return id;
+        }
+    }
+    
+    // Second pass: Contains check
+    for (const [name, id] of Object.entries(COLOR_MAPPING)) {
+        if (normalizedColor.includes(normalize(name))) {
+            return id;
+        }
+    }
+    
+    return "00";
+}
+
 /**
  * Generates an 11-digit barcode or SKU based on style code, color, and size
  */
 export function generateMatrixBarcode(stylePrefix: string, colorName: string, sizeName: string): string {
-    const style = stylePrefix || "00000000";
+    const style = (stylePrefix || "00000000").substring(0, 8);
     
     // Find color ID
-    const normalizedColor = normalize(colorName);
-    let colorId = "00";
-    
-    // Exact match or contains check
-    for (const [name, id] of Object.entries(COLOR_MAPPING)) {
-        if (normalizedColor === normalize(name) || normalizedColor.includes(normalize(name))) {
-            colorId = id;
-            break;
-        }
-    }
+    const colorId = getColorId(colorName);
 
     // Find size ID
     const normalizedSize = normalize(sizeName);

@@ -1,0 +1,147 @@
+Testing AI Generation for 'Conjunto Tulum' with color 'Blanco'...
+info: [AIService] Raw text from Gemini length: 14063 {"service":"user-service","timestamp":"2026-03-22T05:40:43.591Z"}
+
+--- RAW JSON RESULT ---
+{
+  "style_code": "00511000",
+  "1_name_es": "Conjunto Lujo Silencioso Tulum Blanco Hombre 2026 – 100% Algodón Pima Peruano | Matteo Salvatore",
+  "1_name_en": "Quiet Luxury Tulum White Men's Set 2026 – 100% Peruvian Pima Cotton | Matteo Salvatore",
+  "2_slug_es": "conjunto-lujo-silencioso-tulum-blanco-hombre-algodon-pima-peruano",
+  "2_slug_en": "quiet-luxury-tulum-white-mens-set-peruvian-pima-cotton",
+  "3_short_description_es": "Descubra el Conjunto Tulum Blanco, una manifestación sublime de lujo silencioso diseñado para el hombre moderno. Confeccionado con el incomparable Algodón Pima Peruano, ofrece una experiencia de confort y estilo inigualable.",
+  "3_short_description_en": "Discover the White Tulum Set, a sublime manifestation of quiet luxury designed for the modern man. Crafted from unparalleled Peruvian Pima Cotton, it offers an incomparable experience of comfort and style.",
+  "4_full_description_es": "<p>Introducción</p>El Conjunto Tulum Blanco de Matteo Salvatore es la quintaesencia del lujo discreto y la comodidad suprema. Inspirado en la serenidad y la elegancia natural de la Riviera Maya, este conjunto fusiona la sofisticación minimalista con la inigualable suavidad del Algodón Pima Peruano, elevando su guardarropa esencial a una nueva dimensión de exclusividad.<h3>Beneficios</h3>Experimente la suavidad etérea y la durabilidad excepcional del Pima peruano, que se adapta a su cuerpo con una caída impecable y una transpirabilidad superior. Diseñado para ofrecer versatilidad, este conjunto es perfecto tanto para momentos de ocio relajado como para ocasiones que demandan una elegancia desenfadada, manteniendo su forma y color lavado tras lavado.<h3>Características Técnicas</h3>Confeccionado con 100% Algodón Pima Peruano, reconocido por sus fibras extra largas y su resistencia superior. El tejido presenta un gramaje ideal de 180g - 190g, ofreciendo una sensación de lujo sin sacrificar la ligereza. El cuello de la prenda superior incorpora un Rib 1x1 con elastano, garantizando una prevención absoluta contra la deformación y una impecable conservación de su silueta. Cada prenda se finaliza con un tapete o cinta interior de cuello, un sello distintivo de Matteo Salvatore que refuerza la calidad y el confort.<h3>Estilismo</h3>Lleve el Conjunto Tulum Blanco para un look monocromático sofisticado, o combine sus piezas por separado para crear atuendos versátiles. Ideal para un brunch al aire libre, un paseo por la costa o una velada informal. Complemente con sandalias de cuero minimalistas o zapatillas blancas para un toque contemporáneo y effortless chic.",
+  "4_full_description_en": "<p>Introduction</p>The Matteo Salvatore White Tulum Set is the quintessence of discreet luxury and supreme comfort. Inspired by the serenity and natural elegance of the Riviera Maya, this set merges minimalist sophistication with the unparalleled softness of Peruvian Pima Cotton, elevating your essential wardrobe to a new dimension of exclusivity.<h3>Benefits</h3>Experience the ethereal softness and exceptional durability of Peruvian Pima, which drapes impeccably and offers superior breathability. Designed for versatility, this set is perfect for both relaxed leisure moments and occasions demanding effortless elegance, maintaining its shape and color wash after wash.<h3>Technical Features</h3>Crafted from 100% Peruvian Pima Cotton, renowned for its extra-long fibers and superior strength. The fabric features an ideal weight of 180g - 190g, offering a luxurious feel without sacrificing lightness. The collar of the top garment incorporates a Rib 1x1 with elastane, ensuring absolute prevention against deformation and impeccable preservation of its silhouette. Each garment is finished with a brand-reinforced neck tape, a distinctive Matteo Salvatore hallmark that reinforces quality and comfort.<h3>Styling</h3>Wear the White Tulum Set for a sophisticated monochromatic look, or combine its pieces separately to create versatile outfits. Ideal for an al fresco brunch, a coastal stroll, or a casual evening. Complement with minimalist leather sandals or white sneakers for a contemporary, effortless chic touch.",
+  "5_features_es": [
+    "100% Algodón Pima Peruano",
+    "Gramaje 180g-190g",
+    "Cuello Rib 1x1 con Elastano (en prenda superior)",
+    "Tapete o Cinta Interior de Cuello (en prenda superior)",
+    "Fibra Extra Larga de Algodón Pima",
+    "Suavidad Superior",
+    "Transpirabilidad Óptima",
+    "Durabilidad Excepcional",
+    "Colores Vibrantes y Duraderos",
+    "Diseño Minimalista",
+    "Fit Slim Regular"
+  ],
+  "5_features_en": [
+    "100% Peruvian Pima Cotton",
+    "Weight 180g-190g",
+    "Rib 1x1 Collar with Elastane (on top garment)",
+    "Brand Reinforced Neck Tape (on top garment)",
+    "Extra-Long Pima Cotton Fiber",
+    "Superior Softness",
+    "Optimal Breathability",
+    "Exceptional Durability",
+    "Vibrant and Lasting Colors",
+    "Minimalist Design",
+    "Slim Regular Fit"
+  ],
+  "6_specifications_es": {
+    "Material": "100% Algodón Pima Peruano",
+    "Peso": "180g - 190g",
+    "Cuello": "Rib 1x1 con Elastano (en prenda superior)",
+    "Fit": "Slim Regular",
+    "Gender": "Hombre",
+    "Origin": "Perú"
+  },
+  "6_specifications_en": {
+    "Material": "100% Peruvian Pima Cotton",
+    "Weight": "180g - 190g",
+    "Collar": "Rib 1x1 with Elastane (on top garment)",
+    "Fit": "Slim Regular",
+    "Gender": "Men",
+    "Origin": "Peru"
+  },
+  "7_tags": [
+    "conjunto-lujo-silencioso",
+    "algodon-pima-peruano",
+    "ropa-hombre-premium",
+    "essentials-lujo",
+    "matteo-salvatore",
+    "moda-minimalista",
+    "conjunto-tulum",
+    "algodon-extra-largo",
+    "hecho-en-peru",
+    "ropa-transpirable",
+    "confort-superior",
+    "estilo-relajado-lujo",
+    "conjunto-verano-hombre",
+    "quiet-luxury-set"
+  ],
+  "8_keywords": [
+    "quiet luxury men's set",
+    "peruvian pima cotton ensemble",
+    "premium essential white outfit men",
+    "matteo salvatore tulum set",
+    "luxury minimalist menswear",
+    "best pima cotton clothing peru",
+    "softest men's loungewear",
+    "breathable summer set men",
+    "high quality pima cotton apparel",
+    "exclusive men's fashion",
+    "durable pima cotton clothing",
+    "sustainable luxury men's fashion"
+  ],
+  "9_hashtags": [
+    "#MatteoSalvatore",
+    "#QuietLuxury",
+    "#PimaCotton",
+    "#PeruvianPima",
+    "#TulumSet",
+    "#MensEssentials",
+    "#MinimalistFashion",
+    "#LuxuryLoungewear",
+    "#MadeInPeru",
+    "#SustainableLuxury",
+    "#MensFashion",
+    "#WhiteOutfit",
+    "#SummerEssentials"
+  ],
+  "10_seo_title_es": "Conjunto Tulum Blanco Lujo Silencioso Hombre Pima Peruano | ",
+  "10_seo_title_en": "Quiet Luxury Tulum White Men's Set Pima Cotton | MS",
+  "11_seo_description_es": "Descubra el Conjunto Tulum Blanco de Matteo Salvatore. Lujo silencioso y confort excepcional con 100% Algodón Pima Peruano. Eleva tu estilo esencial con calidad",
+  "11_seo_description_en": "Experience the White Tulum Set by Matteo Salvatore. Quiet luxury and exceptional comfort with 100% Peruvian Pima Cotton. Elevate your essential style with premi",
+  "12_image_prompts": {
+    "catalog": "Fotografía de estudio profesional del Conjunto Tulum Blanco de hombre, con una iluminación suave que resalta la textura del Algodón Pima. Fondo neutro y limpio, enfoque en la caída impecable de las prendas y los detalles del tejido. Múltiples ángulos mostrando el conjunto completo y sus piezas por separado.",
+    "lifestyle": "Modelo masculino sofisticado, de apariencia serena y natural, usando el Conjunto Tulum Blanco en un entorno de resort de lujo minimalista en Tulum, México. Escenas de relajación en una terraza con vistas al mar al amanecer o atardecer, o paseando por jardines tropicales. Luz natural dorada, estética 'quiet luxury' y 'effortless chic', sin poses exageradas."
+  },
+  "13_alt_text_es": "Conjunto Tulum blanco de lujo silencioso para hombre, fabricado con 100% Algodón Pima Peruano de fibra extra larga, mostrando un ajuste impecable y calidad premium. Detalle de tejido suave y transpirable.",
+  "13_alt_text_en": "Quiet luxury white Tulum set for men, made from 100% extra-long staple Peruvian Pima Cotton, showcasing impeccable fit and premium quality. Soft, breathable fabric detail.",
+  "14_cross_sell": [
+    "Polo Esencial Pima Blanco",
+    "Pantalón Jogguer Premium Gris",
+    "Camisa Tulum Lino Natural",
+    "Zapatillas de Cuero Minimalistas Blancas"
+  ],
+  "15_product_schema": "{\"@context\":\"https://schema.org/\",\"@type\":\"Product\",\"name\":\"Conjunto Lujo Silencioso Tulum Blanco Hombre 2026 – 100% Algodón Pima Peruano | Matteo Salvatore\",\"image\":[\"https://www.matteosalvatore.com/conjunto-tulum-blanco-frontal.jpg\",\"https://www.matteosalvatore.com/conjunto-tulum-blanco-detalle-tejido.jpg\",\"https://www.matteosalvatore.com/conjunto-tulum-blanco-modelo-lifestyle.jpg\"],\"description\":\"Descubra el Conjunto Tulum Blanco, una manifestación sublime de lujo silencioso diseñado para el hombre moderno. Confeccionado con el incomparable Algodón Pima Peruano, ofrece una experiencia de confort y estilo inigualable.\",\"sku\":\"00511000\",\"brand\":{\"@type\":\"Brand\",\"name\":\"Matteo Salvatore\"},\"offers\":{\"@type\":\"Offer\",\"url\":\"https://www.matteosalvatore.com/collections/hombre/conjunto-tulum-blanco\",\"priceCurrency\":\"USD\",\"price\":\"89.90\",\"itemCondition\":\"https://schema.org/NewCondition\",\"availability\":\"https://schema.org/InStock\",\"seller\":{\"@type\":\"Organization\",\"name\":\"Matteo Salvatore\"}},\"color\":\"Blanco\",\"material\":\"100% Algodón Pima Peruano\",\"additionalProperty\":[{\"@type\":\"PropertyValue\",\"name\":\"Fit\",\"value\":\"Slim Regular\"},{\"@type\":\"PropertyValue\",\"name\":\"Gender\",\"value\":\"Hombre\"},{\"@type\":\"PropertyValue\",\"name\":\"Weight\",\"value\":\"180g - 190g\"},{\"@type\":\"PropertyValue\",\"name\":\"Collar\",\"value\":\"Rib 1x1 con Elastano (en prenda superior)\"}],\"countryOfOrigin\":{\"@type\":\"Country\",\"name\":\"PE\"}}",
+  "16_ai_optimization": {
+    "semantic_description": "El Conjunto Tulum Blanco de Matteo Salvatore encarna el lujo silencioso a través de su diseño minimalista y la exquisita calidad del 100% Algodón Pima Peruano. Este conjunto esencial para hombre, con un gramaje de 180g-190g y detalles como el cuello Rib 1x1 con elastano y el tapete reforzado en la prenda superior, ofrece una experiencia de confort, transpirabilidad y durabilidad inigualables. Optimizado para la búsqueda de 'premium essentials' y 'quiet luxury menswear', satisface la demanda de prendas versátiles, sofisticadas y sostenibles, ideal para un estilo de vida relajado pero elegante. Su origen peruano y la fibra extra larga del Pima lo posicionan como una elección superior en el mercado global.",
+    "graph_signals": "Product: Conjunto Tulum (Matteo Salvatore), Type: Set, Style: Quiet Luxury, Material: 100% Peruvian Pima Cotton, Attribute: Extra-Long Staple, Weight: 180-190g, Collar: Rib 1x1 with Elastane (top garment), Finish: Reinforced Neck Tape (top garment), Color: Blanco/White, TargetAudience: Men, Fit: Slim Regular, Collection: Essential 2026, Brand: Matteo Salvatore, Origin: Peru, UseCases: Loungewear, Casual Elegance, Summer Wear, ValueProposition: Comfort, Durability, Breathability, Sophistication, Sustainability, Keywords: Premium Essentials, Quiet Luxury, Minimalist Fashion, Peruvian Cotton, Made in Peru, Luxury Resort Wear."
+  },
+  "17_social_captions": {
+    "instagram": "Descubre la perfección en cada fibra con nuestro Conjunto Tulum Blanco. Lujo silencioso, 100% Algodón Pima Peruano. Eleva tu estilo diario con confort y sofisticación. ✨ #MatteoSalvatore #QuietLuxury #PimaCotton #TulumSet #MensEssentials #MinimalistFashion #MadeInPeru",
+    "tiktok": "Cuando el lujo susurra, Matteo Salvatore responde. 🤫 Nuestro Conjunto Tulum Blanco de Pima Peruano es tu nuevo imprescindible para un estilo impecable y máxima comodidad. ¡Tienes que sentirlo! #MatteoSalvatore #PimaPeruano #LuxuryEssentials #OutfitHombre #TikTokFashion #PeruvianCotton"
+  },
+  "18_video_prompts": {
+    "reel": "Reel dinámico y elegante mostrando el Conjunto Tulum Blanco en un hombre con estilo de vida lujoso y relajado. Cortes rápidos: primer plano del tejido Pima, silueta fluida al caminar por un resort minimalista, momentos de relax en una terraza con vistas al mar. Música chill-out sofisticada y transiciones suaves, enfocándose en la textura, el movimiento y la sensación de confort.",
+    "ad_video": "Video publicitario cinematográfico. Comienza con una toma aérea de la costa de Tulum al amanecer, transición a un hombre despertando en una villa de lujo, vistiéndose lentamente con el Conjunto Tulum Blanco. Énfasis en la comodidad de la primera puesta y la sensación del tejido sobre la piel. Escenas de él disfrutando de un café en un balcón, leyendo un libro junto a la piscina, paseando tranquilamente por la playa. Voz en off masculina profunda y sofisticada destacando 'lujo discreto', 'confort inigualable' y 'Algodón Pima Peruano'. Call to action final claro: 'Matteo Salvatore. Viste el Silencio.' con logo y URL."
+  },
+  "19_ad_copy": {
+    "meta": {
+      "headline_es": "Conjunto Tulum Blanco: Lujo Silencioso en Pima Peruano",
+      "primary_text_es": "Experimenta la suavidad inigualable del 100% Algodón Pima. Diseño minimalista, confort sublime. Tu esencial premium. Compra ahora.",
+      "headline_en": "White Tulum Set: Quiet Luxury in Peruvian Pima",
+      "primary_text_en": "Experience unparalleled softness with 100% Pima Cotton. Minimalist design, sublime comfort. Your premium essential. Shop now."
+    },
+    "tiktok": "¡Tu outfit de lujo para este verano! ☀️ El Conjunto Tulum Blanco de Matteo Salvatore es la máxima expresión de comodidad y estilo en Algodón Pima. ¡Desliza para comprar y siente la diferencia!"
+  },
+  "20_collection_placement": [
+    "Essential 2026",
+    "Quiet Luxury Essentials",
+    "Men's Pima Cotton Sets",
+    "Spring/Summer Collection",
+    "Tulum Collection"
+  ]
+}

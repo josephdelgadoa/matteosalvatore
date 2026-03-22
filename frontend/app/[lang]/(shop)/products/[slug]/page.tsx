@@ -142,6 +142,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
     if (!product) return <div className="text-center py-20">Product not found</div>;
 
     const displayPrice = product.base_price; // TODO: Add price_adjustment logic if needed
+    const selectedVariant = variants.find(v => v.size === selectedSize && v.color === selectedColor);
+    const skuToDisplay = selectedVariant?.sku_variant || product.sku;
 
     return (
         <div className="ms-container py-12 md:py-20 animate-fade-in relative transition-all">
@@ -189,7 +191,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                 <div className="lg:sticky lg:top-32 h-fit space-y-8">
                     <div>
                         <h1 className="ms-heading-2 mb-2">{product.name_es}</h1>
-                        <p className="text-xl font-medium">S/. {displayPrice.toFixed(2)}</p>
+                        <div className="flex items-baseline gap-4">
+                            <p className="text-xl font-medium">S/. {displayPrice.toFixed(2)}</p>
+                            <p className="text-xs text-ms-stone font-mono uppercase tracking-widest">SKU: {skuToDisplay}</p>
+                        </div>
                     </div>
 
                     <div className="space-y-4">

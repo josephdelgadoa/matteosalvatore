@@ -11,7 +11,7 @@ import { useToast } from '@/components/ui/Toast';
 interface ProductAiGeneratorProps {
     initialName?: string;
     initialCategory?: string;
-    onGenerate: (data: GeneratedProductAsset) => void;
+    onGenerate: (data: GeneratedProductAsset, inputData: AiProductGenerationData) => void;
 }
 
 export const ProductAiGenerator = ({ initialName, initialCategory, onGenerate }: ProductAiGeneratorProps) => {
@@ -39,7 +39,7 @@ export const ProductAiGenerator = ({ initialName, initialCategory, onGenerate }:
         setIsLoading(true);
         try {
             const result = await aiApi.generateProduct(aiData);
-            onGenerate(result);
+            onGenerate(result, aiData);
             addToast('AI Content generated successfully', 'success');
             setIsOpen(false);
         } catch (error: any) {
