@@ -1309,3 +1309,34 @@
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:05:11.318Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:05:45.484Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T07:15:59.025Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T15:39:36.239Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 11762","service":"user-service","timestamp":"2026-03-22T15:39:51.134Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T15:49:30.098Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T15:51:44.758Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:16:21.808Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:17:13.463Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:18:59.924Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:20:33.224Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:21:55.695Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny Esencial Urbano Plomo Grafito Hombre 2026 – Algodón Pima Peruano con Elastano | Matteo Salvatore","service":"user-service","timestamp":"2026-03-22T17:22:41.396Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12960","service":"user-service","timestamp":"2026-03-22T17:23:19.911Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-22T17:24:11.399Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-22T18:55:50.783Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny Urbano","service":"user-service","timestamp":"2026-03-22T19:03:33.408Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12406","service":"user-service","timestamp":"2026-03-22T19:04:08.690Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny","service":"user-service","timestamp":"2026-03-22T19:07:18.867Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 11961","service":"user-service","timestamp":"2026-03-22T19:08:05.098Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-23T04:57:34.619Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-23T04:57:56.440Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-23T04:57:58.265Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny Urbano ","service":"user-service","timestamp":"2026-03-23T04:58:56.122Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 11997","service":"user-service","timestamp":"2026-03-23T04:59:30.179Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12932","service":"user-service","timestamp":"2026-03-23T04:59:40.732Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:00:59.626Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:01:29.275Z"}
+{"code":"23505","details":"Key (sku_variant)=(00510000160) already exists.","hint":null,"level":"error","message":"Error inserting variants: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-23T05:01:59.132Z"}
+{"code":"23505","details":"Key (sku_variant)=(00510000160) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"product_variants_sku_variant_key\"","service":"user-service","timestamp":"2026-03-23T05:01:59.133Z"}
+{"level":"info","message":"Generating AI content for product: Pantalón Skinny","service":"user-service","timestamp":"2026-03-23T05:02:48.747Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14445","service":"user-service","timestamp":"2026-03-23T05:03:33.669Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:04:36.228Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:05:03.993Z"}

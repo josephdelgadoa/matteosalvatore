@@ -275,11 +275,17 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
             // Additional mapping for cross-sell if needed
         }));
 
-        // Find category match if possible
-        const categoryMatch = rootCategories.find((c: any) =>
-            c.name_es.toLowerCase().includes(aiResult["6_specifications_es"]?.Category?.toLowerCase() || '') ||
-            c.name_en.toLowerCase().includes(aiResult["6_specifications_en"]?.Category?.toLowerCase() || '')
-        );
+        // Find category match if possible (Defensive parsing)
+        const specCatEs = aiResult["6_specifications_es"]?.Category || aiResult["6_specifications_es"]?.Categoria || '';
+        const specCatEn = aiResult["6_specifications_en"]?.Category || '';
+        
+        let categoryMatch = null;
+        if (specCatEs || specCatEn) {
+            categoryMatch = rootCategories.find((c: any) =>
+                (specCatEs && c.name_es && c.name_es.toLowerCase().includes(specCatEs.toLowerCase())) ||
+                (specCatEn && c.name_en && c.name_en.toLowerCase().includes(specCatEn.toLowerCase()))
+            );
+        }
 
         if (categoryMatch) {
             const match = categoryMatch as any;
@@ -312,6 +318,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     <ProductAiGenerator
                         initialName={formData.name_es}
                         initialCategory={formData.category}
+                        initialPrice={formData.base_price}
+                        initialColor={formData.product_variants?.[0]?.color}
                         onGenerate={handleAiGenerate}
                     />
                     <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
@@ -671,13 +679,20 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-ms-brand-primary mb-3 flex items-center gap-2">🔗 Cross-Sell & Strategy</h4>
                                     <div className="bg-ms-white p-4 rounded-lg border border-ms-fog shadow-sm">
                                         <div className="flex flex-wrap gap-2">
-                                            {aiMarketingAssets["14_cross_sell"].map((item, i) => (
-                                                <span key={i} className="px-2 py-1 bg-ms-fog/30 text-[10px] rounded-full text-ms-stone">{item}</span>
-                                            ))}
+                                            {Array.isArray(aiMarketingAssets["14_cross_sell"]) 
+                                                ? aiMarketingAssets["14_cross_sell"].map((item, i) => (
+                                                    <span key={i} className="px-2 py-1 bg-ms-fog/30 text-[10px] rounded-full text-ms-stone">{item}</span>
+                                                ))
+                                                : <span className="text-[10px] text-ms-stone">{String(aiMarketingAssets["14_cross_sell"] || 'N/A')}</span>
+                                            }
                                         </div>
                                         <div className="mt-4 pt-4 border-t border-ms-fog">
                                             <span className="text-[10px] font-bold text-ms-stone uppercase block mb-1">Collection Assignment</span>
-                                            <p className="text-[11px] text-ms-brand-primary font-medium">{aiMarketingAssets["20_collection_placement"].join(' • ')}</p>
+                                            <p className="text-[11px] text-ms-brand-primary font-medium">
+                                                {Array.isArray(aiMarketingAssets["20_collection_placement"]) 
+                                                    ? aiMarketingAssets["20_collection_placement"].join(' • ') 
+                                                    : renderAiValue(aiMarketingAssets["20_collection_placement"])}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

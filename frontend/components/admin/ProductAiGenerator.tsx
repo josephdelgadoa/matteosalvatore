@@ -11,10 +11,12 @@ import { useToast } from '@/components/ui/Toast';
 interface ProductAiGeneratorProps {
     initialName?: string;
     initialCategory?: string;
+    initialPrice?: number | string;
+    initialColor?: string;
     onGenerate: (data: GeneratedProductAsset, inputData: AiProductGenerationData) => void;
 }
 
-export const ProductAiGenerator = ({ initialName, initialCategory, onGenerate }: ProductAiGeneratorProps) => {
+export const ProductAiGenerator = ({ initialName, initialCategory, initialPrice, initialColor, onGenerate }: ProductAiGeneratorProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { addToast } = useToast();
@@ -57,7 +59,13 @@ export const ProductAiGenerator = ({ initialName, initialCategory, onGenerate }:
                 variant="outline"
                 className="gap-2 border-ms-brand-primary text-ms-brand-primary hover:bg-ms-brand-primary hover:text-ms-white transition-all shadow-sm"
                 onClick={() => {
-                    setAiData(prev => ({ ...prev, name: initialName || prev.name, category: initialCategory || prev.category }));
+                    setAiData(prev => ({
+                        ...prev,
+                        name: initialName || prev.name,
+                        category: initialCategory || prev.category,
+                        price: initialPrice || prev.price,
+                        color: initialColor || prev.color
+                    }));
                     setIsOpen(true);
                 }}
             >
