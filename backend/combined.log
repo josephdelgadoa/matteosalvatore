@@ -1373,3 +1373,8 @@
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:13:57.038Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:16:20.179Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:22:02.074Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-24T04:41:09.366Z"}
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'orders' and 'profiles' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'reviews' instead of 'profiles'.","level":"error","message":"ERROR 💥: Could not find a relationship between 'orders' and 'profiles' in the schema cache","service":"user-service","timestamp":"2026-03-24T04:41:09.490Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 14262","service":"user-service","timestamp":"2026-03-24T04:44:19.737Z"}
+{"level":"info","message":"Generating AI content for product: Polo","service":"user-service","timestamp":"2026-03-24T04:48:12.470Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13859","service":"user-service","timestamp":"2026-03-24T04:48:52.199Z"}

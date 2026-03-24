@@ -1,135 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Matteo Salvatore - Presentación de Proyecto</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matteo Salvatore - Presentación del Proyecto</title>
+    <!-- Reveal.js basic stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+    <!-- Premium Web Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 400px;
-            width: 80%;
+        /* Custom Premium Styling for Matteo Salvatore */
+        .reveal {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #050505;
         }
-        .reveal h2 {
-            color: #d4af37; /* Gold color */
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: none;
+            font-weight: 500;
+        }
+        .reveal h1 { font-size: 2.2em; letter-spacing: 1px; color: #ffffff; }
+        .reveal h2 { font-size: 1.6em; color: #ebdab4; margin-bottom: 25px; }
+        .reveal h3 { font-size: 1.3em; color: #ffffff; }
+        .reveal p, .reveal li {
+            font-size: 0.65em;
+            line-height: 1.6;
+            color: #d1d1d1;
+        }
+        .reveal ul {
+            list-style-type: none;
+            margin: 0 auto;
+            max-width: 80%;
+        }
+        .reveal li { 
+            margin-bottom: 20px; 
+            position: relative;
+            padding-left: 20px;
+        }
+        .reveal li::before {
+            content: "•";
+            color: #ebdab4;
+            font-weight: bold;
+            display: inline-block; 
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+        .highlight-text { color: #ebdab4; font-weight: bold; }
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.35em;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: rgba(235, 218, 180, 0.1);
+            color: #ebdab4;
+            border: 1px solid rgba(235, 218, 180, 0.3);
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="reveal">
         <div class="slides">
-            <section>
-                <h1>Matteo Salvatore</h1>
-                <h3>Elegancia Atemporal - E-commerce de Lujo</h3>
-                <p>
-                    <small>Presentación del Proyecto 2026</small>
+            
+            <!-- Intro -->
+            <section data-transition="fade">
+                <h2>Matteo Salvatore</h2>
+                <h1>Arquitectura y Módulos 2026</h1>
+                <p style="margin-top: 40px; font-size: 0.8em; color: #999;">Plataforma E-commerce Premium de Lujo Minimalista</p>
+            </section>
+
+            <section data-transition="fade">
+                <h2>Visión General</h2>
+                <p style="text-align: justify; max-width: 75%; margin: 0 auto;">
+                    Plataforma especializada en ropa masculina de lujo minimalista, con un enfoque absoluto en el <strong>Algodón Pima Peruano</strong>.
+                </p>
+                <br>
+                <p style="text-align: justify; max-width: 75%; margin: 0 auto;">
+                    Desarrollada con un stack tecnológico de última generación que fusiona una experiencia web ultra rápida para el usuario final (Frontend) con un panel de gestión potenciado por <strong>Inteligencia Artificial</strong> y microservicios escalables (Backend).
                 </p>
             </section>
 
-            <section>
-                <h2>Visión del Proyecto</h2>
-                <p>Crear una experiencia de compra premium, fusionando arte, diseño y tecnología para el caballero moderno.</p>
+            <!-- Frontend -->
+            <section data-transition="slide">
+                <span class="badge">FRONTEND / NEXT.JS</span>
+                <h2>1. Customer Storefront</h2>
+                <p style="margin-bottom: 30px;">La cara visible del ecosistema. Experiencia hiper-fluida que retiene clientes premium.</p>
                 <ul>
-                    <li>Internacionalización (ES/EN)</li>
-                    <li>Rutas Localizadas (/es/nosotros)</li>
-                    <li>Gestión Dinámica de Menús</li>
+                    <li><span class="highlight-text">Componentes:</span> Home, Product Listing Page (PLP), Product Detail Page (PDP).</li>
+                    <li><span class="highlight-text">Tecnología:</span> Server-Side Rendering (SSR) y Server Components para carga ultra rápida.</li>
+                    <li><span class="highlight-text">Beneficio de Negocio:</span> SEO técnico nativo (meta tags y schemas) para posicionamiento global desde el día uno.</li>
                 </ul>
             </section>
 
-            <section>
-                <h2>Arquitectura del Sistema</h2>
-                <div class="chart-container">
-                    <canvas id="archChart"></canvas>
-                </div>
-                <p><small>Distribución de carga y componentes</small></p>
+            <section data-transition="slide">
+                <span class="badge">FRONTEND / AI TOOLS</span>
+                <h2>2. Elite AI Content Engine</h2>
+                <p style="margin-bottom: 30px;">Herramienta integrada al tablero de control para la generación de copys de lujo.</p>
+                <ul>
+                    <li><span class="highlight-text">Funcionalidad:</span> Autocompleta datos, traduce textos (ES/EN) y redacta descripciones simulando un <em>Copywriter experto</em>.</li>
+                    <li><span class="highlight-text">Precisión:</span> Incorpora bloqueos estrictos que previenen alucinaciones o modificaciones indeseadas de colores.</li>
+                    <li><span class="highlight-text">Beneficio Global:</span> Multiplica por 10 la velocidad de carga de catálogos y blinda el contenido bilingüe sin agencias externas.</li>
+                </ul>
             </section>
 
-            <section>
-                <h2>Hitos Alcanzados</h2>
-                <div class="chart-container">
-                    <canvas id="progressChart"></canvas>
-                </div>
+            <section data-transition="slide">
+                <span class="badge">FRONTEND / ADMIN</span>
+                <h2>3. Admin Dashboard Privado</h2>
+                <p style="margin-bottom: 30px;">Centro de control para operadores estables y administradores de catálogo.</p>
+                <ul>
+                    <li><span class="highlight-text">Gestión Integral:</span> Manejo de Productos, Inventarios y Variantes (Tallas y Colores).</li>
+                    <li><span class="highlight-text">Diseño Intuitivo:</span> Interfaz tipo drag-and-drop, validación visual y control manual de SKUs.</li>
+                    <li><span class="highlight-text">Beneficio Logístico:</span> Autonomía total para el *Store Manager* sin fricción ni soporte constante de TI.</li>
+                </ul>
             </section>
 
-            <section>
-                <h2>Progreso por Módulo</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Módulo</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Frontend (Next.js)</td><td>95%</td></tr>
-                        <tr><td>Backend (Node.js)</td><td>90%</td></tr>
-                        <tr><td>Base de Datos (Supabase)</td><td>100%</td></tr>
-                        <tr><td>Admin Panel</td><td>85%</td></tr>
-                    </tbody>
-                </table>
+            <section data-transition="slide">
+                <span class="badge">FRONTEND / PAYMENTS</span>
+                <h2>4. Checkout Inteligente (Culqi)</h2>
+                <p style="margin-bottom: 30px;">El embudo de pagos minimalista de ultra alta conversión.</p>
+                <ul>
+                    <li><span class="highlight-text">Componentes:</span> Drawer Cart asíncrono y Checkout transparente de 3 pasos.</li>
+                    <li><span class="highlight-text">Funcionalidad:</span> Cálculo dinámico automático de impuestos (IGV 18%) interactuando con Culqi.</li>
+                    <li><span class="highlight-text">Conversión:</span> Reducción dramática del abandono de carrito gracias a pagos embebidos y seguridad sin fricciones.</li>
+                </ul>
             </section>
 
-            <section>
-                <h2>Tecnologías Principales</h2>
-                <div class="flex justify-around items-center">
-                    <img src="https://simpleicons.org/icons/nextdotjs.svg" width="80" style="filter: invert(1);">
-                    <img src="https://simpleicons.org/icons/nodedotjs.svg" width="80" style="filter: invert(1);">
-                    <img src="https://simpleicons.org/icons/supabase.svg" width="80" style="filter: invert(1);">
-                    <img src="https://simpleicons.org/icons/docker.svg" width="80" style="filter: invert(1);">
-                </div>
+            <!-- Backend -->
+            <section data-background-color="#070c10" data-transition="slide">
+                <span class="badge">BACKEND / NODE.JS</span>
+                <h2>1. Sistema 'Matrix' (Inventariado)</h2>
+                <p style="margin-bottom: 30px;">El algoritmo central en Node.js que unifica la Identidad de los Productos.</p>
+                <ul>
+                    <li><span class="highlight-text">Mapeo Inteligente:</span> Convergencia automatizada de cientos de aliases de color (ES/EN) a códigos estandarizados.</li>
+                    <li><span class="highlight-text">Arquitectura SKU:</span> Códigos irrepetibles de 11 dígitos: <code>[Estilo base (8)] + [Color (2)] + [Talla (1)]</code>.</li>
+                    <li><span class="highlight-text">Certeza Total:</span> Erradicación del caos logístico, previniendo la superposición de mercadería virtual en el almacén.</li>
+                </ul>
             </section>
 
-            <section>
-                <h2>¡Gracias!</h2>
-                <p>¿Preguntas?</p>
+            <section data-background-color="#070c10" data-transition="slide">
+                <span class="badge">BACKEND / GEMINI AI</span>
+                <h2>2. Microservicio de Inteligencia Artificial</h2>
+                <p style="margin-bottom: 30px;">El núcleo computacional formativo de la capa bilingüe generativa.</p>
+                <ul>
+                    <li><span class="highlight-text">Ingeniería de Prompts:</span> Motor conversacional que inyecta parámetros del usuario en formatos JSON estrictos.</li>
+                    <li><span class="highlight-text">Agencia Nativa:</span> Produce copys de Instagram/TikTok, guías de estilo semánticas e indexación programática.</li>
+                    <li><span class="highlight-text">Efectividad Cortocircuito:</span> Reemplaza departamentos enteros de marketing digital a una fracción del costo operativo rutinario.</li>
+                </ul>
+            </section>
+
+            <section data-background-color="#070c10" data-transition="slide">
+                <span class="badge">BACKEND / WEBHOOKS</span>
+                <h2>3. Motor de Órdenes (Asíncrono)</h2>
+                <p style="margin-bottom: 30px;">Garante transaccional oculto y orquestador programático de notificaciones.</p>
+                <ul>
+                    <li><span class="highlight-text">Arquitectura:</span> Endpoint receptor de Webhooks (Culqi) y disparador de Twilio (WhatsApp) o Resend (Email).</li>
+                    <li><span class="highlight-text">Persistencia:</span> Actualiza cobros y procesa inventario aunque el cliente pierda conexión post-pago.</li>
+                    <li><span class="highlight-text">Post-venta:</span> Construcción automática de la lealtad de la marca enviando actualizaciones automatizadas estilo *conserje*.</li>
+                </ul>
+            </section>
+
+            <!-- Conclusion -->
+            <section data-transition="zoom">
+                <h2>Resumen Estratégico</h2>
+                <p style="text-align: justify; max-width: 80%; margin: 0 auto; color: #ccc;">
+                    El ecosistema de <strong>Matteo Salvatore</strong> logra materializar un hito donde la moda purista interactúa con Inteligencia Artificial de Vanguardia de forma invisible para el consumidor final y para el propio operador interno de la marca.
+                </p>
+                <br>
+                <p style="text-align: justify; max-width: 80%; margin: 0 auto; color: #ccc;">
+                    El equipo técnico ha encapsulado la <span class="highlight-text">bilingüidad nativa</span>, la <span class="highlight-text">autosuficiencia de marketing SEO</span> y sistemas <span class="highlight-text">invulnerables de inventariado</span> dentro del mismo núcleo productivo para garantizar escalabilidad a nivel nacional e internacional sin trabas operativas.
+                </p>
             </section>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script>
         Reveal.initialize({
-            hash: true,
             controls: true,
             progress: true,
             center: true,
-            transition: 'slide'
-        });
-
-        // Charts
-        const ctx1 = document.getElementById('archChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'doughnut',
-            data: {
-                labels: ['Frontend', 'Backend', 'Database', 'Admin'],
-                datasets: [{
-                    data: [40, 30, 20, 10],
-                    backgroundColor: ['#d4af37', '#ffffff', '#555555', '#222222']
-                }]
-            }
-        });
-
-        const ctx2 = document.getElementById('progressChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
-                datasets: [{
-                    label: 'Progreso del Proyecto (%)',
-                    data: [20, 45, 65, 85, 95],
-                    borderColor: '#d4af37',
-                    fill: false,
-                    tension: 0.1
-                }]
-            }
+            hash: true,
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            autoSlide: 0
         });
     </script>
 </body>

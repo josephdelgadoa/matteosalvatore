@@ -6,6 +6,7 @@ Plataforma E-commerce Premium para Matteo Salvatore.
 
 La documentación completa del proyecto se encuentra en la carpeta `docs/` (o en la raíz durante la fase inicial):
 
+- [Presentación del Proyecto y Módulos (NUEVO)](./PRESENTACION_DEL_PROYECTO.md)
 - [Resumen Ejecutivo](./RESUMEN_EJECUTIVO.md)
 - [Arquitectura Técnica](./ARQUITECTURA_TECNICA.md)
 - [Estructura del Proyecto](./PROJECT_STRUCTURE.md)

@@ -29,10 +29,12 @@ export const Footer = ({ lang, dict }: FooterProps) => {
                     <div className="lg:col-span-2">
                         <h4 className="font-serif text-lg mb-6">{dict.shop}</h4>
                         <ul className="space-y-4">
-                            <li><Link href={getLocalizedPath('/products/clothing', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.clothing}</Link></li>
-                            <li><Link href={getLocalizedPath('/products/footwear', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footwear}</Link></li>
-                            <li><Link href={getLocalizedPath('/collections/new', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.newArrivals}</Link></li>
-                            <li><Link href={getLocalizedPath('/collections/best-sellers', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.bestSellers}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/polos-hombre', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerPolosHombre || 'Polos Hombre'}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/hoodie-premium', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerHoodiePremium || 'Hoodie Premium'}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/skinny-fit', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerSkinnyFit || 'Skinny Fit'}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/cargo-fit', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerCargoFit || 'Cargo Fit'}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/jogger-cargo-fit', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerJoggerCargoFit || 'Jogger Cargo Fit'}</Link></li>
+                            <li><Link href={getLocalizedPath('/categoria/conjuntos-resort', lang)} className="text-sm text-ms-stone hover:text-ms-black transition-colors">{dict.footerConjuntosResort || 'Conjuntos Resort'}</Link></li>
                         </ul>
                     </div>
 

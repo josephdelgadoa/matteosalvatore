@@ -43,9 +43,9 @@ export default function CategoriesImagesPage() {
             setIsLoading(true);
             const data = await categoriesApi.getAll();
 
-            // Map existing categories to 5 slots based on order, or create empty placeholders
+            // Map existing active categories to 5 slots based on order, or create empty placeholders
             const slots = Array(5).fill(null).map((_, index) => {
-                const existing = data.find((c: any) => c.display_order === index);
+                const existing = data.find((c: any) => c.display_order === index && c.is_active);
                 return existing || {
                     id: '', // Empty ID means new
                     title_es: '',
