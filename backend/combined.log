@@ -1340,3 +1340,36 @@
 {"level":"info","message":"[AIService] Raw text from Gemini length: 14445","service":"user-service","timestamp":"2026-03-23T05:03:33.669Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:04:36.228Z"}
 {"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-23T05:05:03.993Z"}
+{"level":"info","message":"Generating AI content for product: Camisa Tulum","service":"user-service","timestamp":"2026-03-23T23:50:14.047Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13602","service":"user-service","timestamp":"2026-03-23T23:50:54.782Z"}
+{"level":"info","message":"Generating AI content for product: Camisa Lujo Silencioso Tulum - Azul Marino | Matteo Salvatore","service":"user-service","timestamp":"2026-03-23T23:51:11.655Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13324","service":"user-service","timestamp":"2026-03-23T23:51:47.459Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-24T00:05:21.596Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-24T00:05:33.954Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 13704","service":"user-service","timestamp":"2026-03-24T00:05:54.986Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:06:58.063Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:07:05.108Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:07:28.309Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12332","service":"user-service","timestamp":"2026-03-24T00:07:49.340Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:09:18.525Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:09:21.727Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-24T00:10:14.002Z"}
+{"code":"23505","details":"Key (sku)=(0051200003) already exists.","hint":null,"level":"error","message":"ERROR 💥: duplicate key value violates unique constraint \"products_sku_key\"","service":"user-service","timestamp":"2026-03-24T00:10:50.676Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:11:54.554Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:24:40.109Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:32:52.296Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:33:09.193Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:40:22.669Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:41:30.333Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-24T00:53:10.236Z"}
+{"level":"info","message":"Generating AI content for product: Polera con Capucha Lujosa Esencial Classic Verde Bosque Para Hombre 2026 – Algodón Franela Premium | Matteo Salvatore","service":"user-service","timestamp":"2026-03-24T00:53:42.534Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 12941","service":"user-service","timestamp":"2026-03-24T00:54:25.303Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-24T01:00:28.045Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-24T01:01:06.732Z"}
+{"level":"info","message":"Generating AI content for product: Polera con Capucha Lujosa Esencial Classic para Hombre - Verde Bosque | Matteo Salvatore","service":"user-service","timestamp":"2026-03-24T01:01:17.016Z"}
+{"level":"info","message":"[AIService] Raw text from Gemini length: 16407","service":"user-service","timestamp":"2026-03-24T01:02:10.192Z"}
+{"level":"info","message":"Inserting 5 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:02:58.651Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:10:49.802Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:13:57.038Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:16:20.179Z"}
+{"level":"info","message":"Inserting 4 variants for product update...","service":"user-service","timestamp":"2026-03-24T01:22:02.074Z"}

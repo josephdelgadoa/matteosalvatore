@@ -66,7 +66,7 @@ OFFICIAL STYLE CODES (INTERNAL KNOWLEDGE):
 
 INSTRUCTIONS FOR TITLE POLISHING:
 - Create magnetic, sophisticated titles.
-- EXTREMELY IMPORTANT: You MUST explicitly include the Color in the generated title. For example, if the user color is "Plomo Plata", you must append or integrate "Plomo Plata" into the ES title and its English equivalent (e.g., "Silver Lead" or "Silver Gray") in the EN title. DO NOT output a title without the color.
+- EXTREMELY IMPORTANT: You MUST explicitly include the EXACT Color in the generated title. DO NOT hallucinate, change, or add descriptive words to the color (e.g. if the user color is "Verde", use EXACTLY "Verde", DO NOT output "Verde Bosque"). For English, translate it literally (e.g., "Green"). DO NOT output a title without the exact color.
 - If the original Name has words like "copia", "copy", "draft", REMOVE THEM.
 - Formula ES: [Product Type] [Style/Quality] [Clean Name] - [Translated Color] | Matteo Salvatore
 - Formula EN: [Style/Quality] [Clean Name] - [Translated Color] [Product Type] | Matteo Salvatore
