@@ -15,12 +15,18 @@ const textDict = {
     en: {
         addToCart: "Add to Cart",
         adding: "Adding...",
-        freeShipping: "Free shipping on orders over S/. 100"
+        freeShipping: "Free shipping on orders over S/. 100",
+        clickFullView: "Click to see full view",
+        size: "Size",
+        sizeGuide: "Size Guide"
     },
     es: {
         addToCart: "Añadir al Carrito",
         adding: "Añadiendo...",
-        freeShipping: "Envío gratis en compras mayores a S/. 100"
+        freeShipping: "Envío gratis en compras mayores a S/. 100",
+        clickFullView: "Haz clic para ver imagen completa",
+        size: "Talla",
+        sizeGuide: "Guía de Tallas"
     }
 };
 
@@ -181,7 +187,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                                 onClick={() => setIsModalOpen(true)}
                                 className="text-sm text-nav-blue font-medium hover:underline"
                             >
-                                Click to see full view
+                                {t.clickFullView}
                             </button>
                         </div>
                     </div>
@@ -247,7 +253,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
 
                         <div>
                             <div className="flex justify-between mb-3">
-                                <label className="ms-label block">Size</label>
+                                <label className="ms-label block">{t.size}</label>
                                 {selectedSize && (
                                     <button
                                         className="text-xs text-ms-stone underline"
@@ -282,7 +288,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string; 
                                     );
                                 })}
                             </div>
-                            <button className="text-xs underline mt-2 text-ms-stone">Size Guide</button>
+                            <button className="text-xs underline mt-2 text-ms-stone">{t.sizeGuide}</button>
                         </div>
                     </div>
 
