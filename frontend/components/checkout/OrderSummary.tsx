@@ -5,9 +5,11 @@ import { useCart } from '@/store/useCart';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/components/ui/Spinner';
+import { useCheckoutDictionary } from '@/providers/CheckoutDictionaryProvider';
 
 export const OrderSummary = () => {
     const { items, getCartTotal, isLoading } = useCart();
+    const { dict } = useCheckoutDictionary();
     const subtotal = getCartTotal();
     // Mock shipping for now, will calculate later
     const shipping = subtotal > 300 ? 0 : 15.00;
@@ -48,11 +50,11 @@ export const OrderSummary = () => {
             {/* Calculations */}
             <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                    <span className="text-ms-stone">Subtotal</span>
+                    <span className="text-ms-stone">{dict.summary?.subtotal || 'Subtotal'}</span>
                     <span className="font-medium">S/. {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span className="text-ms-stone">Shipping</span>
+                    <span className="text-ms-stone">{dict.summary?.shipping || 'Shipping'}</span>
                     <span className="font-medium">
                         {shipping === 0 ? 'Free' : `S/. ${shipping.toFixed(2)}`}
                     </span>
@@ -62,7 +64,7 @@ export const OrderSummary = () => {
             <hr className="border-ms-fog" />
 
             <div className="flex justify-between items-baseline">
-                <span className="font-medium text-lg">Total</span>
+                <span className="font-medium text-lg">{dict.summary?.total || 'Total'}</span>
                 <div className="flex items-baseline gap-2">
                     <span className="text-xs text-ms-stone">PEN</span>
                     <span className="font-bold text-2xl">S/. {total.toFixed(2)}</span>

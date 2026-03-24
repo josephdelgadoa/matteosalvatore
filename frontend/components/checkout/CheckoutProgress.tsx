@@ -5,15 +5,18 @@ import { Check, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const steps = [
-    { name: 'Information', href: '/checkout/information' },
-    { name: 'Shipping', href: '/checkout/shipping' },
-    { name: 'Payment', href: '/checkout/payment' },
-];
+import { useCheckoutDictionary } from '@/providers/CheckoutDictionaryProvider';
+import { getLocalizedPath } from '@/lib/routes';
 
 export const CheckoutProgress = () => {
     const pathname = usePathname();
+    const { dict, lang } = useCheckoutDictionary();
+
+    const steps = [
+        { name: dict.layout?.information || 'Information', href: '/checkout/information' },
+        { name: dict.layout?.shipping || 'Shipping', href: '/checkout/shipping' },
+        { name: dict.layout?.payment || 'Payment', href: '/checkout/payment' },
+    ];
 
     const getCurrentStepIndex = () => {
         if (pathname.includes('/information')) return 0;
@@ -28,8 +31,8 @@ export const CheckoutProgress = () => {
         <nav aria-label="Checkout Progress">
             <ol className="flex items-center space-x-2 text-sm font-medium">
                 <li className="flex items-center">
-                    <Link href="/cart" className="text-ms-stone hover:text-ms-black transition-colors">
-                        Cart
+                    <Link href={getLocalizedPath('/cart', lang as any)} className="text-ms-stone hover:text-ms-black transition-colors">
+                        {dict.cart || 'Cart'}
                     </Link>
                     <ChevronRight className="w-4 h-4 text-ms-stone mx-2" />
                 </li>
@@ -41,7 +44,7 @@ export const CheckoutProgress = () => {
                     return (
                         <li key={step.name} className="flex items-center">
                             <Link
-                                href={isCompleted ? step.href : '#'}
+                                href={isCompleted ? getLocalizedPath(step.href, lang as any) : '#'}
                                 className={cn(
                                     "flex items-center",
                                     isCompleted ? "text-ms-success" : isCurrent ? "text-ms-black" : "text-ms-stone pointer-events-none"

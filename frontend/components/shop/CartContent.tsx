@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/store/useCart';
+import { getLocalizedPath } from '@/lib/routes';
 import { Button } from '@/components/ui/Button';
 import { Minus, Plus, X, ArrowRight } from 'lucide-react';
 import { Spinner } from '@/components/ui/Spinner';
@@ -138,7 +139,7 @@ export const CartContent = ({ lang, dict }: CartContentProps) => {
                                 </div>
                             </div>
 
-                            <Link href={`/${lang}/checkout/information`} className="block w-full">
+                            <Link href={getLocalizedPath('/checkout/information', lang)} className="block w-full">
                                 <Button size="lg" className="w-full flex justify-between items-center group">
                                     <span>{dict.summary.checkout}</span>
                                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

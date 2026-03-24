@@ -282,6 +282,63 @@
             "remove": "Remove item"
         }
     },
+    "checkout": {
+        "layout": {
+            "information": "Information",
+            "shipping": "Shipping",
+            "payment": "Payment"
+        },
+        "information": {
+            "title": "Contact",
+            "haveAccount": "Have an account?",
+            "login": "Log in",
+            "emailLabel": "Email",
+            "emailPlaceholder": "email@example.com",
+            "shippingTitle": "Shipping Address",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "addressLabel": "Address",
+            "addressPlaceholder": "Av. Larco 123",
+            "apartmentLabel": "Apartment, suite, etc. (optional)",
+            "city": "City",
+            "district": "District",
+            "districtPlaceholder": "Miraflores",
+            "postalCode": "Postal Code (Optional)",
+            "phone": "Phone",
+            "returnToCart": "Return to cart",
+            "continueToShipping": "Continue to Shipping"
+        },
+        "shipping": {
+            "contact": "Contact",
+            "change": "Change",
+            "shipTo": "Ship to",
+            "methodTitle": "Shipping Method",
+            "standardName": "Standard Shipping",
+            "standardDesc": "3 to 5 business days",
+            "expressName": "Express Shipping",
+            "expressDesc": "1 to 2 business days",
+            "returnToInfo": "Return to information",
+            "continueToPayment": "Continue to Payment"
+        },
+        "payment": {
+            "title": "Payment Method",
+            "secureText": "All transactions are secure and encrypted.",
+            "payWithCard": "Pay with Card",
+            "poweredBy": "Powered by Culqi",
+            "paymentNotReady": "Payment system not ready. Please refresh.",
+            "configError": "Configuration error. Please contact support.",
+            "paymentSuccess": "Payment Successful! Redirecting...",
+            "paymentFailed": "Payment failed",
+            "initError": "Failed to initialize payment. Please try again."
+        },
+        "success": {
+            "thankYou": "Thank you for your order!",
+            "confirmation": "Your order has been placed successfully. We have sent a confirmation email to your inbox.",
+            "orderRef": "Order Reference",
+            "backToHome": "Back to Home",
+            "viewOrder": "View Order"
+        }
+    },
     "testimonials": {
         "title": "Client Stories",
         "subtitle": "What they say about us",

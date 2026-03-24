@@ -8,6 +8,8 @@ import { useCart } from '@/store/useCart';
 import { Spinner } from '@/components/ui/Spinner';
 import axios from 'axios';
 import Script from 'next/script';
+import { useCheckoutDictionary } from '@/providers/CheckoutDictionaryProvider';
+import { getLocalizedPath } from '@/lib/routes';
 
 declare global {
     interface Window {
@@ -28,13 +30,16 @@ export default function CheckoutPaymentPage() {
     // State for order ID created before payment
     const [orderId, setOrderId] = useState<string | null>(null);
 
+    const { dict, lang } = useCheckoutDictionary();
+    const payDict = dict.payment;
+
     useEffect(() => {
         // Check if we have shipping info
         const shipping = localStorage.getItem('checkout_info');
         if (!shipping) {
-            router.push('/checkout/information');
+            router.push(getLocalizedPath('/checkout/information', lang as any));
         }
-    }, [router]);
+    }, [router, lang]);
 
     const initCulqi = () => {
         setIsScriptLoaded(true);
@@ -42,12 +47,12 @@ export default function CheckoutPaymentPage() {
 
     const handlePayment = async () => {
         if (!window.Culqi) {
-            addToast('Payment system not ready. Please refresh.', 'error');
+            addToast(payDict?.paymentNotReady || 'Payment system not ready. Please refresh.', 'error');
             return;
         }
         if (!process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY) {
             console.error('Culqi Public Key is missing!');
-            addToast('Configuration error. Please contact support.', 'error');
+            addToast(payDict?.configError || 'Configuration error. Please contact support.', 'error');
             return;
         }
         setLoading(true);
@@ -138,18 +143,18 @@ export default function CheckoutPaymentPage() {
                             authentication_3DS: authentication_3DS
                         });
 
-                        addToast('Payment Successful! Redirecting...', 'success');
+                        addToast(payDict?.paymentSuccess || 'Payment Successful! Redirecting...', 'success');
                         clearCart();
                         localStorage.removeItem('checkout_info');
                         localStorage.removeItem('checkout_shipping');
 
                         setTimeout(() => {
-                            router.push(`/checkout/success?orderId=${newOrder.id}`);
+                            router.push(getLocalizedPath(`/checkout/success?orderId=${newOrder.id}`, lang as any));
                         }, 2000);
 
                     } catch (err: any) {
                         console.error('Payment processing error:', err);
-                        addToast(err.response?.data?.message || 'Payment failed', 'error');
+                        addToast(err.response?.data?.message || payDict?.paymentFailed || 'Payment failed', 'error');
                         setLoading(false);
                         if (window.Culqi.close) window.Culqi.close();
                     }
@@ -166,7 +171,7 @@ export default function CheckoutPaymentPage() {
 
         } catch (err: any) {
             console.error(err);
-            addToast('Failed to initialize payment. Please try again.', 'error');
+            addToast(payDict?.initError || 'Failed to initialize payment. Please try again.', 'error');
             setLoading(false);
         }
     };
@@ -180,9 +185,9 @@ export default function CheckoutPaymentPage() {
             <ToastContainer />
 
             <div className="border border-ms-fog rounded-md p-6 bg-ms-ivory/20">
-                <h3 className="font-medium mb-4">Payment Method</h3>
+                <h3 className="font-medium mb-4">{payDict?.title || 'Payment Method'}</h3>
                 <p className="text-sm text-ms-stone mb-6">
-                    All transactions are secure and encrypted.
+                    {payDict?.secureText || 'All transactions are secure and encrypted.'}
                 </p>
 
                 <div className="flex flex-col gap-4">
@@ -192,10 +197,10 @@ export default function CheckoutPaymentPage() {
                         isLoading={loading}
                         className="w-full py-4 text-lg"
                     >
-                        Pay with Card
+                        {payDict?.payWithCard || 'Pay with Card'}
                     </Button>
                     <p className="text-xs text-center text-ms-silver">
-                        Powered by Culqi
+                        {payDict?.poweredBy || 'Powered by Culqi'}
                     </p>
                 </div>
             </div>

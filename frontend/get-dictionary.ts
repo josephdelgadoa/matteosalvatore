@@ -1,6 +1,7 @@
 import 'server-only';
 import type { Locale } from '@/i18n-config';
 
+// Cache buster for HMR
 const dictionaries = {
     es: () => import('@/dictionaries/es.json').then((module) => module.default),
     en: () => import('@/dictionaries/en.json').then((module) => module.default),

@@ -14,7 +14,10 @@ export const URL_MAPPING: Record<string, string> = {
     'help': 'ayuda',
     'shipping': 'envios',
     'size-guide': 'guia-de-tallas',
-    'faq': 'faq'
+    'faq': 'faq',
+    'information': 'informacion',
+    'payment': 'metodo-de-pago',
+    'success': 'exito'
 };
 
 // Create inverse mapping for normalization

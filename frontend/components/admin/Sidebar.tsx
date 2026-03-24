@@ -35,6 +35,7 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
         { href: `/${lang}/admin/orders`, label: dict.sidebar.orders, icon: Package },
         { href: `/${lang}/admin/stores`, label: dict.sidebar.stores || 'Tiendas', icon: LayoutDashboard },
         { href: `/${lang}/admin/inventory`, label: dict.sidebar.inventory || 'Inventario', icon: Package },
+        { href: `/${lang}/admin/inventory/ai-dashboard`, label: 'AI Inventory Dashboard', icon: LayoutDashboard },
         { href: `/${lang}/admin/pos`, label: dict.sidebar.pos || 'Terminal POS', icon: ShoppingBag },
         { href: `/${lang}/admin/customers`, label: dict.sidebar.customers, icon: Users },
         { href: `/${lang}/admin/users`, label: dict.sidebar.users, icon: Users },

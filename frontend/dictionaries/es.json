@@ -282,6 +282,63 @@
             "remove": "Eliminar artículo"
         }
     },
+    "checkout": {
+        "layout": {
+            "information": "Información",
+            "shipping": "Envío",
+            "payment": "Pago"
+        },
+        "information": {
+            "title": "Contacto",
+            "haveAccount": "¿Ya tienes una cuenta?",
+            "login": "Iniciar sesión",
+            "emailLabel": "Correo",
+            "emailPlaceholder": "correo@ejemplo.com",
+            "shippingTitle": "Dirección de Envío",
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "addressLabel": "Dirección",
+            "addressPlaceholder": "Av. Larco 123",
+            "apartmentLabel": "Dpto, interior, suite, etc. (Opcional)",
+            "city": "Ciudad",
+            "district": "Distrito",
+            "districtPlaceholder": "Miraflores",
+            "postalCode": "Código Postal (Opcional)",
+            "phone": "Teléfono",
+            "returnToCart": "Volver al carrito",
+            "continueToShipping": "Continuar a Envíos"
+        },
+        "shipping": {
+            "contact": "Contacto",
+            "change": "Cambiar",
+            "shipTo": "Enviar a",
+            "methodTitle": "Método de Envío",
+            "standardName": "Envío Estándar",
+            "standardDesc": "3 a 5 días hábiles",
+            "expressName": "Envío Express",
+            "expressDesc": "1 a 2 días hábiles",
+            "returnToInfo": "Volver a información",
+            "continueToPayment": "Continuar a Pago"
+        },
+        "payment": {
+            "title": "Método de Pago",
+            "secureText": "Todas las transacciones son seguras y están encriptadas.",
+            "payWithCard": "Pagar con Tarjeta",
+            "poweredBy": "Procesado por Culqi",
+            "paymentNotReady": "Sistema de pago no listo. Por favor actualice la página.",
+            "configError": "Error de configuración. Por favor contacte a soporte.",
+            "paymentSuccess": "¡Pago Exitoso! Redirigiendo...",
+            "paymentFailed": "El pago falló",
+            "initError": "Error al iniciar el pago. Por favor intente nuevamente."
+        },
+        "success": {
+            "thankYou": "¡Gracias por tu compra!",
+            "confirmation": "Tu pedido se ha realizado con éxito. Hemos enviado un correo de confirmación a tu bandeja de entrada.",
+            "orderRef": "Referencia del Pedido",
+            "backToHome": "Volver al Inicio",
+            "viewOrder": "Ver Pedido"
+        }
+    },
     "testimonials": {
         "title": "Historias de Nuestros Clientes",
         "subtitle": "Lo que dicen de nosotros",

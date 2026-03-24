@@ -80,7 +80,7 @@ export const AiChatbot = ({ lang, dict }: AiChatbotProps) => {
         switch (type) {
             case 'cart': path = '/cart'; break;
             case 'register': path = '/register'; break;
-            case 'pay': path = '/checkout'; break;
+            case 'pay': path = '/checkout/information'; break;
         }
         router.push(getLocalizedPath(path, lang));
         if (window.innerWidth < 768) setIsOpen(false); // Close on mobile after click

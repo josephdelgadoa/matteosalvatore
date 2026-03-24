@@ -73,50 +73,49 @@ export async function middleware(request: NextRequest) {
         'ayuda': 'help',
         'envios': 'shipping',
         'guia-de-tallas': 'size-guide',
-        'faq': 'faq'
+        'faq': 'faq',
+        'informacion': 'information',
+        'metodo-de-pago': 'payment',
+        'exito': 'success'
     };
 
     let response: NextResponse | null = null;
-    const segments = pathname.split('/').filter(Boolean); // e.g. ['es', 'nosotros']
+    const segments = pathname.split('/').filter(Boolean); // e.g. ['es', 'pago', 'informacion']
     const lang = segments[0];
-    const slug = segments[1];
 
-    if (i18n.locales.includes(lang as any) && slug) {
-        // 1. Check for REDIRECTS (Incorrect slug for language)
-        // If English and using Spanish slug -> Redirect to English slug
-        if (lang === 'en' && urlMapping[slug]) {
-            const correctSlug = urlMapping[slug];
-            const restOfPath = segments.slice(2).join('/');
-            const newPath = `/en/${correctSlug}${restOfPath ? `/${restOfPath}` : ''}`;
-            console.log(`[Middleware] Redirecting ${pathname} -> ${newPath} (Wrong slug for EN)`);
-            return NextResponse.redirect(new URL(newPath, request.url));
-        }
+    if (i18n.locales.includes(lang as any) && segments.length > 1) {
+        let isWrongEnRoute = false;
+        let isWrongEsRoute = false;
 
-        // If Spanish and using English slug -> Redirect to Spanish slug
         const inverseMapping: Record<string, string> = Object.entries(urlMapping).reduce((acc, [es, en]) => {
             acc[en] = es;
             return acc;
         }, {} as Record<string, string>);
 
-        if (lang === 'es' && inverseMapping[slug]) {
-            const correctSlug = inverseMapping[slug];
-            const restOfPath = segments.slice(2).join('/');
-            const newPath = `/es/${correctSlug}${restOfPath ? `/${restOfPath}` : ''}`;
-            console.log(`[Middleware] Redirecting ${pathname} -> ${newPath} (Wrong slug for ES)`);
-            return NextResponse.redirect(new URL(newPath, request.url));
+        // Normalize segments internally
+        const internalSegments = segments.slice(1).map(seg => {
+            if (lang === 'en' && urlMapping[seg]) isWrongEnRoute = true;
+            if (lang === 'es' && inverseMapping[seg]) isWrongEsRoute = true;
+            return urlMapping[seg] || seg;
+        });
+
+        // Redirects for mixing incorrect locale words
+        if (isWrongEnRoute) {
+            const redirectSegments = segments.slice(1).map(seg => urlMapping[seg] || seg);
+            return NextResponse.redirect(new URL(`/en/${redirectSegments.join('/')}`, request.url));
         }
 
-        // 2. INTERNAL REWRITES
-        let internalPath: string | null = null;
-        if (lang === 'es' && urlMapping[slug]) {
-            internalPath = urlMapping[slug];
-        } else if (lang === 'en' && Object.values(urlMapping).includes(slug)) {
-            internalPath = slug;
+        if (isWrongEsRoute) {
+            const redirectSegments = segments.slice(1).map(seg => inverseMapping[seg] || seg);
+            return NextResponse.redirect(new URL(`/es/${redirectSegments.join('/')}`, request.url));
         }
 
-        if (internalPath) {
-            const restOfPath = segments.slice(2).join('/');
-            const newPath = `/${lang}/${internalPath}${restOfPath ? `/${restOfPath}` : ''}`;
+        const internalPath = internalSegments.join('/');
+        const currentPathStr = segments.slice(1).join('/');
+        
+        // Rewrite to exact physical internal folders if there's translation mapping needed
+        if (internalPath !== currentPathStr) {
+            const newPath = `/${lang}/${internalPath}`;
             console.log(`[Middleware] Rewriting ${lang} path: ${pathname} -> ${newPath}`);
             response = NextResponse.rewrite(new URL(newPath, request.url));
         }
