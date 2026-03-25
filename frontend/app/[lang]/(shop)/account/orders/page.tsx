@@ -19,7 +19,10 @@ export default function OrderHistoryPage({ params: { lang } }: { params: { lang:
     useEffect(() => {
         const fetchOrders = async () => {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
+            if (!user) {
+                setLoading(false);
+                return;
+            }
 
             try {
                 // Fetch from Backend API which has 'getOrdersByCustomer'

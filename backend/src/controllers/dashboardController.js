@@ -7,7 +7,7 @@ exports.getDashboardStats = async (req, res, next) => {
         const { data: onlineSales, error: onlineError } = await supabase
             .from('orders')
             .select('total_amount')
-            .eq('status', 'completed');
+            .in('status', ['paid', 'completed']);
 
         // 2. Total POS Revenue
         const { data: posSales, error: posError } = await supabase

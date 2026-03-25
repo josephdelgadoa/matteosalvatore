@@ -508,6 +508,24 @@
             "tableTotal": "Total",
             "view": "View"
         },
+        "orderDetails": {
+            "backToOrders": "Back to Orders",
+            "printInvoice": "Print Invoice",
+            "orderNumber": "Order #",
+            "customer": "Customer",
+            "guest": "Guest (Guest Order)",
+            "customerId": "Customer ID",
+            "shippingAddress": "Shipping Address",
+            "noAddress": "No address info",
+            "product": "Product",
+            "qty": "Qty",
+            "price": "Price",
+            "total": "Total",
+            "noItems": "No items found",
+            "subtotal": "Subtotal",
+            "igv": "IGV (18%)",
+            "orderNotFound": "Order not found"
+        },
         "customersList": {
             "title": "Customers",
             "subtitle": "Manage your registered users and profiles.",

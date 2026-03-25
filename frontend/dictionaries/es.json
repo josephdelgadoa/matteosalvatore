@@ -508,6 +508,24 @@
             "tableTotal": "Total",
             "view": "Ver"
         },
+        "orderDetails": {
+            "backToOrders": "Volver a Pedidos",
+            "printInvoice": "Imprimir Recibo",
+            "orderNumber": "Pedido #",
+            "customer": "Cliente",
+            "guest": "Invitado (Pedido de Invitado)",
+            "customerId": "ID de Cliente",
+            "shippingAddress": "Dirección de Envío",
+            "noAddress": "Sin información de dirección",
+            "product": "Producto",
+            "qty": "Cant",
+            "price": "Precio",
+            "total": "Total",
+            "noItems": "No se encontraron artículos",
+            "subtotal": "Subtotal",
+            "igv": "IGV (18%)",
+            "orderNotFound": "Pedido no encontrado"
+        },
         "customersList": {
             "title": "Clientes",
             "subtitle": "Gestione sus usuarios registrados y perfiles.",

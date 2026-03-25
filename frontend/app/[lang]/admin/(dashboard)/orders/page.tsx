@@ -54,10 +54,11 @@ export default function AdminOrdersPage({ params }: { params: { lang: Locale } }
         {
             header: '',
             accessorKey: (item: Order) => (
-                <Link href={`/${params.lang}/admin/orders/${item.id}`}>
-                    <Button variant="text" size="sm" className="gap-2">
-                        <Eye className="w-4 h-4" /> {dict.ordersList.view}
-                    </Button>
+                <Link 
+                    href={`/${params.lang}/admin/orders/${item.id}`}
+                    className="inline-flex items-center gap-2 text-sm text-ms-stone hover:text-ms-black font-medium transition-colors"
+                >
+                    <Eye className="w-4 h-4" /> {dict.ordersList.view}
                 </Link>
             )
         }

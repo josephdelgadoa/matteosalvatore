@@ -42,6 +42,7 @@ exports.createOrder = async (req, res, next) => {
         const orderItems = items.map(item => ({
             order_id: order.id,
             product_id: item.product_id,
+            variant_id: item.variant_id || null, // ADDED variant_id
             product_name: item.name,
             quantity: item.quantity,
             unit_price: item.price,
@@ -67,16 +68,16 @@ exports.createOrder = async (req, res, next) => {
 
 exports.getOrder = async (req, res, next) => {
     try {
-        const { orderNumber } = req.params;
+        const { id } = req.params;
+        const column = id && id.startsWith('MS-') ? 'order_number' : 'id';
 
         const { data: order, error } = await supabase
             .from('orders')
             .select(`
                 *,
-                order_items (*),
-                payments (*)
+                order_items (*)
             `)
-            .eq('order_number', orderNumber)
+            .eq(column, id)
             .single();
 
         if (error || !order) {
@@ -120,7 +121,7 @@ exports.getAllOrders = async (req, res, next) => {
     try {
         const { data: orders, error } = await supabase
             .from('orders')
-            .select('*, profiles(first_name, last_name, email)') // Fetch basic customer info if relation exists
+            .select('*') // Removed profiles join due to missing foreign key relationship
             .order('created_at', { ascending: false });
 
         if (error) throw error;

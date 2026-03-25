@@ -10,6 +10,7 @@ import axios from 'axios';
 import Script from 'next/script';
 import { useCheckoutDictionary } from '@/providers/CheckoutDictionaryProvider';
 import { getLocalizedPath } from '@/lib/routes';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 declare global {
     interface Window {
@@ -26,6 +27,7 @@ export default function CheckoutPaymentPage() {
     const [loading, setLoading] = useState(false);
     const [isScriptLoaded, setIsScriptLoaded] = useState(false);
     const culqiInstance = useRef<any>(null);
+    const supabase = createClientComponentClient();
 
     // State for order ID created before payment
     const [orderId, setOrderId] = useState<string | null>(null);
@@ -64,6 +66,9 @@ export default function CheckoutPaymentPage() {
             const shippingCost = shippingMethod === 'express' ? 25 : 15;
             const total = getCartTotal() + shippingCost;
 
+            const { data: { session } } = await supabase.auth.getSession();
+            const customer_id = session?.user?.id || null;
+
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
                 items: items.map(item => ({
                     product_id: item.product_id || item.id,
@@ -82,13 +87,14 @@ export default function CheckoutPaymentPage() {
                 },
                 customer_email: shippingInfo.email,
                 total_amount: total,
-                customer_id: null
+                customer_id: customer_id
             });
 
             const newOrder = data.data.order;
             setOrderId(newOrder.id);
 
-            const hasRsaKey = process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY && 
+            const isLiveKey = process.env.NEXT_PUBLIC_CULQI_PUBLIC_KEY?.startsWith('pk_live_');
+            const hasRsaKey = isLiveKey && process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY && 
                               !process.env.NEXT_PUBLIC_CULQI_RSA_PUBLIC_KEY.startsWith('PASTE');
 
             // 2. Configure and Open Culqi Checkout v4
@@ -144,6 +150,11 @@ export default function CheckoutPaymentPage() {
                         });
 
                         addToast(payDict?.paymentSuccess || 'Payment Successful! Redirecting...', 'success');
+                        
+                        if (window.Culqi.close) {
+                            window.Culqi.close();
+                        }
+
                         clearCart();
                         localStorage.removeItem('checkout_info');
                         localStorage.removeItem('checkout_shipping');
@@ -160,6 +171,7 @@ export default function CheckoutPaymentPage() {
                     }
                 } else if (errorObj) {
                     console.error('Culqi error:', errorObj);
+                    alert(`Culqi Dev Error Details:\nMerchant Message: ${errorObj.merchant_message || 'N/A'}\nUser Message: ${errorObj.user_message || 'N/A'}\nType/Code: ${errorObj.type || errorObj.code || 'N/A'}`);
                     addToast(errorObj.user_message || 'Payment Error', 'error');
                     setLoading(false);
                     if (window.Culqi.close) window.Culqi.close();
