@@ -76,9 +76,9 @@ const PRODUCT_FAMILIES = [
         sizes: ['S', 'M', 'L', 'XL']
     },
     {
-        pattern: /Polera.*Hoodie.*Classic|Polera.*Capucha.*Classic/i,
-        short_name_es: 'Polera Hoodie',
-        short_name_en: 'Hoodie',
+        pattern: /Polera.*Hoodie.*Classic|Polera.*Capucha.*Classic|Polera.*Hoodie.*Clásica|Polera.*Hoodie.*Clasica|Polera.*Hoodie.*Minimalista/i,
+        short_name_es: 'Polera Hoodie Classic',
+        short_name_en: 'Classic Hoodie',
         sizes: ['S', 'M', 'L', 'XL', 'XXL']
     }
 ];

@@ -42,6 +42,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
     const [formData, setFormData] = useState<Partial<Product>>({
         name_es: '',
         name_en: '',
+        short_name_es: '',
+        short_name_en: '',
         slug_es: '',
         slug_en: '',
         description_es: '',
@@ -260,6 +262,8 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
             sku: inferredSku || prev.sku,
             name_es: renderAiValue(aiResult["1_name_es"] || aiResult.name_es || aiResult.title_es),
             name_en: renderAiValue(aiResult["1_name_en"] || aiResult.name_en || aiResult.title_en),
+            short_name_es: renderAiValue(aiResult["1_short_name_es"] || aiResult.short_name_es),
+            short_name_en: renderAiValue(aiResult["1_short_name_en"] || aiResult.short_name_en),
             slug_es: renderAiValue(aiResult["2_slug_es"] || aiResult.slug_es),
             slug_en: renderAiValue(aiResult["2_slug_en"] || aiResult.slug_en),
             short_description_es: renderAiValue(aiResult["3_short_description_es"] || aiResult.short_description_es),
@@ -334,6 +338,9 @@ export default function ProductFormPage({ params }: { params: { id: string } }) 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Input label="Name (ES)" value={formData.name_es || ''} onChange={e => setFormData({ ...formData, name_es: e.target.value })} required />
                         <Input label="Name (EN)" value={formData.name_en || ''} onChange={e => setFormData({ ...formData, name_en: e.target.value })} />
+
+                        <Input label="Short Name (ES)" value={formData.short_name_es || ''} onChange={e => setFormData({ ...formData, short_name_es: e.target.value })} placeholder="e.g. Polo Pima Básico" />
+                        <Input label="Short Name (EN)" value={formData.short_name_en || ''} onChange={e => setFormData({ ...formData, short_name_en: e.target.value })} placeholder="e.g. Pima Basic Polo" />
 
                         <div className="col-span-1">
                             <Input
