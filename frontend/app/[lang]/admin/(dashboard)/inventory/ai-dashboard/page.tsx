@@ -14,6 +14,7 @@ export default function AiInventoryDashboard() {
     const [inventory, setInventory] = useState<any[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedProductId, setSelectedProductId] = useState<string>('all');
 
     const loadData = async () => {
         setIsLoading(true);
@@ -43,6 +44,12 @@ export default function AiInventoryDashboard() {
             console.error('Error loading inventory', err);
         }
     };
+ 
+    const MODERN_COLORS = [
+        '#6366F1', '#EC4899', '#8B5CF6', '#10B981', '#F59E0B', 
+        '#3B82F6', '#EF4444', '#06B6D4', '#64748B', '#A855F7',
+        '#F97316', '#14B8A6', '#D946EF', '#84CC16', '#FACC15'
+    ];
 
     useEffect(() => {
         loadData();
@@ -158,11 +165,70 @@ export default function AiInventoryDashboard() {
         status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
     })).sort((a, b) => b.quantity - a.quantity);
  
-    const activeData = viewMode === 'category' ? categoryData : 
-                     viewMode === 'subcategory' ? subcategoryData : 
-                     (productViewType === 'total' ? productTotalData : 
-                      productViewType === 'variant' ? variantData : 
-                      productViewType === 'color' ? colorGroupedData : sizeGroupedData);
+    const activeData = React.useMemo(() => {
+        if (selectedProductId !== 'all') {
+            const product = products.find(p => p.id === selectedProductId);
+            if (!product) return [];
+ 
+            const pName = product.short_name_es || product.name_es;
+            
+            if (productViewType === 'variant') {
+                return (product.product_variants || []).map(v => {
+                    const item = inventory.find(i => i.variant_id === v.id);
+                    const qty = item?.quantity || 0;
+                    return {
+                        name: `${v.color} - ${v.size}`,
+                        fullName: `${pName} (${v.color} - ${v.size})`,
+                        quantity: qty,
+                        status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+                    };
+                }).sort((a, b) => b.quantity - a.quantity);
+            } else if (productViewType === 'color') {
+                const colors = new Map<string, number>();
+                product.product_variants?.forEach(v => {
+                    const item = inventory.find(i => i.variant_id === v.id);
+                    colors.set(v.color, (colors.get(v.color) || 0) + (item?.quantity || 0));
+                });
+                return Array.from(colors.entries()).map(([color, qty]) => ({
+                    name: color,
+                    fullName: `${pName} (${color})`,
+                    quantity: qty,
+                    status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+                })).sort((a, b) => b.quantity - a.quantity);
+            } else if (productViewType === 'size') {
+                const sizes = new Map<string, number>();
+                product.product_variants?.forEach(v => {
+                    const item = inventory.find(i => i.variant_id === v.id);
+                    sizes.set(v.size, (sizes.get(v.size) || 0) + (item?.quantity || 0));
+                });
+                return Array.from(sizes.entries()).map(([size, qty]) => ({
+                    name: size,
+                    fullName: `${pName} (${size})`,
+                    quantity: qty,
+                    status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+                })).sort((a, b) => b.quantity - a.quantity);
+            } else {
+                // Total for single product is just one bar, not very useful but for consistency:
+                let totalQty = 0;
+                product.product_variants?.forEach(v => {
+                    const item = inventory.find(i => i.variant_id === v.id);
+                    totalQty += item?.quantity || 0;
+                });
+                return [{
+                    name: pName,
+                    fullName: pName,
+                    quantity: totalQty,
+                    status: totalQty === 0 ? 'Out of Stock' : totalQty < 10 ? 'Low Stock' : 'In Stock'
+                }];
+            }
+        }
+ 
+        return viewMode === 'category' ? categoryData : 
+               viewMode === 'subcategory' ? subcategoryData : 
+               (productViewType === 'total' ? productTotalData : 
+                productViewType === 'variant' ? variantData : 
+                productViewType === 'color' ? colorGroupedData : sizeGroupedData);
+    }, [viewMode, productViewType, selectedProductId, products, inventory, categoryData, subcategoryData, productTotalData, variantData, colorGroupedData, sizeGroupedData]);
 
     // Top metrics calculations
     const totalInventoryUnits = productTotalData.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -204,6 +270,28 @@ export default function AiInventoryDashboard() {
                         {stores.map(store => (
                             <option key={store.id} value={store.id}>{store.name}</option>
                         ))}
+                    </select>
+                    
+                    <div className="h-10 w-[1px] bg-ms-fog mx-1"></div>
+
+                    <select
+                        className="ms-input h-10 px-4 py-0 min-w-[250px] border-ms-brand-primary/30 bg-ms-brand-primary/5 font-medium"
+                        value={selectedProductId}
+                        onChange={e => {
+                            setSelectedProductId(e.target.value);
+                            if (e.target.value !== 'all' && productViewType === 'total') {
+                                setProductViewType('variant'); // Auto-switch to more useful view for single product
+                            }
+                        }}
+                    >
+                        <option value="all">🌍 Vista Global (Todo)</option>
+                        <optgroup label="Filtrar por Producto">
+                            {products.sort((a, b) => (a.short_name_es || a.name_es).localeCompare(b.short_name_es || b.name_es)).map(p => (
+                                <option key={p.id} value={p.id}>
+                                    {p.short_name_es || p.name_es}
+                                </option>
+                            ))}
+                        </optgroup>
                     </select>
                     <Button variant="outline" onClick={loadInventory}>
                         <RefreshCw className="w-4 h-4 mr-2" />
@@ -322,7 +410,7 @@ export default function AiInventoryDashboard() {
                                 {activeData.map((entry, index) => (
                                     <Cell 
                                         key={`cell-${index}`} 
-                                        fill={entry.quantity === 0 ? '#EF4444' : entry.quantity < 10 ? '#F59E0B' : '#000000'} 
+                                        fill={entry.quantity === 0 ? '#EF4444' : entry.quantity < 10 ? '#F59E0B' : MODERN_COLORS[index % MODERN_COLORS.length]} 
                                         fillOpacity={0.8}
                                     />
                                 ))}
