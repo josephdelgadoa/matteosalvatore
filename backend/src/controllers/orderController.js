@@ -75,7 +75,20 @@ exports.getOrder = async (req, res, next) => {
             .from('orders')
             .select(`
                 *,
-                order_items (*)
+                order_items (
+                    *,
+                    product_variants (
+                        sku_variant,
+                        products (
+                            sku,
+                            product_images (image_url, is_primary)
+                        )
+                    ),
+                    products (
+                        sku,
+                        product_images (image_url, is_primary)
+                    )
+                )
             `)
             .eq(column, id)
             .single();
@@ -97,12 +110,18 @@ exports.getOrder = async (req, res, next) => {
 exports.getOrdersByCustomer = async (req, res, next) => {
     try {
         const { customerId } = req.params;
+        const { email } = req.query;
 
-        const { data: orders, error } = await supabase
-            .from('orders')
-            .select('*')
-            .eq('customer_id', customerId)
-            .order('created_at', { ascending: false });
+        let query = supabase.from('orders').select('*');
+
+        if (email) {
+            // Use .or to match either the UUID or the email address
+            query = query.or(`customer_id.eq.${customerId},email.eq.${email}`);
+        } else {
+            query = query.eq('customer_id', customerId);
+        }
+
+        const { data: orders, error } = await query.order('created_at', { ascending: false });
 
         if (error) throw error;
 

@@ -29,6 +29,12 @@ function getLocale(request: NextRequest): string {
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
+    // --- Rewrite Bypass ---
+    // If this is an internal rewrite, skip the localization logic to avoid loops
+    if (request.nextUrl.searchParams.has('__rw')) {
+        return NextResponse.next();
+    }
+
     // --- Static File & API Bypass ---
     // Skip middleware for static files, images, favicon, and API routes
     // This MUST happen before any locale redirection or rewrites
@@ -79,46 +85,45 @@ export async function middleware(request: NextRequest) {
         'exito': 'success'
     };
 
-    let response: NextResponse | null = null;
-    const segments = pathname.split('/').filter(Boolean); // e.g. ['es', 'pago', 'informacion']
+    const inverseMapping: Record<string, string> = Object.entries(urlMapping).reduce((acc, [es, en]) => {
+        acc[en] = es;
+        return acc;
+    }, {} as Record<string, string>);
+
+    let internalPath = pathname;
+    let isWrongEnRoute = false;
+    let isWrongEsRoute = false;
+    const segments = pathname.split('/').filter(Boolean);
     const lang = segments[0];
 
     if (i18n.locales.includes(lang as any) && segments.length > 1) {
-        let isWrongEnRoute = false;
-        let isWrongEsRoute = false;
-
-        const inverseMapping: Record<string, string> = Object.entries(urlMapping).reduce((acc, [es, en]) => {
-            acc[en] = es;
-            return acc;
-        }, {} as Record<string, string>);
-
         // Normalize segments internally
         const internalSegments = segments.slice(1).map(seg => {
             if (lang === 'en' && urlMapping[seg]) isWrongEnRoute = true;
             if (lang === 'es' && inverseMapping[seg]) isWrongEsRoute = true;
             return urlMapping[seg] || seg;
         });
+        internalPath = `/${lang}/${internalSegments.join('/')}`;
+    }
 
-        // Redirects for mixing incorrect locale words
-        if (isWrongEnRoute) {
-            const redirectSegments = segments.slice(1).map(seg => urlMapping[seg] || seg);
-            return NextResponse.redirect(new URL(`/en/${redirectSegments.join('/')}`, request.url));
-        }
+    // 1. Handle Visible Redirects for "Wrong" localized words
+    if (isWrongEnRoute) {
+        const redirectSegments = segments.slice(1).map(seg => urlMapping[seg] || seg);
+        return NextResponse.redirect(new URL(`/en/${redirectSegments.join('/')}`, request.url));
+    }
 
-        if (isWrongEsRoute) {
-            const redirectSegments = segments.slice(1).map(seg => inverseMapping[seg] || seg);
-            return NextResponse.redirect(new URL(`/es/${redirectSegments.join('/')}`, request.url));
-        }
+    if (isWrongEsRoute) {
+        const redirectSegments = segments.slice(1).map(seg => inverseMapping[seg] || seg);
+        return NextResponse.redirect(new URL(`/es/${redirectSegments.join('/')}`, request.url));
+    }
 
-        const internalPath = internalSegments.join('/');
-        const currentPathStr = segments.slice(1).join('/');
-        
-        // Rewrite to exact physical internal folders if there's translation mapping needed
-        if (internalPath !== currentPathStr) {
-            const newPath = `/${lang}/${internalPath}`;
-            console.log(`[Middleware] Rewriting ${lang} path: ${pathname} -> ${newPath}`);
-            response = NextResponse.rewrite(new URL(newPath, request.url));
-        }
+    // 2. Prepare Rewrite Response if path is localized
+    let response: NextResponse | null = null;
+    if (internalPath !== pathname) {
+        console.log(`[Middleware] Rewriting ${lang} path: ${pathname} -> ${internalPath}`);
+        const url = new URL(internalPath, request.url);
+        url.searchParams.set('__rw', '1');
+        response = NextResponse.rewrite(url);
     }
 
     if (!response) {
@@ -150,12 +155,13 @@ export async function middleware(request: NextRequest) {
             },
         }
     );
-
     const { data: { session } } = await supabase.auth.getSession();
 
-    if (pathname.includes('/admin') && !pathname.includes('/admin/login')) {
+    // 3. Admin Security Check (Using INTERNAL path to avoid localized word loops)
+    if (internalPath.includes('/admin') && !internalPath.includes('/admin/login')) {
         if (!session) {
             const locale = getLocale(request);
+            // Redirect to the English/Internal login path, which will then be localized by the re-run
             return NextResponse.redirect(new URL(`/${locale}/admin/login`, request.url));
         }
     }

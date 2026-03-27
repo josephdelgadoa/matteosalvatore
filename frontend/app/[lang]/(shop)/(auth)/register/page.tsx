@@ -10,6 +10,8 @@ import { useToast, ToastContainer } from '@/components/ui/Toast';
 
 import { Locale } from '@/i18n-config';
 
+import { useShopDictionary } from '@/providers/ShopDictionaryProvider';
+
 export default function RegisterPage({ params }: { params: { lang: Locale } }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,6 +20,8 @@ export default function RegisterPage({ params }: { params: { lang: Locale } }) {
     const router = useRouter();
     const { addToast } = useToast();
     const supabase = createClientComponentClient();
+    const dict = useShopDictionary();
+    const regDict = dict.auth.register;
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,7 +33,6 @@ export default function RegisterPage({ params }: { params: { lang: Locale } }) {
             options: {
                 data: {
                     full_name: fullName,
-                    // We'll use this metadata to populate our customers table via trigger or manual hook
                 },
             },
         });
@@ -38,18 +41,12 @@ export default function RegisterPage({ params }: { params: { lang: Locale } }) {
             addToast(error.message, 'error');
             setLoading(false);
         } else {
-            // If email confirmation is disabled, we can redirect. 
-            // If enabled, we show a message.
-            // Assuming it might be disabled for dev or we auto-login?
-            // Supabase defaults to requiring confirmation.
-            addToast('Account created! Please check your email to verify.', 'success');
+            addToast(regDict.successToast, 'success');
 
-            // Optional: If auto-confirm is on, we redirect
             if (data.session) {
                 router.push(`/${params.lang}/account`);
                 router.refresh();
             } else {
-                // Stay here or redirect to a verify info page
                 setLoading(false);
             }
         }
@@ -59,27 +56,27 @@ export default function RegisterPage({ params }: { params: { lang: Locale } }) {
         <div className="animate-fade-in">
             <ToastContainer />
             <div className="text-center mb-8">
-                <h1 className="ms-heading-2 mb-2">Create Account</h1>
-                <p className="text-ms-stone">Join us for exclusive access and potential rewards.</p>
+                <h1 className="ms-heading-2 mb-2">{regDict.title}</h1>
+                <p className="text-ms-stone">{regDict.subtitle}</p>
             </div>
 
             <form onSubmit={handleRegister} className="space-y-6">
                 <Input
-                    label="Full Name"
+                    label={regDict.fullNameLabel}
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required
                 />
                 <Input
-                    label="Email"
+                    label={regDict.emailLabel}
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
                 <Input
-                    label="Password"
+                    label={regDict.passwordLabel}
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -88,14 +85,14 @@ export default function RegisterPage({ params }: { params: { lang: Locale } }) {
                 />
 
                 <Button type="submit" className="w-full" isLoading={loading} disabled={loading}>
-                    Create account
+                    {regDict.registerBtn}
                 </Button>
             </form>
 
             <div className="mt-8 text-center text-sm text-ms-stone">
-                Already have an account?{' '}
+                {regDict.alreadyHaveAccount}{' '}
                 <Link href={`/${params.lang}/login`} className="text-ms-black font-medium hover:underline">
-                    Sign in
+                    {regDict.signIn}
                 </Link>
             </div>
         </div>

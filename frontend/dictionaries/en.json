@@ -10,6 +10,46 @@
         "logout": "Logout",
         "menu": "Menu"
     },
+    "account": {
+        "orders": {
+            "title": "Order History",
+            "noOrders": "No orders yet",
+            "noOrdersSub": "You haven't placed any orders yet.",
+            "startShopping": "Start Shopping",
+            "orderPlaced": "Order Placed",
+            "total": "Total",
+            "orderNumber": "Order #",
+            "viewDetails": "View order details",
+            "statusPaid": "Paid",
+            "statusPending": "Pending",
+            "details": "Details",
+            "backToOrders": "Back to Orders"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome Back",
+            "subtitle": "Please enter your details to sign in.",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "forgotPassword": "Forgot password?",
+            "signInBtn": "Sign in",
+            "noAccount": "Don't have an account?",
+            "createAccount": "Create account",
+            "welcomeBackToast": "Welcome back!"
+        },
+        "register": {
+            "title": "Create an Account",
+            "subtitle": "Join us for a better experience.",
+            "fullNameLabel": "Full Name",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "registerBtn": "Create account",
+            "alreadyHaveAccount": "Already have an account?",
+            "signIn": "Sign in",
+            "successToast": "Account created successfully! Please check your email to verify."
+        }
+    },
     "chatbot": {
         "welcome": "Hello! I'm Matteo, your personal assistant. How can I help you today?",
         "placeholder": "Type a message...",

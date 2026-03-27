@@ -2,11 +2,7 @@ const CulqiService = require('../services/culqi');
 const SupabaseService = require('../services/supabase');
 const { logger } = require('../utils/logger');
 const supabase = require('../config/database');
-const { Resend } = require('resend');
-
-const resend = process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_xxxxx' 
-    ? new Resend(process.env.RESEND_API_KEY) 
-    : null;
+const emailService = require('../services/emailService');
 
 exports.processPayment = async (req, res) => {
     try {
@@ -65,29 +61,23 @@ exports.processPayment = async (req, res) => {
                 }
 
                 // 2. Send Emails
-                if (resend) {
-                    const { data: orderDetails } = await supabase.from('orders').select('*').eq('id', orderId).single();
-                    const orderNum = orderDetails ? orderDetails.order_number : orderId;
-                    const customerEmail = orderDetails ? orderDetails.email : email;
+                const { data: orderDetails } = await supabase.from('orders').select('*').eq('id', orderId).single();
+                const orderNum = orderDetails ? orderDetails.order_number : orderId;
+                const customerEmail = orderDetails ? orderDetails.email : email;
 
-                    // Receipt to Customer
-                    const res1 = await resend.emails.send({
-                        from: process.env.FROM_EMAIL || 'pedidos@matteosalvatore.com',
-                        to: customerEmail,
-                        subject: `Recibo de Compra - Pedido ${orderNum}`,
-                        html: `<h1>¡Gracias por tu compra!</h1><p>Hemos recibido el pago de ${amount} ${currency} para el pedido <strong>${orderNum}</strong>.</p><p>Pronto procesaremos tu envío.</p>`
-                    });
-                    if (res1.error) logger.error('Resend Error [Customer]:', res1.error);
+                // Receipt to Customer
+                await emailService.sendEmail({
+                    to: customerEmail,
+                    subject: `Recibo de Compra - Pedido ${orderNum}`,
+                    html: `<h1>¡Gracias por tu compra!</h1><p>Hemos recibido el pago de ${amount} ${currency} para el pedido <strong>${orderNum}</strong>.</p><p>Pronto procesaremos tu envío.</p>`
+                });
 
-                    // Notification to Admin
-                    const res2 = await resend.emails.send({
-                        from: process.env.FROM_EMAIL || 'pedidos@matteosalvatore.com',
-                        to: process.env.ADMIN_EMAIL || 'admin@matteosalvatore.pe',
-                        subject: `Nuevo pedido pagado: ${orderNum}`,
-                        html: `<h1>Nuevo Pedido Registrado</h1><p>El cliente (${customerEmail}) ha pagado ${amount} ${currency} por el pedido <strong>${orderNum}</strong>.</p>`
-                    });
-                    if (res2.error) logger.error('Resend Error [Admin]:', res2.error);
-                }
+                // Notification to Admin
+                await emailService.sendEmail({
+                    to: process.env.ADMIN_EMAIL || 'admin@matteosalvatore.pe',
+                    subject: `Nuevo pedido pagado: ${orderNum}`,
+                    html: `<h1>Nuevo Pedido Registrado</h1><p>El cliente (${customerEmail}) ha pagado ${amount} ${currency} por el pedido <strong>${orderNum}</strong>.</p>`
+                });
             } catch (postPaymentErr) {
                 logger.error('Error in post-payment processes (inventory/email):', postPaymentErr);
             }

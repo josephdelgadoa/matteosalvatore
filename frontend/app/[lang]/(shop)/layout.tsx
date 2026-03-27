@@ -7,6 +7,8 @@ import { getDictionary } from '../../../get-dictionary';
 import { Locale } from '../../../i18n-config';
 import { menuApi } from '@/lib/api/menu';
 
+import { ShopDictionaryProvider } from '@/providers/ShopDictionaryProvider';
+
 export default async function ShopLayout({
     children,
     params,
@@ -19,13 +21,15 @@ export default async function ShopLayout({
 
     return (
         <div className="flex flex-col min-h-screen relative">
-            <Header lang={params.lang} dict={dict.nav} commonDict={dict.common} menuItems={menuItems} />
-            <main className="flex-grow pt-20">
-                {children}
-            </main>
-            <Footer lang={params.lang} dict={dict.footer} />
-            <AiChatbot lang={params.lang} dict={dict} />
-            <CookieConsent dict={dict.cookies} lang={params.lang} />
+            <ShopDictionaryProvider dictionary={dict}>
+                <Header lang={params.lang} dict={dict.nav} commonDict={dict.common} menuItems={menuItems} />
+                <main className="flex-grow pt-20">
+                    {children}
+                </main>
+                <Footer lang={params.lang} dict={dict.footer} />
+                <AiChatbot lang={params.lang} dict={dict} />
+                <CookieConsent dict={dict.cookies} lang={params.lang} />
+            </ShopDictionaryProvider>
         </div>
     );
 }

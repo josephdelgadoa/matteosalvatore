@@ -10,6 +10,8 @@ import { useToast, ToastContainer } from '@/components/ui/Toast';
 
 import { Locale } from '@/i18n-config';
 
+import { useShopDictionary } from '@/providers/ShopDictionaryProvider';
+
 export default function LoginPage({ params }: { params: { lang: Locale } }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,6 +19,8 @@ export default function LoginPage({ params }: { params: { lang: Locale } }) {
     const router = useRouter();
     const { addToast } = useToast();
     const supabase = createClientComponentClient();
+    const dict = useShopDictionary();
+    const authDict = dict.auth.login;
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,7 +35,7 @@ export default function LoginPage({ params }: { params: { lang: Locale } }) {
             addToast(error.message, 'error');
             setLoading(false);
         } else {
-            addToast('Welcome back!', 'success');
+            addToast(authDict.welcomeBackToast, 'success');
             router.push(`/${params.lang}/account`); // Redirect to dashboard
             router.refresh();
         }
@@ -41,13 +45,13 @@ export default function LoginPage({ params }: { params: { lang: Locale } }) {
         <div className="animate-fade-in">
             <ToastContainer />
             <div className="text-center mb-8">
-                <h1 className="ms-heading-2 mb-2">Welcome Back</h1>
-                <p className="text-ms-stone">Please enter your details to sign in.</p>
+                <h1 className="ms-heading-2 mb-2">{authDict.title}</h1>
+                <p className="text-ms-stone">{authDict.subtitle}</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
                 <Input
-                    label="Email"
+                    label={authDict.emailLabel}
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -55,7 +59,7 @@ export default function LoginPage({ params }: { params: { lang: Locale } }) {
                 />
                 <div className="space-y-1">
                     <Input
-                        label="Password"
+                        label={authDict.passwordLabel}
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -63,20 +67,20 @@ export default function LoginPage({ params }: { params: { lang: Locale } }) {
                     />
                     <div className="flex justify-end">
                         <Link href={`/${params.lang}/forgot-password`} className="text-xs text-ms-stone hover:text-ms-black hover:underline">
-                            Forgot password?
+                            {authDict.forgotPassword}
                         </Link>
                     </div>
                 </div>
 
                 <Button type="submit" className="w-full" isLoading={loading} disabled={loading}>
-                    Sign in
+                    {authDict.signInBtn}
                 </Button>
             </form>
 
             <div className="mt-8 text-center text-sm text-ms-stone">
-                Don't have an account?{' '}
+                {authDict.noAccount}{' '}
                 <Link href={`/${params.lang}/register`} className="text-ms-black font-medium hover:underline">
-                    Create account
+                    {authDict.createAccount}
                 </Link>
             </div>
         </div>

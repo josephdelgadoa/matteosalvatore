@@ -12,7 +12,8 @@ export const OrderSummary = () => {
     const { dict } = useCheckoutDictionary();
     const subtotal = getCartTotal();
     // Mock shipping for now, will calculate later
-    const shipping = subtotal > 300 ? 0 : 15.00;
+    // If subtotal is 0, shipping should also be 0
+    const shipping = subtotal === 0 ? 0 : (subtotal > 300 ? 0 : 15.00);
     const total = subtotal + shipping;
 
     if (isLoading) return <div className="py-10 flex justify-center"><Spinner /></div>;

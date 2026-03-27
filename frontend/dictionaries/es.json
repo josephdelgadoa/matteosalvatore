@@ -10,6 +10,46 @@
         "logout": "Cerrar Sesión",
         "menu": "Menú"
     },
+    "account": {
+        "orders": {
+            "title": "Historial de Pedidos",
+            "noOrders": "Aún no hay pedidos",
+            "noOrdersSub": "Aún no has realizado ningún pedido.",
+            "startShopping": "Empezar a comprar",
+            "orderPlaced": "Pedido realizado",
+            "total": "Total",
+            "orderNumber": "Pedido #",
+            "viewDetails": "Ver detalles",
+            "statusPaid": "Pagado",
+            "statusPending": "Pendiente",
+            "details": "Detalles",
+            "backToOrders": "Regresar a Pedidos"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Bienvenido de Nuevo",
+            "subtitle": "Por favor ingrese sus datos para iniciar sesión.",
+            "emailLabel": "Correo Electrónico",
+            "passwordLabel": "Contraseña",
+            "forgotPassword": "¿Olvidó su contraseña?",
+            "signInBtn": "Iniciar Sesión",
+            "noAccount": "¿No tiene una cuenta?",
+            "createAccount": "Crear una cuenta",
+            "welcomeBackToast": "¡Bienvenido de nuevo!"
+        },
+        "register": {
+            "title": "Crear una Cuenta",
+            "subtitle": "Únase a nosotros para una mejor experiencia.",
+            "fullNameLabel": "Nombre Completo",
+            "emailLabel": "Correo Electrónico",
+            "passwordLabel": "Contraseña",
+            "registerBtn": "Registrarse",
+            "alreadyHaveAccount": "¿Ya tiene una cuenta?",
+            "signIn": "Inicie sesión",
+            "successToast": "¡Cuenta creada exitosamente! Por favor revise su correo para verificar."
+        }
+    },
     "chatbot": {
         "welcome": "¡Hola! Soy Matteo, tu asistente personal. ¿En qué puedo ayudarte hoy?",
         "placeholder": "Escribe un mensaje...",

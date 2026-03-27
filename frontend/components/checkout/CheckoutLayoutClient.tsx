@@ -14,11 +14,21 @@ import { useCheckoutDictionary } from '@/providers/CheckoutDictionaryProvider';
 export default function CheckoutLayoutClient({ children }: { children: React.ReactNode }) {
     const { dict } = useCheckoutDictionary();
     const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState(false);
-    const { getCartTotal } = useCart();
+    const { items, getCartTotal, isLoading } = useCart();
     const pathname = usePathname();
+    const router = React.useMemo(() => require('next/navigation').useRouter(), []);
     const total = getCartTotal();
 
     const isSuccessPage = pathname.endsWith('/success') || pathname.endsWith('/exito');
+
+    // Redirect to cart if empty (and not on success page)
+    React.useEffect(() => {
+        if (!isLoading && items.length === 0 && !isSuccessPage) {
+            // Find current language from path or dict
+            const lang = pathname.split('/')[1] || 'es';
+            router.push(`/${lang}/cart`);
+        }
+    }, [items, isLoading, isSuccessPage, pathname, router]);
 
     return (
         <div className="min-h-screen bg-ms-white flex flex-col md:flex-row">
@@ -26,21 +36,7 @@ export default function CheckoutLayoutClient({ children }: { children: React.Rea
             {/* Mobile Header & Summary Toggle - Hide on Success */}
             {!isSuccessPage && (
                 <div className="md:hidden bg-ms-ivory/30 border-b border-ms-fog">
-                    {/* Logo Bar */}
-                    <div className="p-4 flex justify-center border-b border-ms-fog/50">
-                        <Link href="/">
-                            <Image
-                                src="/images/logo.svg"
-                                alt="Matteo Salvatore"
-                                width={140}
-                                height={32}
-                                className="h-8 w-auto"
-                                priority
-                            />
-                        </Link>
-                    </div>
-
-                    {/* Toggle Bar */}
+                    {/* Mobile Toggle Bar */}
                     <button
                         onClick={() => setIsMobileSummaryOpen(!isMobileSummaryOpen)}
                         className="w-full flex justify-between items-center p-4 bg-ms-ivory/50 text-sm"
@@ -67,19 +63,7 @@ export default function CheckoutLayoutClient({ children }: { children: React.Rea
             {/* Left Column: Form Area */}
             <div className={`flex-1 flex flex-col pt-6 md:pt-8 px-4 md:px-12 lg:px-24 pb-12 ${!isSuccessPage ? 'border-r border-ms-fog' : 'items-center mt-12'}`}>
                 <div className={`w-full ${!isSuccessPage ? 'max-w-xl mx-auto' : 'max-w-2xl mx-auto text-center'}`}>
-                    {/* Desktop Logo (Hidden on Mobile) */}
-                    <div className={`hidden md:block mb-8 ${isSuccessPage ? 'mx-auto w-fit' : ''}`}>
-                        <Link href="/">
-                            <Image
-                                src="/images/logo.svg"
-                                alt="Matteo Salvatore"
-                                width={180}
-                                height={40}
-                                className="h-10 w-auto"
-                                priority
-                            />
-                        </Link>
-                    </div>
+
 
                     {/* Breadcrumbs / Progress - Hide on Success */}
                     {!isSuccessPage && (

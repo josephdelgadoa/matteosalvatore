@@ -36,7 +36,7 @@ function SuccessContent() {
         <Link href={getLocalizedPath('/', lang as any)}>
           <Button variant="outline">{successDict?.backToHome || 'Back to Home'}</Button>
         </Link>
-        <Link href={getLocalizedPath('/account/orders', lang as any)}>
+        <Link href={getLocalizedPath(`/account/orders/${orderId}`, lang as any)}>
           <Button>{successDict?.viewOrder || 'View Order'}</Button>
         </Link>
       </div>
