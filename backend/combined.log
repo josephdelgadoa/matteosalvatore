@@ -1457,3 +1457,7 @@
 {"level":"info","message":"[EmailService] Email sent: <b0217b02-c691-df85-6c08-5038b1280537@matteosalvatore.pe>","service":"user-service","timestamp":"2026-03-27T05:50:43.609Z"}
 {"level":"info","message":"[EmailService] Email sent: <6ab0fac1-7937-5dff-5ced-21f788189728@matteosalvatore.pe>","service":"user-service","timestamp":"2026-03-27T05:50:46.468Z"}
 {"level":"info","message":"[EmailService] Email sent: <f5f029d8-247c-be8e-8923-8fc27638f7ee@matteosalvatore.pe>","service":"user-service","timestamp":"2026-03-27T05:50:48.312Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-27T06:03:07.839Z"}
+{"level":"info","message":"[EmailService] SMTP Connection established successfully","service":"user-service","timestamp":"2026-03-27T06:03:09.000Z"}
+{"level":"info","message":"Server running on port 4000 in development mode","service":"user-service","timestamp":"2026-03-27T06:03:35.420Z"}
+{"level":"info","message":"[EmailService] SMTP Connection established successfully","service":"user-service","timestamp":"2026-03-27T06:03:36.341Z"}

@@ -138,7 +138,7 @@ export default function AiInventoryDashboard() {
                 </div>
                 <div className="flex gap-4 items-center">
                     <select
-                        className="ms-input h-10 px-4 min-w-[200px]"
+                        className="ms-input h-10 px-4 py-0 min-w-[200px]"
                         value={selectedStoreId}
                         onChange={e => setSelectedStoreId(e.target.value)}
                     >

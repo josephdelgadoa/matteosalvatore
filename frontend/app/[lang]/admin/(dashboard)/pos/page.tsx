@@ -133,7 +133,7 @@ export default function POSPage() {
             <div className="flex justify-between items-center">
                 <h1 className="ms-heading-2">Terminal de Venta (POS)</h1>
                 <select
-                    className="ms-input h-10 px-4 min-w-[200px]"
+                    className="ms-input h-10 px-4 py-0 min-w-[200px]"
                     value={selectedStoreId}
                     onChange={e => { setSelectedStoreId(e.target.value); setCart([]); }}
                 >

@@ -94,7 +94,7 @@ export default function InventoryPage() {
                 <h1 className="ms-heading-2">Gestión de Inventario</h1>
                 <div className="flex gap-4">
                     <select
-                        className="ms-input h-10 px-4 min-w-[200px]"
+                        className="ms-input h-10 px-4 py-0 min-w-[200px]"
                         value={selectedStoreId}
                         onChange={e => setSelectedStoreId(e.target.value)}
                     >
