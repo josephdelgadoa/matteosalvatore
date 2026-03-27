@@ -53,62 +53,121 @@ export default function AiInventoryDashboard() {
     }, [selectedStoreId]);
 
     const [viewMode, setViewMode] = useState<'product' | 'category' | 'subcategory'>('product');
-
+    const [productViewType, setProductViewType] = useState<'total' | 'variant' | 'color' | 'size'>('total');
+ 
     // Aggregate inventory by product
-    const chartData = products.map(product => {
+    const productTotalData = products.map(product => {
         let totalQty = 0;
         product.product_variants?.forEach(variant => {
             const item = inventory.find(i => i.variant_id === variant.id);
             totalQty += item?.quantity || 0;
         });
-
-        // Smart name formatting to fit nicely on the X-axis
-        const shortName = product.name_es.split(' ').slice(0, 3).join(' ') + (product.name_es.split(' ').length > 3 ? '...' : '');
-
+ 
+        const pName = product.short_name_es || product.name_es;
+        const displayName = pName.length > 25 ? pName.substring(0, 22) + '...' : pName;
+ 
         return {
-            name: shortName,
-            fullName: product.name_es,
+            name: displayName,
+            fullName: pName,
             category: product.category,
             subcategory: product.subcategory,
             quantity: totalQty,
             status: totalQty === 0 ? 'Out of Stock' : totalQty < 10 ? 'Low Stock' : 'In Stock'
         };
-    }).sort((a, b) => b.quantity - a.quantity); // Highest to lowest
-
+    }).sort((a, b) => b.quantity - a.quantity);
+ 
+    // Aggregate inventory by color and size (variant)
+    const variantData = products.flatMap(product => 
+        (product.product_variants || []).map(v => {
+            const item = inventory.find(i => i.variant_id === v.id);
+            const qty = item?.quantity || 0;
+            const pName = product.short_name_es || product.name_es;
+            const variantLabel = `${pName} (${v.color} - ${v.size})`;
+            const compactLabel = `${pName.split(' ')[0]}.. (${v.color.substring(0,3)} - ${v.size})`;
+ 
+            return {
+                name: compactLabel,
+                fullName: variantLabel,
+                quantity: qty,
+                status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+            };
+        })
+    ).sort((a, b) => b.quantity - a.quantity).slice(0, 40); // Limit to top 40 to avoid crowding
+ 
+    // Aggregate inventory by color
+    const colorGroupedData = products.flatMap(product => {
+        const pName = product.short_name_es || product.name_es;
+        const colors = new Map<string, number>();
+        
+        product.product_variants?.forEach(v => {
+            const item = inventory.find(i => i.variant_id === v.id);
+            colors.set(v.color, (colors.get(v.color) || 0) + (item?.quantity || 0));
+        });
+ 
+        return Array.from(colors.entries()).map(([color, qty]) => ({
+            name: `${pName.split(' ')[0]}.. (${color})`,
+            fullName: `${pName} (${color})`,
+            quantity: qty,
+            status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+        }));
+    }).sort((a, b) => b.quantity - a.quantity).slice(0, 40);
+ 
+    // Aggregate inventory by size
+    const sizeGroupedData = products.flatMap(product => {
+        const pName = product.short_name_es || product.name_es;
+        const sizes = new Map<string, number>();
+        
+        product.product_variants?.forEach(v => {
+            const item = inventory.find(i => i.variant_id === v.id);
+            sizes.set(v.size, (sizes.get(v.size) || 0) + (item?.quantity || 0));
+        });
+ 
+        return Array.from(sizes.entries()).map(([size, qty]) => ({
+            name: `${pName.split(' ')[0]}.. (${size})`,
+            fullName: `${pName} (${size})`,
+            quantity: qty,
+            status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+        }));
+    }).sort((a, b) => b.quantity - a.quantity).slice(0, 40);
+ 
     // Aggregate inventory by category
     const categoryMap = new Map<string, number>();
-    chartData.forEach(item => {
+    productTotalData.forEach(item => {
         const cat = item.category || 'Sin Categoría';
         categoryMap.set(cat, (categoryMap.get(cat) || 0) + item.quantity);
     });
-
+ 
     const categoryData = Array.from(categoryMap.entries()).map(([cat, qty]) => ({
         name: cat,
         fullName: `Categoría: ${cat}`,
         quantity: qty,
         status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
     })).sort((a, b) => b.quantity - a.quantity);
-
+ 
     // Aggregate inventory by subcategory
     const subcategoryMap = new Map<string, number>();
-    chartData.forEach(item => {
+    productTotalData.forEach(item => {
         const subcat = item.subcategory || 'Sin Subcategoría';
         subcategoryMap.set(subcat, (subcategoryMap.get(subcat) || 0) + item.quantity);
     });
-
+ 
     const subcategoryData = Array.from(subcategoryMap.entries()).map(([subcat, qty]) => ({
         name: subcat,
         fullName: `Subcategoría: ${subcat}`,
         quantity: qty,
         status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
     })).sort((a, b) => b.quantity - a.quantity);
-
-    const activeData = viewMode === 'product' ? chartData : viewMode === 'category' ? categoryData : subcategoryData;
+ 
+    const activeData = viewMode === 'category' ? categoryData : 
+                     viewMode === 'subcategory' ? subcategoryData : 
+                     (productViewType === 'total' ? productTotalData : 
+                      productViewType === 'variant' ? variantData : 
+                      productViewType === 'color' ? colorGroupedData : sizeGroupedData);
 
     // Top metrics calculations
-    const totalInventoryUnits = chartData.reduce((acc, curr) => acc + curr.quantity, 0);
-    const lowStockItems = chartData.filter(item => item.quantity > 0 && item.quantity <= 10).length;
-    const outOfStockItems = chartData.filter(item => item.quantity === 0).length;
+    const totalInventoryUnits = productTotalData.reduce((acc, curr) => acc + curr.quantity, 0);
+    const lowStockItems = productTotalData.filter(item => item.quantity > 0 && item.quantity <= 10).length;
+    const outOfStockItems = productTotalData.filter(item => item.quantity === 0).length;
 
     // Custom Tooltip for Recharts
     const CustomTooltip = ({ active, payload, label }: any) => {
@@ -183,26 +242,56 @@ export default function AiInventoryDashboard() {
             {/* Dynamic Graph */}
             <div className="bg-ms-white border border-ms-fog p-8 shadow-sm">
                 <div className="flex justify-between items-center mb-8">
-                    <h3 className="font-serif text-xl">Volumen de Inventario por {viewMode === 'product' ? 'Producto' : viewMode === 'category' ? 'Categoría' : 'Subcategoría'}</h3>
-                    <div className="flex bg-ms-ivory p-1 rounded-md border border-ms-fog">
-                        <button 
-                            className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'category' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
-                            onClick={() => setViewMode('category')}
-                        >
-                            Vista por Categoría
-                        </button>
-                        <button 
-                            className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'subcategory' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
-                            onClick={() => setViewMode('subcategory')}
-                        >
-                            Vista por Subcategoría
-                        </button>
-                        <button 
-                            className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'product' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
-                            onClick={() => setViewMode('product')}
-                        >
-                            Vista por Producto
-                        </button>
+                    <div className="flex flex-col items-end gap-2">
+                        <div className="flex bg-ms-ivory p-1 rounded-md border border-ms-fog">
+                            <button 
+                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'category' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                onClick={() => setViewMode('category')}
+                            >
+                                Categoría
+                            </button>
+                            <button 
+                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'subcategory' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                onClick={() => setViewMode('subcategory')}
+                            >
+                                Subcategoría
+                            </button>
+                            <button 
+                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'product' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                onClick={() => setViewMode('product')}
+                            >
+                                Producto
+                            </button>
+                        </div>
+                        
+                        {viewMode === 'product' && (
+                            <div className="flex bg-ms-pearl/50 p-1 rounded-md border border-ms-fog text-[10px] animate-in fade-in slide-in-from-top-1">
+                                <button 
+                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'total' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    onClick={() => setProductViewType('total')}
+                                >
+                                    Total
+                                </button>
+                                <button 
+                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'variant' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    onClick={() => setProductViewType('variant')}
+                                >
+                                    Color y Talla
+                                </button>
+                                <button 
+                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'color' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    onClick={() => setProductViewType('color')}
+                                >
+                                    Por Color
+                                </button>
+                                <button 
+                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'size' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    onClick={() => setProductViewType('size')}
+                                >
+                                    Por Talla
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="w-full h-[500px]">
