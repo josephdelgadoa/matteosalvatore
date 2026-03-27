@@ -4,9 +4,9 @@ const supabase = require('./src/config/database');
 
 const PRODUCT_FAMILIES = [
     {
-        pattern: /Polo.*Pima.*Básico|Polo.*Pima.*Basico/i,
-        short_name_es: 'Polo Pima',
-        short_name_en: 'Pima Polo',
+        pattern: /Polo.*Pima.*Básico|Polo.*Pima.*Basico|Polo.*Esencial.*Pima|Polo.*Clásico.*Pima|Polo.*Clasico.*Pima|Polo.*Pima.*Esencial/i,
+        short_name_es: 'Polo Pima Básico',
+        short_name_en: 'Pima Basic Polo',
         sizes: ['S', 'M', 'L', 'XL']
     },
     {
