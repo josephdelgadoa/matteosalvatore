@@ -16,6 +16,12 @@ services:
       - CULQI_RSA_ID=${CULQI_RSA_ID}
       - CULQI_RSA_PUBLIC_KEY=${CULQI_RSA_PUBLIC_KEY}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - FROM_EMAIL=${FROM_EMAIL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
     ports:
       - "4000:4000"
 
