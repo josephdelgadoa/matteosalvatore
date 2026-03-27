@@ -123,6 +123,8 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
         
         const query = searchQuery.toLowerCase().trim();
         return products.filter(p => 
+            (p.short_name_es && p.short_name_es.toLowerCase().includes(query)) ||
+            (p.short_name_en && p.short_name_en.toLowerCase().includes(query)) ||
             p.name_es.toLowerCase().includes(query) ||
             p.name_en.toLowerCase().includes(query) ||
             (p.sku && p.sku.toLowerCase().includes(query)) ||
@@ -147,7 +149,7 @@ export default function AdminProductsPage({ params }: { params: { lang: Locale }
                         )}
                     </div>
                     <div>
-                        <span className="font-medium block">{item.name_es}</span>
+                        <span className="font-medium block">{item.short_name_es || item.name_es}</span>
                         <span className="text-xs text-ms-stone block">{item.slug_es} / {item.slug_en}</span>
                     </div>
                 </div>

@@ -116,7 +116,7 @@ export default function POSPage() {
     const availableItems = products.flatMap(p =>
         (p.product_variants || []).map(v => ({
             ...v,
-            product_name: p.name_es,
+            product_name: p.short_name_es || p.name_es,
             price: p.base_price,
             inventory_item: inventory.find(i => i.variant_id === v.id)
         }))

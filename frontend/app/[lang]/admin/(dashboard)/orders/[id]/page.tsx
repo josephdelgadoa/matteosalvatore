@@ -169,7 +169,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                                             </div>
                                         </td>
                                         <td className="p-3">
-                                            <p className="font-medium text-ms-black">{item.product_name}</p>
+                                            <p className="font-medium text-ms-black">{product?.short_name_es || item.product_name}</p>
                                             <p className="text-xs text-ms-stone">
                                                 {item.variant_details || 'N/A'}
                                             </p>

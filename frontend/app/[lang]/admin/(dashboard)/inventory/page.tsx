@@ -76,7 +76,7 @@ export default function InventoryPage() {
     const filteredResults = products.flatMap(product =>
         (product.product_variants || []).map(variant => ({
             ...variant,
-            product_name: product.name_es,
+            product_name: product.short_name_es || product.name_es,
             sku: product.sku,
             inventory_item: inventory.find(i => i.variant_id === variant.id)
         }))
