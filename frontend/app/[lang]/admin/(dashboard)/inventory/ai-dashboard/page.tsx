@@ -14,7 +14,7 @@ export default function AiInventoryDashboard() {
     const [inventory, setInventory] = useState<any[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedProductId, setSelectedProductId] = useState<string>('all');
+    const [selectedShortName, setSelectedShortName] = useState<string>('all');
 
     const loadData = async () => {
         setIsLoading(true);
@@ -166,57 +166,62 @@ export default function AiInventoryDashboard() {
     })).sort((a, b) => b.quantity - a.quantity);
  
     const activeData = React.useMemo(() => {
-        if (selectedProductId !== 'all') {
-            const product = products.find(p => p.id === selectedProductId);
-            if (!product) return [];
+        if (selectedShortName !== 'all') {
+            const matchingProducts = products.filter(p => (p.short_name_es || p.name_es) === selectedShortName);
+            if (matchingProducts.length === 0) return [];
  
-            const pName = product.short_name_es || product.name_es;
+            // Aggregate variants across all products with this name (e.g., all Camisas Tulum)
+            const allVariants = matchingProducts.flatMap(p => p.product_variants || []);
             
             if (productViewType === 'variant') {
-                return (product.product_variants || []).map(v => {
+                // Group by color and size across all matching products
+                const variantMap = new Map<string, number>();
+                allVariants.forEach(v => {
                     const item = inventory.find(i => i.variant_id === v.id);
-                    const qty = item?.quantity || 0;
-                    return {
-                        name: `${v.color} - ${v.size}`,
-                        fullName: `${pName} (${v.color} - ${v.size})`,
-                        quantity: qty,
-                        status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
-                    };
-                }).sort((a, b) => b.quantity - a.quantity);
+                    const key = `${v.color} - ${v.size}`;
+                    variantMap.set(key, (variantMap.get(key) || 0) + (item?.quantity || 0));
+                });
+                return Array.from(variantMap.entries()).map(([key, qty]) => ({
+                    name: key,
+                    fullName: `${selectedShortName} (${key})`,
+                    quantity: qty,
+                    status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
+                })).sort((a, b) => b.quantity - a.quantity);
+ 
             } else if (productViewType === 'color') {
                 const colors = new Map<string, number>();
-                product.product_variants?.forEach(v => {
+                allVariants.forEach(v => {
                     const item = inventory.find(i => i.variant_id === v.id);
                     colors.set(v.color, (colors.get(v.color) || 0) + (item?.quantity || 0));
                 });
                 return Array.from(colors.entries()).map(([color, qty]) => ({
                     name: color,
-                    fullName: `${pName} (${color})`,
+                    fullName: `${selectedShortName} (${color})`,
                     quantity: qty,
                     status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
                 })).sort((a, b) => b.quantity - a.quantity);
+ 
             } else if (productViewType === 'size') {
                 const sizes = new Map<string, number>();
-                product.product_variants?.forEach(v => {
+                allVariants.forEach(v => {
                     const item = inventory.find(i => i.variant_id === v.id);
                     sizes.set(v.size, (sizes.get(v.size) || 0) + (item?.quantity || 0));
                 });
                 return Array.from(sizes.entries()).map(([size, qty]) => ({
                     name: size,
-                    fullName: `${pName} (${size})`,
+                    fullName: `${selectedShortName} (${size})`,
                     quantity: qty,
                     status: qty === 0 ? 'Out of Stock' : qty < 10 ? 'Low Stock' : 'In Stock'
                 })).sort((a, b) => b.quantity - a.quantity);
             } else {
-                // Total for single product is just one bar, not very useful but for consistency:
                 let totalQty = 0;
-                product.product_variants?.forEach(v => {
+                allVariants.forEach(v => {
                     const item = inventory.find(i => i.variant_id === v.id);
                     totalQty += item?.quantity || 0;
                 });
                 return [{
-                    name: pName,
-                    fullName: pName,
+                    name: selectedShortName,
+                    fullName: selectedShortName,
                     quantity: totalQty,
                     status: totalQty === 0 ? 'Out of Stock' : totalQty < 10 ? 'Low Stock' : 'In Stock'
                 }];
@@ -228,7 +233,7 @@ export default function AiInventoryDashboard() {
                (productViewType === 'total' ? productTotalData : 
                 productViewType === 'variant' ? variantData : 
                 productViewType === 'color' ? colorGroupedData : sizeGroupedData);
-    }, [viewMode, productViewType, selectedProductId, products, inventory, categoryData, subcategoryData, productTotalData, variantData, colorGroupedData, sizeGroupedData]);
+    }, [viewMode, productViewType, selectedShortName, products, inventory, categoryData, subcategoryData, productTotalData, variantData, colorGroupedData, sizeGroupedData]);
 
     // Top metrics calculations
     const totalInventoryUnits = productTotalData.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -276,19 +281,19 @@ export default function AiInventoryDashboard() {
 
                     <select
                         className="ms-input h-10 px-4 py-0 min-w-[250px] border-ms-brand-primary/30 bg-ms-brand-primary/5 font-medium"
-                        value={selectedProductId}
+                        value={selectedShortName}
                         onChange={e => {
-                            setSelectedProductId(e.target.value);
+                            setSelectedShortName(e.target.value);
                             if (e.target.value !== 'all' && productViewType === 'total') {
-                                setProductViewType('variant'); // Auto-switch to more useful view for single product
+                                setProductViewType('variant'); 
                             }
                         }}
                     >
                         <option value="all">🌍 Vista Global (Todo)</option>
-                        <optgroup label="Filtrar por Producto">
-                            {products.sort((a, b) => (a.short_name_es || a.name_es).localeCompare(b.short_name_es || b.name_es)).map(p => (
-                                <option key={p.id} value={p.id}>
-                                    {p.short_name_es || p.name_es}
+                        <optgroup label="Filtrar por Familia de Producto">
+                            {Array.from(new Set(products.map(p => p.short_name_es || p.name_es))).sort().map(name => (
+                                <option key={name} value={name}>
+                                    {name}
                                 </option>
                             ))}
                         </optgroup>
@@ -331,21 +336,21 @@ export default function AiInventoryDashboard() {
             <div className="bg-ms-white border border-ms-fog p-8 shadow-sm">
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex flex-col items-end gap-2">
-                        <div className="flex bg-ms-ivory p-1 rounded-md border border-ms-fog">
+                        <div className="flex bg-ms-ivory p-1 rounded-md border border-ms-fog w-full md:w-auto">
                             <button 
-                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'category' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                className={`flex-1 md:w-32 px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'category' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
                                 onClick={() => setViewMode('category')}
                             >
                                 Categoría
                             </button>
                             <button 
-                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'subcategory' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                className={`flex-1 md:w-32 px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'subcategory' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
                                 onClick={() => setViewMode('subcategory')}
                             >
                                 Subcategoría
                             </button>
                             <button 
-                                className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'product' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
+                                className={`flex-1 md:w-32 px-4 py-1.5 text-xs font-medium rounded transition-colors ${viewMode === 'product' ? 'bg-ms-white shadow-sm border border-ms-fog text-ms-black' : 'text-ms-stone hover:text-ms-black'}`}
                                 onClick={() => setViewMode('product')}
                             >
                                 Producto
@@ -353,27 +358,27 @@ export default function AiInventoryDashboard() {
                         </div>
                         
                         {viewMode === 'product' && (
-                            <div className="flex bg-ms-pearl/50 p-1 rounded-md border border-ms-fog text-[10px] animate-in fade-in slide-in-from-top-1">
+                            <div className="flex bg-ms-pearl/50 p-1 rounded-md border border-ms-fog text-[10px] animate-in fade-in slide-in-from-top-1 w-full md:w-auto">
                                 <button 
-                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'total' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    className={`flex-1 md:w-24 px-3 py-1 rounded transition-colors ${productViewType === 'total' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
                                     onClick={() => setProductViewType('total')}
                                 >
                                     Total
                                 </button>
                                 <button 
-                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'variant' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    className={`flex-1 md:w-24 px-3 py-1 rounded transition-colors ${productViewType === 'variant' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
                                     onClick={() => setProductViewType('variant')}
                                 >
                                     Color y Talla
                                 </button>
                                 <button 
-                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'color' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    className={`flex-1 md:w-24 px-3 py-1 rounded transition-colors ${productViewType === 'color' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
                                     onClick={() => setProductViewType('color')}
                                 >
                                     Por Color
                                 </button>
                                 <button 
-                                    className={`px-3 py-1 rounded transition-colors ${productViewType === 'size' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
+                                    className={`flex-1 md:w-24 px-3 py-1 rounded transition-colors ${productViewType === 'size' ? 'bg-ms-white shadow-xs text-ms-black font-semibold' : 'text-ms-stone hover:text-ms-black'}`}
                                     onClick={() => setProductViewType('size')}
                                 >
                                     Por Talla
