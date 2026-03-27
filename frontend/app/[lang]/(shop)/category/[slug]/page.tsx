@@ -103,8 +103,10 @@ export default function CategoryPage({ params }: { params: { slug: string; lang:
                                 || product.product_images?.[0]?.image_url
                                 || 'https://via.placeholder.com/400x500?text=No+Image';
 
-                            // Localize product name
-                            const productName = params.lang === 'es' ? (product.name_es || product.name_en) : (product.name_en || product.name_es);
+                            // Localize product name (Prioritize short name)
+                            const productName = params.lang === 'es' 
+                                ? (product.short_name_es || product.name_es || product.name_en) 
+                                : (product.short_name_en || product.name_en || product.name_es);
                             // Localize slug
                             const productSlug = params.lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
 

@@ -83,6 +83,8 @@ CRITICAL JSON RULE: You must escape all newlines (\\n) and quotes (\\") inside s
   "style_code": "8-digit numeric code or null",
   "1_name_es": "Polished Elite Title ES",
   "1_name_en": "Polished Elite Title EN",
+  "1_short_name_es": "A clean, short 2-3 word name for list views ES (e.g. 'Polo Pima')",
+  "1_short_name_en": "A clean, short 2-3 word name for list views EN (e.g. 'Pima Polo')",
   "2_slug_es": "seo-optimized-slug-es",
   "2_slug_en": "seo-optimized-slug-en",
   "3_short_description_es": "Sophisticated short description (2 sentences) ES",

@@ -6,6 +6,8 @@ export interface Product {
     slug_en: string;
     name_es: string;
     name_en: string;
+    short_name_es?: string;
+    short_name_en?: string;
     description_es: string;
     description_en: string;
     short_description_es?: string;

@@ -79,7 +79,11 @@ export default function ProductListingPage({ params }: { params: { lang: Locale 
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors">{product.name_es}</h3>
+                                    <h3 className="text-base font-medium text-ms-black group-hover:text-ms-stone transition-colors">
+                                        {params.lang === 'es' 
+                                            ? (product.short_name_es || product.name_es || product.name_en) 
+                                            : (product.short_name_en || product.name_en || product.name_es)}
+                                    </h3>
                                     <p className="text-sm text-ms-stone capitalize">{product.category}</p>
                                     <p className="text-sm font-medium">S/. {product.base_price.toFixed(2)}</p>
                                 </div>

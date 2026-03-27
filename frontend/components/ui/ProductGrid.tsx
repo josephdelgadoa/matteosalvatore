@@ -33,8 +33,10 @@ export const ProductGrid = ({ title, products, lang, viewAllLink }: ProductGridP
                             || product.product_images?.[0]?.image_url
                             || 'https://via.placeholder.com/400x500?text=No+Image';
 
-                        // Determine name based on lang, fallback to other if missing
-                        const name = lang === 'es' ? (product.name_es || product.name_en) : (product.name_en || product.name_es);
+                        // Determine name based on lang, fallback to short_name if available, then to full name
+                        const name = lang === 'es' 
+                            ? (product.short_name_es || product.name_es || product.name_en) 
+                            : (product.short_name_en || product.name_en || product.name_es);
                         const productSlug = lang === 'es' ? (product.slug_es || product.slug_en) : (product.slug_en || product.slug_es);
 
                         return (
