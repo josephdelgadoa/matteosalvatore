@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast, ToastContainer } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
-import { Search, RefreshCw } from 'lucide-react';
+import { Search, RefreshCw, FileDown } from 'lucide-react';
 
 export default function InventoryPage() {
     const [stores, setStores] = useState<Store[]>([]);
@@ -72,17 +72,50 @@ export default function InventoryPage() {
         }
     };
 
+    const handleExportExcel = () => {
+        if (filteredResults.length === 0) return;
+
+        const storeName = stores.find(s => s.id === selectedStoreId)?.name || 'Tienda';
+        const headers = ['Producto', 'SKU', 'Talla', 'Color', 'Base Price', 'Stock'];
+        const rows = filteredResults.map(item => [
+            item.product_name,
+            item.sku,
+            item.size,
+            item.color,
+            item.base_price,
+            item.inventory_item?.quantity || 0
+        ]);
+
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))
+        ].join('\n');
+
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `inventario_${storeName.toLowerCase().replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        addToast('Documento exportado correctamente', 'success');
+    };
+
     // Filter products and their variants based on search
     const filteredResults = products.flatMap(product =>
         (product.product_variants || []).map(variant => ({
             ...variant,
             product_name: product.short_name_es || product.name_es,
-            sku: product.sku,
+            style_sku: product.sku,
+            sku: variant.sku_variant || product.sku,
+            base_price: product.base_price,
             inventory_item: inventory.find(i => i.variant_id === variant.id)
         }))
     ).filter(item =>
         item.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.sku.toLowerCase().includes(searchTerm.toLowerCase())
+        item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.style_sku.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (isLoading) return <div className="flex justify-center p-20"><Spinner /></div>;
@@ -94,7 +127,7 @@ export default function InventoryPage() {
                 <h1 className="ms-heading-2">Gestión de Inventario</h1>
                 <div className="flex gap-4">
                     <select
-                        className="ms-input h-10 px-4 py-0 min-w-[200px]"
+                        className="ms-input h-10 px-4 py-0 min-w-[200px] text-ms-black"
                         value={selectedStoreId}
                         onChange={e => setSelectedStoreId(e.target.value)}
                     >
@@ -102,6 +135,10 @@ export default function InventoryPage() {
                             <option key={store.id} value={store.id}>{store.name}</option>
                         ))}
                     </select>
+                    <Button variant="outline" size="sm" onClick={handleExportExcel} disabled={filteredResults.length === 0} className="gap-2">
+                        <FileDown className="w-4 h-4" />
+                        Excel
+                    </Button>
                     <Button variant="outline" size="sm" onClick={loadInventory}>
                         <RefreshCw className="w-4 h-4" />
                     </Button>
@@ -133,7 +170,9 @@ export default function InventoryPage() {
                         {filteredResults.map((item, idx) => (
                             <tr key={`${item.id}-${idx}`} className="hover:bg-ms-ivory/20 transition-colors">
                                 <td className="px-6 py-4 text-sm font-medium">{item.product_name}</td>
-                                <td className="px-6 py-4 text-sm text-ms-stone">{item.sku}</td>
+                                <td className="px-6 py-4 text-sm font-mono text-ms-stone">
+                                    <span className="bg-ms-fog/30 px-1.5 py-0.5 rounded">{item.sku}</span>
+                                </td>
                                 <td className="px-6 py-4 text-sm">
                                     <span className="bg-ms-ivory px-2 py-1 rounded text-xs">{item.size}</span>
                                     <span className="ml-2 text-ms-stone text-xs">{item.color}</span>

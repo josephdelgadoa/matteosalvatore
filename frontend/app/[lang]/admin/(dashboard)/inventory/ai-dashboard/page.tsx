@@ -268,7 +268,7 @@ export default function AiInventoryDashboard() {
                 </div>
                 <div className="flex gap-4 items-center">
                     <select
-                        className="ms-input h-10 px-4 py-0 min-w-[200px]"
+                        className="ms-input h-10 px-4 py-0 min-w-[200px] text-ms-black"
                         value={selectedStoreId}
                         onChange={e => setSelectedStoreId(e.target.value)}
                     >
@@ -280,7 +280,7 @@ export default function AiInventoryDashboard() {
                     <div className="h-10 w-[1px] bg-ms-fog mx-1"></div>
 
                     <select
-                        className="ms-input h-10 px-4 py-0 min-w-[250px] border-ms-brand-primary/30 bg-ms-brand-primary/5 font-medium"
+                        className="ms-input h-10 px-4 py-0 min-w-[250px] border-ms-brand-primary/30 bg-ms-brand-primary/5 font-medium text-ms-black"
                         value={selectedShortName}
                         onChange={e => {
                             setSelectedShortName(e.target.value);
