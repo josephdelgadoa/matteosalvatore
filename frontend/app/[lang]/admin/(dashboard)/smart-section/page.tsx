@@ -67,7 +67,7 @@ export default function SmartSectionPage({ params }: { params: { lang: Locale } 
             setSelectedProductIds(selectedProductIds.filter(id => id !== productId));
         } else {
             if (selectedProductIds.length >= 4) {
-                addToast('Only 4 products can be selected for this section', 'warning');
+                addToast('Only 4 products can be selected for this section', 'error');
                 return;
             }
             setSelectedProductIds([...selectedProductIds, productId]);
@@ -76,7 +76,7 @@ export default function SmartSectionPage({ params }: { params: { lang: Locale } 
 
     const handleSave = async () => {
         if (selectedProductIds.length !== 4) {
-            addToast('Please select exactly 4 products', 'warning');
+            addToast('Please select exactly 4 products', 'error');
             return;
         }
 
