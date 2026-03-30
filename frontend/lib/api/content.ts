@@ -24,5 +24,20 @@ export const contentApi = {
     updateHeroSlides: async (slides: HeroSlide[], lang: string = 'es') => {
         const { data } = await api.put(`/content/hero_slides_${lang}`, { value: slides });
         return data.data;
+    },
+ 
+    getSmartSection: async (key: string = 'homepage_smart_section'): Promise<{ title: string; productIds: string[] } | null> => {
+        try {
+            const { data } = await api.get(`/content/${key}`);
+            return data.data;
+        } catch (error) {
+            console.error('Failed to fetch smart section:', error);
+            return null;
+        }
+    },
+ 
+    updateSmartSection: async (value: { title: string; productIds: string[] }, key: string = 'homepage_smart_section') => {
+        const { data } = await api.put(`/content/${key}`, { value });
+        return data.data;
     }
 };

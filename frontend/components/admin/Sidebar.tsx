@@ -16,7 +16,8 @@ import {
     LogOut,
     Menu,
     Presentation,
-    FileText
+    FileText,
+    Sparkles
 } from 'lucide-react';
 
 export const AdminSidebar = ({ lang }: { lang: Locale }) => {
@@ -29,6 +30,7 @@ export const AdminSidebar = ({ lang }: { lang: Locale }) => {
         { href: `/${lang}/admin/presentation`, label: dict.sidebar.presentation || 'Presentación', icon: Presentation },
         { href: `/presentations/database_presentation.html`, label: dict.sidebar.database || 'Base de Datos', icon: LayoutDashboard, external: true },
         { href: `/${lang}/admin/products`, label: dict.sidebar.products, icon: ShoppingBag },
+        { href: `/${lang}/admin/smart-section`, label: dict.sidebar.smartSection || 'Smart Section', icon: Sparkles },
         { href: `/${lang}/admin/blog`, label: dict.sidebar.blog || 'Blog', icon: FileText },
         { href: `/${lang}/admin/categories`, label: dict.sidebar.categories, icon: LayoutDashboard },
         { href: `/${lang}/admin/settings/categories-images`, label: dict.sidebar.categoriesImages, icon: LayoutDashboard },

@@ -104,8 +104,22 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
     // The grid usage below depends on index, so it handles < 5 items gracefully but layout might look incomplete.
 
 
-    // 1. Trending: Newest products
-    const trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
+    // 1. Trending: Dynamic Smart Section
+    const smartSection = await contentApi.getSmartSection().catch(() => null);
+    let trendingProducts = [];
+    let trendingTitle = dict.home.trending;
+
+    if (smartSection && smartSection.productIds && smartSection.productIds.length > 0) {
+        trendingTitle = smartSection.title || trendingTitle;
+        trendingProducts = await productsApi.getAll({ ids: smartSection.productIds }).catch(() => []);
+        // Sort to match selection order
+        trendingProducts.sort((a: any, b: any) => {
+            return smartSection.productIds.indexOf(a.id) - smartSection.productIds.indexOf(b.id);
+        });
+    } else {
+        // Fallback to newest
+        trendingProducts = await productsApi.getAll({ limit: 4, sort: 'newest' }).catch(() => []);
+    }
 
     // 1.1 Best Sellers
     const bestSellerIds = [
@@ -136,7 +150,7 @@ export default async function Home({ params }: { params: { lang: Locale } }) {
 
             {/* Trending Now */}
             <ProductGrid
-                title={dict.home.trending}
+                title={trendingTitle}
                 products={trendingProducts}
                 lang={params.lang}
                 viewAllLink={`/${params.lang}/${params.lang === 'es' ? 'productos' : 'products'}`}
